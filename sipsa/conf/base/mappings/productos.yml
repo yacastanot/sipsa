@@ -1,0 +1,411 @@
+# Mapeo: Nombre de producto (tal como aparece en el Excel) → código numérico Rproducto
+# Cuadro 1: Verduras y hortalizas
+"Acelga": 10111001
+"Apio": 10111002
+"Brócoli": 10111003
+"Cilantro": 10111004
+"Coles": 10111005
+"Coliflor": 10111006
+"Espinaca": 10111007
+"Lechuga Batavia": 10111008
+"Lechuga crespa morada": 10111009
+"Lechuga crespa verde": 10111010
+"Perejil": 10111011
+"Repollo blanco": 10111012
+"Repollo blanco bogotano": 10111013
+"Repollo blanco valluno": 10111014
+"Repollo morado": 10111015
+"Repollo morado antioqueño": 10111016
+"Repollo verde": 10111017
+"Cebolla cabezona blanca": 10121001
+"Cebolla cabezona blanca bogotana": 10121002
+"Cebolla cabezona blanca ecuatoriana": 10121003
+"Cebolla cabezona blanca importada": 10121004
+"Cebolla cabezona blanca pastusa": 10121005
+"Cebolla cabezona blanca peruana": 10121006
+"Cebolla cabezona roja": 10121007
+"Cebolla cabezona roja ecuatoriana": 10121008
+"Cebolla cabezona roja ocañera": 10121009
+"Cebolla cabezona roja peruana": 10121010
+"Cebolla cabezona roja importada": 10121011
+"Cebolla junca": 10121012
+"Cebolla junca Aquitania": 10121013
+"Cebolla junca Berlín": 10121014
+"Cebolla junca pastusa": 10121015
+"Cebolla junca Tenerife": 10121016
+"Cebolla puerro": 10121017
+"Cebollín chino": 10121018
+"Arveja verde en vaina": 10131001
+"Arveja verde en vaina antioqueña": 10131002
+"Arveja verde en vaina pastusa": 10131003
+"Fríjol verde bolo": 10131004
+"Fríjol verde cargamanto": 10131005
+"Fríjol verde en vaina": 10131006
+"Haba verde": 10131007
+"Habichuela": 10131008
+"Habichuela larga": 10131009
+"Tomate chonto": 10141001
+"Tomate chonto regional": 10141002
+"Tomate chonto valluno": 10141003
+"Tomate larga vida": 10141004
+"Tomate riñón": 10141005
+"Tomate riñón valluno": 10141006
+"Tomate Riogrande": 10141007
+"Tomate Riogrande bumangués": 10141008
+"Tomate Riogrande ocañero": 10141009
+"Zanahoria": 10151001
+"Zanahoria bogotana": 10151002
+"Zanahoria larga vida": 10151003
+"Ahuyama": 10161001
+"Ají dulce": 10161002
+"Ají topito dulce": 10161003
+"Ajo": 10161004
+"Ajo importado": 10161005
+"Berenjena": 10161006
+"Calabacín": 10161007
+"Calabaza": 10161008
+"Chócolo mazorca": 10161009
+"Cidra": 10161010
+"Pepino cohombro": 10161011
+"Pepino de rellenar": 10161012
+"Pimentón": 10161013
+"Rábano rojo": 10161014
+"Remolacha": 10161015
+"Remolacha antioqueña": 10161016
+"Remolacha bogotana": 10161017
+"Ahuyamín (Sakata)": 10161018
+"Remolacha regional": 10161019
+"Pimentón verde": 10161020
+
+# Cuadro 2: Frutas frescas
+"Limón común": 20111001
+"Limón común Ciénaga": 20111002
+"Limón común ecuatoriano": 20111003
+"Limón común valluno": 20111004
+"Limón mandarino": 20111005
+"Limón Tahití": 20111006
+"Mandarina Arrayana": 20111007
+"Mandarina común": 20111008
+"Mandarina Oneco": 20111009
+"Naranja común": 20111010
+"Naranja Valencia": 20111011
+"Tangelo": 20111012
+"Naranja Sweet": 20111013
+"Aguacate común": 20121001
+"Aguacate Hass": 20121002
+"Aguacate papelillo": 20121003
+"Badea": 20121004
+"Banano bocadillo": 20121005
+"Banano criollo": 20121006
+"Banano Urabá": 20121007
+"Borojó": 20121008
+"Breva": 20121009
+"Ciruela importada": 20121010
+"Ciruela roja": 20121011
+"Coco": 20121012
+"Curuba": 20121013
+"Curuba redonda": 20121014
+"Durazno importado": 20121015
+"Durazno nacional": 20121016
+"Feijoa": 20121017
+"Fresa": 20121018
+"Granadilla": 20121019
+"Guanábana": 20121020
+"Guayaba agria": 20121021
+"Guayaba Atlántico": 20121022
+"Guayaba común": 20121023
+"Guayaba manzana": 20121024
+"Guayaba pera": 20121025
+"Gulupa": 20121026
+"Higo": 20121027
+"Kiwi": 20121028
+"Lulo": 20121029
+"Mango común": 20121030
+"Mango costeño": 20121031
+"Mango de azúcar": 20121032
+"Mango Kent": 20121033
+"Mango manzano": 20121034
+"Mango mariquiteño": 20121035
+"Mango reina": 20121036
+"Mango Tommy": 20121037
+"Manzana nacional": 20121038
+"Manzana roja importada": 20121039
+"Manzana royal gala importada": 20121040
+"Manzana verde importada": 20121041
+"Maracuyá antioqueño": 20121042
+"Maracuyá huilense": 20121043
+"Maracuyá santandereano": 20121044
+"Maracuyá valluno": 20121045
+"Maracuyá": 20121046
+"Melón Cantalup": 20121047
+"Mora de Castilla": 20121048
+"Papaya hawaiana": 20121049
+"Papaya Maradol": 20121050
+"Papaya melona": 20121051
+"Papaya redonda": 20121052
+"Patilla": 20121053
+"Pera importada": 20121054
+"Pera nacional": 20121055
+"Piña Cayena": 20121056
+"Piña gold": 20121057
+"Piña manzana": 20121058
+"Piña perolera": 20121059
+"Pitahaya": 20121060
+"Tomate de árbol": 20121061
+"Uchuva con cáscara": 20121062
+"Uva importada": 20121063
+"Uva Isabela": 20121064
+"Uva negra": 20121065
+"Uva red globe nacional": 20121066
+"Uva roja": 20121067
+"Uva verde": 20121068
+"Zapote": 20121069
+"Patilla baby": 20121075
+"Mango Yulima": 20121133
+"Papaya tainung": 20121137
+"Guayaba pera valluna": 20121138
+"Papaya Paulina": 20121139
+
+# Cuadro 3: Tubérculos, raíces y plátanos
+"Papa capira": 30111001
+"Papa capira carmenia": 30111002
+"Papa criolla limpia": 30111003
+"Papa criolla para lavar": 30111004
+"Papa criolla sucia": 30111005
+"Papa superior": 30111006
+"Papa ICA-Huila": 30111007
+"Papa Morasurco": 30111008
+"Papa nevada": 30111009
+"Papa parda para lavar": 30111010
+"Papa parda pastusa": 30111011
+"Papa Puracé": 30111012
+"Papa R-12 negra": 30111013
+"Papa R-12 roja": 30111014
+"Papa roja peruana": 30111015
+"Papa rubí": 30111016
+"Papa sabanera": 30111017
+"Papa San Félix": 30111018
+"Papa suprema": 30111019
+"Papa Tequendama": 30111020
+"Papa tocana": 30111021
+"Papa tocarreña": 30111022
+"Papa única": 30111023
+"Papa Betina": 30111024
+"Plátano comino": 30121001
+"Plátano dominico hartón maduro": 30121002
+"Plátano dominico hartón verde": 30121003
+"Plátano hartón verde Eje Cafetero": 30121004
+"Plátano dominico verde": 30121005
+"Plátano guineo": 30121006
+"Plátano hartón maduro": 30121007
+"Plátano hartón verde": 30121008
+"Plátano hartón verde ecuatoriano": 30121009
+"Plátano hartón verde llanero": 30121010
+"Plátano hartón verde venezolano": 30121011
+"Yuca chirosa": 30131001
+"Yuca criolla": 30131002
+"Yuca ICA": 30131003
+"Yuca llanera": 30131004
+"Arracacha amarilla": 30141001
+"Arracacha blanca": 30141002
+"Ñame criollo": 30141003
+"Ñame diamante": 30141004
+"Ñame espino": 30141005
+"Ulluco": 30141006
+
+# Cuadro 4: Granos y cereales
+"Arroz de primera": 40111001
+"Arroz de segunda": 40111002
+"Arroz excelso": 40111003
+"Arroz sopa cristal": 40111004
+"Arveja amarilla seca importada": 40111005
+"Arveja enlatada": 40111006
+"Arveja verde seca importada": 40111007
+"Cuchuco de cebada": 40111008
+"Cuchuco de maíz": 40111009
+"Arroz paddy verde": 40111010
+"Arroz paddy seco": 40111011
+"Arroz cristal": 40111012
+"Arroz granza": 40111013
+"Harina de arroz": 40111014
+"Arroz blanco empacado": 40111015
+"Maíz amarillo cáscara importado": 40111016
+"Arroz blanco importado": 40111017
+"Arroz blanco en bulto": 40111018
+"Fríjol bolón": 40121001
+"Fríjol cabeza negra importado": 40121002
+"Fríjol cabeza negra nacional": 40121003
+"Fríjol calima": 40121004
+"Fríjol cargamanto blanco": 40121005
+"Fríjol cargamanto rojo": 40121006
+"Fríjol enlatado": 40121007
+"Fríjol nima calima": 40121008
+"Fríjol palomito importado": 40121009
+"Fríjol radical": 40121010
+"Fríjol Uribe rosado": 40121011
+"Fríjol Zaragoza": 40121012
+"Garbanzo importado": 40121013
+"Garbanzo nacional": 40121014
+"Lenteja importada": 40121015
+"Lenteja nacional": 40121016
+"Maíz amarillo cáscara": 40121017
+"Maíz amarillo retrillado": 40121018
+"Maíz amarillo trillado": 40121019
+"Maíz blanco cáscara": 40121020
+"Maíz blanco retrillado": 40121021
+"Maíz blanco trillado": 40121022
+"Maíz enlatado": 40121023
+"Maíz pira": 40121024
+
+# Cuadro 5: Huevos y lácteos
+"Leche en polvo": 50111002
+"Queso campesino": 50111003
+"Queso costeño": 50111004
+"Queso cuajada": 50111005
+"Queso doble crema": 50111006
+"Queso Caquetá": 50111008
+"Huevo blanco B": 50121001
+"Huevo blanco A": 50121002
+"Huevo blanco AA": 50121003
+"Huevo blanco extra": 50121004
+"Huevo rojo B": 50121005
+"Huevo rojo A": 50121006
+"Huevo rojo AA": 50121007
+"Huevo rojo extra": 50121008
+
+# Cuadro 6: Carnes
+"Carne de res, cadera": 60111001
+"Carne de res, chatas": 60111002
+"Carne de res, costilla": 60111003
+"Carne de res, bola de brazo": 60111004
+"Carne de res, bola de pierna": 60111005
+"Carne de res, bota": 60111006
+"Carne de res, centro de pierna": 60111007
+"Carne de res, cogote": 60111008
+"Carne de res en canal": 60111009
+"Carne de res, falda": 60111010
+"Carne de res, lomo de brazo": 60111011
+"Carne de res, lomo fino": 60111012
+"Carne de res molida, murillo": 60111013
+"Carne de res, morrillo": 60111014
+"Carne de res, muchacho": 60111015
+"Carne de res, murillo": 60111016
+"Carne de res, paletero": 60111017
+"Carne de res, pecho": 60111018
+"Carne de res, punta de anca": 60111019
+"Carne de res, sobrebarriga": 60111020
+"Carne de cerdo en canal": 60121001
+"Carne de cerdo, brazo con hueso": 60121002
+"Carne de cerdo, brazo sin hueso": 60121003
+"Carne de cerdo, cabeza de lomo": 60121004
+"Carne de cerdo, chuleta de lomo": 60121005
+"Carne de cerdo, costilla": 60121006
+"Carne de cerdo, espinazo": 60121007
+"Carne de cerdo, lomo con hueso": 60121008
+"Carne de cerdo, lomo sin hueso": 60121009
+"Carne de cerdo, pernil con hueso": 60121010
+"Carne de cerdo, pernil sin hueso": 60121011
+"Carne de cerdo, tocineta plancha": 60121012
+"Carne de cerdo, tocino barriga": 60121013
+"Carne de cerdo, tocino papada": 60121014
+"Alas de pollo con costillar": 60131001
+"Alas de pollo sin costillar": 60131002
+"Menudencias de pollo": 60131003
+"Muslos de pollo con rabadilla": 60131004
+"Muslos de pollo sin rabadilla": 60131005
+"Pechuga de pollo": 60131006
+"Pierna pernil con rabadilla": 60131007
+"Pierna pernil sin rabadilla": 60131008
+"Piernas de pollo": 60131009
+"Pollo entero congelado con vísceras": 60131010
+"Pollo entero congelado sin vísceras": 60131011
+"Pollo entero fresco con vísceras": 60131012
+"Pollo entero fresco sin vísceras": 60131013
+"Rabadillas de pollo": 60131014
+
+# Cuadro 7: Pescados y mariscos
+"Tilapia, filete congelado": 70111001
+"Almejas con concha": 70111002
+"Almejas sin concha": 70111003
+"Bagre rayado entero congelado": 70111004
+"Bagre rayado entero fresco": 70111005
+"Bagre rayado en postas congelado": 70111006
+"Bagre rayado en postas fresco": 70111007
+"Blanquillo entero fresco": 70111008
+"Bocachico criollo fresco": 70111009
+"Bocachico importado congelado": 70111010
+"Cachama de cultivo fresca": 70111011
+"Calamar anillos": 70111012
+"Calamar blanco entero": 70111013
+"Calamar morado entero": 70111014
+"Camarón tigre precocido seco": 70111015
+"Camarón tití precocido seco": 70111016
+"Capaz Magdalena fresco": 70111017
+"Cazuela de mariscos (paquete)": 70111018
+"Corvina, filete congelado nacional": 70111019
+"Langostino 16-20": 70111020
+"Langostino U12": 70111021
+"Merluza, filete importado": 70111022
+"Merluza, filete nacional": 70111023
+"Mojarra lora entera fresca": 70111024
+"Mojarra lora entera congelada": 70111025
+"Nicuro fresco": 70111026
+"Palmitos de mar": 70111027
+"Pargo rojo entero fresco": 70111028
+"Pargo rojo platero": 70111029
+"Pescado cabezas": 70111030
+"Róbalo, filete congelado": 70111031
+"Salmón, filete congelado": 70111032
+"Sierra entera congelada": 70111033
+"Tilapia, lomitos": 70111034
+"Tilapia roja entera congelada": 70111035
+"Tilapia roja entera fresca": 70111036
+"Toyo blanco, filete congelado": 70111037
+"Trucha en corte mariposa": 70111038
+"Trucha entera fresca": 70111039
+"Basa, filete congelado importado": 70111057
+"Basa, entero congelado importado": 70111058
+"Pargo rojo entero congelado": 70111061
+
+# Cuadro 8: Productos procesados
+"Aceite girasol": 80111001
+"Aceite soya": 80111002
+"Aceite vegetal mezcla": 80111003
+"Manteca": 80111004
+"Margarina": 80111005
+"Aceite de palma": 80111099
+"Panela cuadrada blanca": 80121001
+"Panela cuadrada morena": 80121002
+"Panela redonda morena": 80121003
+"Panela redonda blanca": 80121004
+"Panela en pastilla": 80121005
+"Azúcar morena": 80131001
+"Azúcar refinada": 80131002
+"Azúcar sulfitada": 80131003
+"Avena en hojuelas": 80141001
+"Avena molida": 80141002
+"Bocadillo veleño": 80141003
+"Café instantáneo": 80141004
+"Café molido": 80141005
+"Chocolate amargo": 80141006
+"Chocolate dulce": 80141007
+"Chocolate instantáneo": 80141008
+"Color (bolsita)": 80141009
+"Fécula de maíz": 80141010
+"Galletas dulces redondas con crema": 80141011
+"Galletas saladas": 80141012
+"Gelatina": 80141013
+"Harina de trigo": 80141014
+"Harina precocida de maíz": 80141015
+"Jugo de frutas": 80141016
+"Jugo instantáneo (sobre)": 80141017
+"Mayonesa doy pack": 80141018
+"Mostaza doy pack": 80141019
+"Papa frita": 80141020
+"Pastas alimenticias": 80141021
+"Sal yodada": 80141022
+"Salsa de tomate doy pack": 80141023
+"Sopa de pollo (caja)": 80141024
+"Vinagre": 80141025
+"Lomitos de atún en lata": 80141087
+"Sardinas en lata": 80141088

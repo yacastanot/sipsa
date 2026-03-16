@@ -1,0 +1,56 @@
+# ─── Catálogo de datos ────────────────────────────────────────────────────────
+
+# El dataset raw_precios se lee directamente por el nodo leer_entrada
+# usando params:ruta_entrada y params:archivo_entrada para mayor flexibilidad.
+# No se registra aquí para evitar interpolación dinámica de rutas.
+
+# Salida de la ingesta (en memoria, pasa directamente al pipeline de transformación)
+precios_entrada:
+  type: MemoryDataset
+
+# Datos transformados con códigos de producto, fuente y grupo
+precios_transformados:
+  type: pandas.CSVDataset
+  filepath: data/02_intermediate/precios_transformados.csv
+  load_args:
+    encoding: utf-8
+  save_args:
+    index: false
+  fs_args:
+    open_args_save:
+      mode: w
+      encoding: utf-8
+
+# Filas del boletín listas para exportar a Excel (estructura final)
+boletin_filas:
+  type: pandas.CSVDataset
+  filepath: data/03_primary/boletin_filas.csv
+  load_args:
+    encoding: utf-8
+  save_args:
+    index: false
+  fs_args:
+    open_args_save:
+      mode: w
+      encoding: utf-8
+
+# Metadatos del reporte generado (solo en memoria, no persiste entre runs)
+reporte_metadata:
+  type: MemoryDataset
+
+# ─── Catálogos de referencia (mappings) ──────────────────────────────────────
+mapping_productos:
+  type: yaml.YAMLDataset
+  filepath: conf/base/mappings/productos.yml
+
+mapping_fuentes:
+  type: yaml.YAMLDataset
+  filepath: conf/base/mappings/fuentes.yml
+
+mapping_grupos:
+  type: yaml.YAMLDataset
+  filepath: conf/base/mappings/grupos.yml
+
+mapping_cuadros:
+  type: yaml.YAMLDataset
+  filepath: conf/base/mappings/cuadros.yml

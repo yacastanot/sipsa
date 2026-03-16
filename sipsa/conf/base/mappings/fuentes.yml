@@ -1,0 +1,82 @@
+# Mapeo: Nombre de mercado/fuente → código numérico de fuente
+# Fuentes sin código quedan con código nulo (se incluyen sin ordenación especial)
+"Ancuya (Nariño)": 1001
+"Arauca (Arauca)": 1002
+"Armenia, Mercar": 1003
+"Armenia, Retiro": 1004
+"Barranquilla, Barranquillita": 1006
+"Barranquilla, Granabastos": 1007
+"Bogotá, D.C., Carnes barrio María Paz": 1009
+"Bogotá, D.C., Corabastos": 1010
+"Bogotá, D.C., Frigorífico Ble Ltda.": 1011
+"Bogotá, D.C., Frigorífico Guadalupe": 1012
+"Bogotá, D.C., Paloquemao": 1013
+"Bogotá, D.C., Plaza España": 1014
+"Bogotá, D.C., Plaza Las Flores": 1015
+"Bucaramanga, Centroabastos": 1017
+"Bucaramanga, Frigoríficos": 1018
+"Bucaramanga, Mercados del centro": 1019
+"Buenaventura (Valle del Cauca)": 1021
+"Cali, Cavasa": 1023
+"Cali, Galería Alameda": 1024
+"Cali, La Floresta": 1025
+"Cali, Santa Elena": 1026
+"Cali, Siloé": 1027
+"Caparrapí (Cundinamarca)": 1029
+"Cartagena, Bazurto": 1031
+"Cartago (Valle del Cauca)": 1033
+"Charalá (Santander)": 1035
+"Chiquinquirá (Boyacá)": 1037
+"Consacá (Nariño)": 1039
+"Cúcuta, Cenabastos": 1041
+"Cúcuta, La Nueva Sexta": 1042
+"Duitama (Boyacá), Mercaplaza": 1044
+"El Carmen de Viboral (Antioquia)": 1046
+"El Santuario (Antioquia)": 1048
+"Florencia (Caquetá)": 1050
+"Güepsa (Santander)": 1052
+"Ibagué, Plaza La 21": 1054
+"Ipiales (Nariño), Centro de acopio": 1055
+"Ipiales (Nariño), Ipiales somos todos": 1056
+"La Ceja (Antioquia)": 1058
+"La Unión (Antioquia)": 1059
+"La Unión (Nariño)": 1060
+"Malambo (Atlántico), Carnes y carnes": 1062
+"Manizales, Centro Galerías": 1064
+"Marinilla (Antioquia)": 1066
+"Medellín, Central Mayorista de Antioquia": 1068
+"Medellín, Plaza Minorista \"José María Villa\"": 1069
+"Moniquirá (Boyacá)": 1071
+"Montería, Mercado del Sur": 1073
+"Neiva, Surabastos": 1075
+"Nocaima (Cundinamarca)": 1077
+"Palmira (Valle del Cauca)": 1079
+"Pamplona (Norte de Santander)": 1081
+"Pasto, El Potrerillo": 1083
+"Peñol (Antioquia)": 1085
+"Pereira, La 41-Impala": 1087
+"Pereira, Mercasa": 1088
+"Popayán, Plaza de mercado del barrio Bolívar": 1090
+"Rionegro (Antioquia)": 1092
+"San Gil (Santander)": 1094
+"San Gil (Santander), panela": 1095
+"San Sebastián de Mariquita (Tolima)": 1097
+"San Vicente Ferrer (Antioquia)": 1099
+"Sandoná (Nariño)": 1101
+"Santa Bárbara (Antioquia)": 1103
+"Santa Marta (Magdalena)": 1105
+"Santana (Boyacá)": 1107
+"Sincelejo, Nuevo Mercado": 1109
+"Socorro (Santander)": 1111
+"Sonsón (Antioquia)": 1113
+"Tibasosa (Boyacá), Coomproriente": 1115
+"Tuluá (Valle del Cauca)": 1117
+"Tunja, Complejo de Servicios del Sur": 1119
+"Túquerres (Nariño)": 1121
+"Valledupar, Mercabastos": 1123
+"Valledupar, Mercado Nuevo": 1124
+"Vélez (Santander)": 1126
+"Villavicencio, CAV": 1128
+"Villeta (Cundinamarca)": 1130
+"Yolombó (Antioquia)": 1132
+"Yopal (Casanare)": 1134

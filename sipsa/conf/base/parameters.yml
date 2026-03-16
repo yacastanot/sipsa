@@ -1,0 +1,8 @@
+# ─── Parámetros semanales ─────────────────────────────────────────────────────
+# Actualizar cada semana en el archivo .env (no editar este YAML)
+fecha: ${env:SIPSA_FECHA}
+archivo_entrada: ${env:SIPSA_ARCHIVO}
+
+# Rutas relativas al directorio raíz del proyecto
+ruta_entrada: "data/01_raw"
+ruta_salida: "data/08_reporting"

@@ -1,0 +1,429 @@
+# Orden exacto de productos dentro de cada cuadro (tomado del SAS SET statement)
+# Los productos se muestran en este orden en el boletín
+cuadros:
+  1:
+    titulo: "Cuadro 1. Mercados mayoristas. Precios de venta de verduras y hortalizas"
+    productos:
+      - 10111001  # Acelga
+      - 10161001  # Ahuyama
+      - 10161018  # Ahuyamón (Sakata)
+      - 10161002  # Ají dulce
+      - 10161003  # Ají topito dulce
+      - 10161004  # Ajo
+      - 10161005  # Ajo importado
+      - 10111002  # Apio
+      - 10131001  # Arveja verde en vaina
+      - 10131002  # Arveja verde en vaina antioqueña
+      - 10131003  # Arveja verde en vaina pastusa
+      - 10161006  # Berenjena
+      - 10111003  # Brócoli
+      - 10161007  # Calabacín
+      - 10161008  # Calabaza
+      - 10121001  # Cebolla cabezona blanca
+      - 10121002  # Cebolla cabezona blanca bogotana
+      - 10121003  # Cebolla cabezona blanca ecuatoriana
+      - 10121004  # Cebolla cabezona blanca importada
+      - 10121005  # Cebolla cabezona blanca pastusa
+      - 10121006  # Cebolla cabezona blanca peruana
+      - 10121007  # Cebolla cabezona roja
+      - 10121008  # Cebolla cabezona roja ecuatoriana
+      - 10121011  # Cebolla cabezona roja importada
+      - 10121009  # Cebolla cabezona roja ocañera
+      - 10121010  # Cebolla cabezona roja peruana
+      - 10121012  # Cebolla junca
+      - 10121013  # Cebolla junca Aquitania
+      - 10121014  # Cebolla junca Berlín
+      - 10121015  # Cebolla junca pastusa
+      - 10121016  # Cebolla junca Tenerife
+      - 10121017  # Cebolla puerro
+      - 10121018  # Cebollín chino
+      - 10161009  # Chócolo mazorca
+      - 10161010  # Cidra
+      - 10111004  # Cilantro
+      - 10111005  # Coles
+      - 10111006  # Coliflor
+      - 10111007  # Espinaca
+      - 10131004  # Fríjol verde bolo
+      - 10131005  # Fríjol verde cargamanto
+      - 10131006  # Fríjol verde en vaina
+      - 10131007  # Haba verde
+      - 10131008  # Habichuela
+      - 10131009  # Habichuela larga
+      - 10111008  # Lechuga Batavia
+      - 10111009  # Lechuga crespa morada
+      - 10111010  # Lechuga crespa verde
+      - 10161011  # Pepino cohombro
+      - 10161012  # Pepino de rellenar
+      - 10111011  # Perejil
+      - 10161013  # Pimentón
+      - 10161020  # Pimentón verde
+      - 10161014  # Rábano rojo
+      - 10161015  # Remolacha
+      - 10161016  # Remolacha antioqueña
+      - 10161017  # Remolacha bogotana
+      - 10161019  # Remolacha regional
+      - 10111012  # Repollo blanco
+      - 10111013  # Repollo blanco bogotano
+      - 10111014  # Repollo blanco valluno
+      - 10111015  # Repollo morado
+      - 10111016  # Repollo morado antioqueño
+      - 10111017  # Repollo verde
+      - 10141001  # Tomate chonto
+      - 10141002  # Tomate chonto regional
+      - 10141003  # Tomate chonto valluno
+      - 10141004  # Tomate larga vida
+      - 10141005  # Tomate riñón
+      - 10141006  # Tomate riñón valluno
+      - 10141007  # Tomate Riogrande
+      - 10141008  # Tomate Riogrande bumangués
+      - 10141009  # Tomate Riogrande ocañero
+      - 10151001  # Zanahoria
+      - 10151002  # Zanahoria bogotana
+      - 10151003  # Zanahoria larga vida
+
+  2:
+    titulo: "Cuadro 2. Mercados mayoristas. Precios de venta de frutas frescas"
+    productos:
+      - 20121001  # Aguacate común
+      - 20121002  # Aguacate Hass
+      - 20121003  # Aguacate papelillo
+      - 20121004  # Badea
+      - 20121005  # Banano bocadillo
+      - 20121006  # Banano criollo
+      - 20121007  # Banano Urabá
+      - 20121008  # Borojó
+      - 20121009  # Breva
+      - 20121010  # Ciruela importada
+      - 20121011  # Ciruela roja
+      - 20121012  # Coco
+      - 20121013  # Curuba
+      - 20121014  # Curuba redonda
+      - 20121015  # Durazno importado
+      - 20121016  # Durazno nacional
+      - 20121017  # Feijoa
+      - 20121018  # Fresa
+      - 20121019  # Granadilla
+      - 20121020  # Guanábana
+      - 20121021  # Guayaba agria
+      - 20121022  # Guayaba Atlántico
+      - 20121023  # Guayaba común
+      - 20121024  # Guayaba manzana
+      - 20121025  # Guayaba pera
+      - 20121138  # Guayaba pera valluna
+      - 20121026  # Gulupa
+      - 20121027  # Higo
+      - 20121028  # Kiwi
+      - 20111001  # Limón común
+      - 20111002  # Limón común Ciénaga
+      - 20111003  # Limón común ecuatoriano
+      - 20111004  # Limón común valluno
+      - 20111005  # Limón mandarino
+      - 20111006  # Limón Tahití
+      - 20121029  # Lulo
+      - 20111007  # Mandarina Arrayana
+      - 20111008  # Mandarina común
+      - 20111009  # Mandarina Oneco
+      - 20121030  # Mango común
+      - 20121031  # Mango costeño
+      - 20121032  # Mango de azúcar
+      - 20121033  # Mango Kent
+      - 20121034  # Mango manzano
+      - 20121035  # Mango mariquiteño
+      - 20121036  # Mango reina
+      - 20121037  # Mango Tommy
+      - 20121133  # Mango Yulima
+      - 20121038  # Manzana nacional
+      - 20121039  # Manzana roja importada
+      - 20121040  # Manzana royal gala importada
+      - 20121041  # Manzana verde importada
+      - 20121046  # Maracuyá
+      - 20121042  # Maracuyá antioqueño
+      - 20121043  # Maracuyá huilense
+      - 20121044  # Maracuyá santandereano
+      - 20121045  # Maracuyá valluno
+      - 20121047  # Melón Cantalup
+      - 20121048  # Mora de Castilla
+      - 20111010  # Naranja común
+      - 20111013  # Naranja Sweet
+      - 20111011  # Naranja Valencia
+      - 20121049  # Papaya hawaiana
+      - 20121050  # Papaya Maradol
+      - 20121051  # Papaya melona
+      - 20121139  # Papaya Paulina
+      - 20121052  # Papaya redonda
+      - 20121137  # Papaya tainung
+      - 20121053  # Patilla
+      - 20121075  # Patilla baby
+      - 20121054  # Pera importada
+      - 20121055  # Pera nacional
+      - 20121056  # Piña Cayena
+      - 20121057  # Piña gold
+      - 20121058  # Piña manzana
+      - 20121059  # Piña perolera
+      - 20121060  # Pitahaya
+      - 20111012  # Tangelo
+      - 20121061  # Tomate de árbol
+      - 20121062  # Uchuva con cáscara
+      - 20121063  # Uva importada
+      - 20121064  # Uva Isabela
+      - 20121065  # Uva negra
+      - 20121066  # Uva red globe nacional
+      - 20121067  # Uva roja
+      - 20121068  # Uva verde
+      - 20121069  # Zapote
+
+  3:
+    titulo: "Cuadro 3. Mercados mayoristas. Precios de venta de tubérculos, raíces y plátanos"
+    productos:
+      - 30141001  # Arracacha amarilla
+      - 30141002  # Arracacha blanca
+      - 30141003  # Ñame criollo
+      - 30141004  # Ñame diamante
+      - 30141005  # Ñame espino
+      - 30111024  # Papa Betina
+      - 30111001  # Papa capira
+      - 30111002  # Papa capira carmenia
+      - 30111003  # Papa criolla limpia
+      - 30111004  # Papa criolla para lavar
+      - 30111005  # Papa criolla sucia
+      - 30111007  # Papa ICA-Huila
+      - 30111008  # Papa Morasurco
+      - 30111009  # Papa nevada
+      - 30111010  # Papa parda para lavar
+      - 30111011  # Papa parda pastusa
+      - 30111012  # Papa Puracé
+      - 30111013  # Papa R-12 negra
+      - 30111014  # Papa R-12 roja
+      - 30111015  # Papa roja peruana
+      - 30111016  # Papa rubí
+      - 30111017  # Papa sabanera
+      - 30111018  # Papa San Félix
+      - 30111006  # Papa superior
+      - 30111019  # Papa suprema
+      - 30111020  # Papa Tequendama
+      - 30111021  # Papa tocana
+      - 30111022  # Papa tocañera
+      - 30111023  # Papa única
+      - 30121001  # Plátano comino
+      - 30121002  # Plátano dominico hartón maduro
+      - 30121003  # Plátano dominico hartón verde
+      - 30121005  # Plátano dominico verde
+      - 30121006  # Plátano guineo
+      - 30121007  # Plátano hartón maduro
+      - 30121008  # Plátano hartón verde
+      - 30121009  # Plátano hartón verde ecuatoriano
+      - 30121004  # Plátano hartón verde Eje Cafetero
+      - 30121010  # Plátano hartón verde llanero
+      - 30121011  # Plátano hartón verde venezolano
+      - 30141006  # Ulluco
+      - 30131001  # Yuca chirosa
+      - 30131002  # Yuca criolla
+      - 30131003  # Yuca ICA
+      - 30131004  # Yuca llanera
+
+  4:
+    titulo: "Cuadro 4. Mercados mayoristas. Precios de venta de granos y cereales"
+    productos:
+      - 40111015  # Arroz blanco empacado
+      - 40111018  # Arroz blanco en bulto
+      - 40111017  # Arroz blanco importado
+      - 40111012  # Arroz cristal
+      - 40111001  # Arroz de primera
+      - 40111002  # Arroz de segunda
+      - 40111003  # Arroz excelso
+      - 40111013  # Arroz granza
+      - 40111011  # Arroz paddy seco
+      - 40111010  # Arroz paddy verde
+      - 40111004  # Arroz sopa cristal
+      - 40111005  # Arveja amarilla seca importada
+      - 40111007  # Arveja verde seca importada
+      - 40111008  # Cuchuco de cebada
+      - 40111009  # Cuchuco de maíz
+      - 40121001  # Fríjol bolón
+      - 40121002  # Fríjol cabeza negra importado
+      - 40121003  # Fríjol cabeza negra nacional
+      - 40121004  # Fríjol calima
+      - 40121005  # Fríjol cargamanto blanco
+      - 40121006  # Fríjol cargamanto rojo
+      - 40121008  # Fríjol nima calima
+      - 40121009  # Fríjol palomito importado
+      - 40121010  # Fríjol radical
+      - 40121011  # Fríjol Uribe rosado
+      - 40121012  # Fríjol Zaragoza
+      - 40121013  # Garbanzo importado
+      - 40121014  # Garbanzo nacional
+      - 40111014  # Harina de arroz
+      - 40121015  # Lenteja importada
+      - 40121016  # Lenteja nacional
+      - 40121017  # Maíz amarillo cáscara
+      - 40111016  # Maíz amarillo cáscara importado
+      - 40121018  # Maíz amarillo retrillado
+      - 40121019  # Maíz amarillo trillado
+      - 40121020  # Maíz blanco cáscara
+      - 40121021  # Maíz blanco retrillado
+      - 40121022  # Maíz blanco trillado
+      - 40121024  # Maíz pira
+
+  5:
+    titulo: "Cuadro 5. Mercados mayoristas. Precios de venta de huevos y lácteos"
+    productos:
+      - 50121002  # Huevo blanco A
+      - 50121003  # Huevo blanco AA
+      - 50121001  # Huevo blanco B
+      - 50121004  # Huevo blanco extra
+      - 50121006  # Huevo rojo A
+      - 50121007  # Huevo rojo AA
+      - 50121005  # Huevo rojo B
+      - 50121008  # Huevo rojo extra
+      - 50111002  # Leche en polvo
+      - 50111003  # Queso campesino
+      - 50111008  # Queso Caquetá
+      - 50111004  # Queso costeño
+      - 50111005  # Queso cuajada
+      - 50111006  # Queso doble crema
+
+  6:
+    titulo: "Cuadro 6. Mercados mayoristas. Precios de venta de carnes"
+    productos:
+      - 60131001  # Alas de pollo con costillar
+      - 60131002  # Alas de pollo sin costillar
+      - 60121001  # Carne de cerdo en canal
+      - 60121002  # Carne de cerdo, brazo con hueso
+      - 60121003  # Carne de cerdo, brazo sin hueso
+      - 60121004  # Carne de cerdo, cabeza de lomo
+      - 60121005  # Carne de cerdo, chuleta de lomo
+      - 60121006  # Carne de cerdo, costilla
+      - 60121007  # Carne de cerdo, espinazo
+      - 60121008  # Carne de cerdo, lomo con hueso
+      - 60121009  # Carne de cerdo, lomo sin hueso
+      - 60121010  # Carne de cerdo, pernil con hueso
+      - 60121011  # Carne de cerdo, pernil sin hueso
+      - 60121012  # Carne de cerdo, tocineta plancha
+      - 60121013  # Carne de cerdo, tocino barriga
+      - 60121014  # Carne de cerdo, tocino papada
+      - 60111009  # Carne de res en canal
+      - 60111013  # Carne de res molida, murillo
+      - 60111004  # Carne de res, bola de brazo
+      - 60111005  # Carne de res, bola de pierna
+      - 60111006  # Carne de res, bota
+      - 60111001  # Carne de res, cadera
+      - 60111007  # Carne de res, centro de pierna
+      - 60111002  # Carne de res, chatas
+      - 60111008  # Carne de res, cogote
+      - 60111003  # Carne de res, costilla
+      - 60111010  # Carne de res, falda
+      - 60111011  # Carne de res, lomo de brazo
+      - 60111012  # Carne de res, lomo fino
+      - 60111014  # Carne de res, morrillo
+      - 60111015  # Carne de res, muchacho
+      - 60111016  # Carne de res, murillo
+      - 60111017  # Carne de res, paletero
+      - 60111018  # Carne de res, pecho
+      - 60111019  # Carne de res, punta de anca
+      - 60111020  # Carne de res, sobrebarriga
+      - 60131003  # Menudencias de pollo
+      - 60131004  # Muslos de pollo con rabadilla
+      - 60131005  # Muslos de pollo sin rabadilla
+      - 60131006  # Pechuga de pollo
+      - 60131007  # Pierna pernil con rabadilla
+      - 60131008  # Pierna pernil sin rabadilla
+      - 60131009  # Piernas de pollo
+      - 60131010  # Pollo entero congelado con vísceras
+      - 60131011  # Pollo entero congelado sin vísceras
+      - 60131012  # Pollo entero fresco con vísceras
+      - 60131013  # Pollo entero fresco sin vísceras
+      - 60131014  # Rabadillas de pollo
+
+  7:
+    titulo: "Cuadro 7. Mercados mayoristas. Precios de venta de pescados"
+    productos:
+      - 70111002  # Almejas con concha
+      - 70111003  # Almejas sin concha
+      - 70111006  # Bagre rayado en postas congelado
+      - 70111007  # Bagre rayado en postas fresco
+      - 70111004  # Bagre rayado entero congelado
+      - 70111005  # Bagre rayado entero fresco
+      - 70111058  # Basa, entero congelado importado
+      - 70111057  # Basa, filete congelado importado
+      - 70111008  # Blanquillo entero fresco
+      - 70111009  # Bocachico criollo fresco
+      - 70111010  # Bocachico importado congelado
+      - 70111011  # Cachama de cultivo fresca
+      - 70111012  # Calamar anillos
+      - 70111013  # Calamar blanco entero
+      - 70111014  # Calamar morado entero
+      - 70111015  # Camarón tigre precocido seco
+      - 70111016  # Camarón titó precocido seco
+      - 70111017  # Capaz Magdalena fresco
+      - 70111018  # Cazuela de mariscos (paquete)
+      - 70111019  # Corvina, filete congelado nacional
+      - 70111020  # Langostino 16-20
+      - 70111021  # Langostino U12
+      - 70111022  # Merluza, filete importado
+      - 70111023  # Merluza, filete nacional
+      - 70111025  # Mojarra lora entera congelada
+      - 70111024  # Mojarra lora entera fresca
+      - 70111026  # Nicuro fresco
+      - 70111027  # Palmitos de mar
+      - 70111061  # Pargo rojo entero congelado
+      - 70111028  # Pargo rojo entero fresco
+      - 70111029  # Pargo rojo platero
+      - 70111030  # Pescado cabezas
+      - 70111031  # Rábalo, filete congelado
+      - 70111032  # Salmón, filete congelado
+      - 70111033  # Sierra entera congelada
+      - 70111035  # Tilapia roja entera congelada
+      - 70111036  # Tilapia roja entera fresca
+      - 70111001  # Tilapia, filete congelado
+      - 70111034  # Tilapia, lomitos
+      - 70111037  # Toyo blanco, filete congelado
+      - 70111038  # Trucha en corte mariposa
+      - 70111039  # Trucha entera fresca
+
+  8:
+    titulo: "Cuadro 8. Mercados mayoristas. Precios de venta de productos procesados"
+    productos:
+      - 80111099  # Aceite de palma
+      - 80111001  # Aceite girasol
+      - 80111002  # Aceite soya
+      - 80111003  # Aceite vegetal mezcla
+      - 40111006  # Arveja enlatada
+      - 80141001  # Avena en hojuelas
+      - 80141002  # Avena molida
+      - 80131001  # Azúcar morena
+      - 80131002  # Azúcar refinada
+      - 80131003  # Azúcar sulfitada
+      - 80141003  # Bocadillo veleño
+      - 80141004  # Café instantáneo
+      - 80141005  # Café molido
+      - 80141006  # Chocolate amargo
+      - 80141007  # Chocolate dulce
+      - 80141008  # Chocolate instantáneo
+      - 80141009  # Color (bolsita)
+      - 80141010  # Fécula de maíz
+      - 40121007  # Fríjol enlatado
+      - 80141011  # Galletas dulces redondas con crema
+      - 80141012  # Galletas saladas
+      - 80141013  # Gelatina
+      - 80141014  # Harina de trigo
+      - 80141015  # Harina precocida de maíz
+      - 80141016  # Jugo de frutas
+      - 80141017  # Jugo instantáneo (sobre)
+      - 80141087  # Lomitos de atún en lata
+      - 40121023  # Maíz enlatado
+      - 80111004  # Manteca
+      - 80111005  # Margarina
+      - 80141018  # Mayonesa doy pack
+      - 80141019  # Mostaza doy pack
+      - 80121001  # Panela cuadrada blanca
+      - 80121002  # Panela cuadrada morena
+      - 80121005  # Panela en pastilla
+      - 80121004  # Panela redonda blanca
+      - 80121003  # Panela redonda morena
+      - 80141020  # Papa frita
+      - 80141021  # Pastas alimenticias
+      - 80141022  # Sal yodada
+      - 80141023  # Salsa de tomate doy pack
+      - 80141088  # Sardinas en lata
+      - 80141024  # Sopa de pollo (caja)
+      - 80141025  # Vinagre

@@ -1,0 +1,15 @@
+# Entorno — contiene parámetros semanales, no subir al repositorio
+.env
+
+# Kedro — datos intermedios y outputs generados
+data/01_raw/
+data/02_intermediate/
+data/03_primary/
+data/08_reporting/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+dist/

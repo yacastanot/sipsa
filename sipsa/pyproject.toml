@@ -1,0 +1,29 @@
+[tool.kedro]
+package_name = "sipsa"
+project_name = "sipsa"
+kedro_init_version = "0.19.15"
+source_dir = "src"
+
+[tool.pytest.ini_options]
+addopts = "--cov-report term-missing --cov src/sipsa -ra"
+testpaths = ["src/tests"]
+
+[project]
+name = "sipsa"
+version = "0.1.0"
+description = "Pipeline semanal de precios SIPSA"
+requires-python = ">=3.9"
+dependencies = [
+    "kedro>=0.19.0,<1.0",
+    "pandas>=2.0",
+    "openpyxl>=3.1",
+    "kedro-datasets[pandas.ExcelDataset,pandas.ParquetDataset]>=3.0,<8.0",
+    "python-dotenv>=1.0",
+    "fastapi>=0.100",
+    "uvicorn[standard]>=0.20",
+    "python-multipart>=0.0.7",
+    "jinja2>=3.1",
+]
+
+[tool.kedro_telemetry]
+project_id = "707bd10368b44897b607bae3f917a27e"
