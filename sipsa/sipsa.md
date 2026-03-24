@@ -56,8 +56,8 @@ sipsa/
 │
 ├── data/
 │   ├── 01_raw/                  # Excel semanal de entrada (se copia aquí cada semana)
-│   ├── 02_intermediate/         # precios_transformados.parquet
-│   ├── 03_primary/              # boletin_filas.parquet
+│   ├── 02_intermediate/         # precios_transformados.csv
+│   ├── 03_primary/              # boletin_filas.csv
 │   └── 08_reporting/            # Boletin_{fecha}_python.xlsx  ← SALIDA FINAL
 │
 └── src/sipsa/
@@ -138,7 +138,7 @@ elimina filas vacías y normaliza tipos (precios → float, tendencia → string
 
 **Nodo:** `aplicar_mappings`
 **Entradas:** `precios_entrada`, `mapping_productos`, `mapping_fuentes`, `mapping_grupos`
-**Salida:** `precios_transformados` (Parquet)
+**Salida:** `precios_transformados` (.csv)
 
 Añade tres columnas con los códigos numéricos:
 
@@ -156,9 +156,9 @@ Las filas con `Rproducto` nulo se descartan (productos fuera del catálogo).
 
 **Nodo:** `armar_cuadros`
 **Entradas:** `precios_transformados`, `mapping_productos`, `mapping_cuadros`
-**Salida:** `boletin_filas` (Parquet)
+**Salida:** `boletin_filas` (.csv)
 
-Construye un DataFrame con **5,179 filas** que representa el contenido completo del boletín.
+Construye un DataFrame con que representa el contenido completo del boletín.
 Cada fila tiene una columna `_tipo` que indica cómo debe renderizarse:
 
 | `_tipo` | Descripción | Equivalente SAS |
@@ -333,3 +333,57 @@ kedro info
 | `WARNING: X filas con fuentes sin código` | Nuevo mercado no está en `fuentes.yml` | Añadir el mercado al YAML con su código |
 | `FileNotFoundError` | El Excel no está en `data/01_raw/` o el nombre en `.env` no coincide | Verificar nombre exacto del archivo (mayúsculas, espacios, extensión) |
 | Pipeline no encuentra datos intermedios | `MemoryDataset` no persiste entre sesiones | Ejecutar siempre `kedro run` completo (no desde nodos intermedios) |
+
+---
+
+## 10. API web (app.py)
+
+La API permite ejecutar el pipeline desde un navegador sin usar la terminal.
+Está construida con **FastAPI + uvicorn** y protegida con autenticación HTTP Basic.
+
+### 10.1 Configurar credenciales
+
+Añadir al archivo [`.env`](.env) las variables de usuario y contraseña:
+
+```dotenv
+SIPSA_USER=sipsa
+SIPSA_PASS=cambiar_esta_clave
+```
+
+> Si no se definen, la API usa los valores por defecto (`sipsa` / `cambiar_esta_clave`).
+> **Cambiarlos antes de exponer el servidor en red.**
+
+### 10.2 Iniciar el servidor
+
+Desde la raíz del proyecto, con el entorno virtual activo:
+
+```bash
+# Desarrollo (recarga automática al editar app.py)
+uvicorn app:app --reload
+
+# Producción (sin recarga, más estable)
+uvicorn app:app --host 0.0.0.0 --port 8000
+```
+
+La interfaz queda disponible en: **http://localhost:8000**
+
+### 10.3 Endpoints disponibles
+
+| Método | Ruta | Descripción |
+|---|---|---|
+| `GET` | `/` | Interfaz web (formulario para subir y ejecutar) |
+| `POST` | `/upload` | Sube el Excel semanal a `data/01_raw/` |
+| `POST` | `/run` | Ejecuta `kedro run` con los parámetros indicados (streaming de logs) |
+| `GET` | `/status` | Devuelve `{"running": true/false}` |
+| `GET` | `/outputs` | Lista los boletines generados en `data/08_reporting/` |
+| `GET` | `/download/{filename}` | Descarga un boletín por nombre de archivo |
+
+Todos los endpoints requieren autenticación HTTP Basic.
+
+### 10.4 Flujo de uso desde el navegador
+
+1. Abrir **http://localhost:8000** e ingresar usuario y contraseña.
+2. Subir el Excel semanal con el formulario de carga.
+3. Completar los campos `fecha` (ej. `06MAR2026`) y `archivo` (ej. `Listado a 06 mar 26.xlsx`).
+4. Hacer clic en **Ejecutar** — los logs del pipeline se muestran en tiempo real.
+5. Al terminar, descargar el boletín desde la lista de archivos generados.

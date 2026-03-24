@@ -11,36 +11,24 @@ from typing import Any, Dict
 
 import pandas as pd
 from openpyxl import Workbook
-from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
+from openpyxl.styles import Alignment, Font
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.worksheet import Worksheet
 
 logger = logging.getLogger(__name__)
 
 # ─── Estilos compartidos ──────────────────────────────────────────────────────
-_FONT_BASE = "Calibri"
-_SZ_BASE = 10
-_SZ_HEADER = 10
+_FONT_NAME = "Futura Std Book"
+_SZ        = 9
 
-_FILL_CUADRO   = PatternFill("solid", fgColor="366092")   # azul corporativo
-_FILL_COLUMNAS = PatternFill("solid", fgColor="D9E1F2")   # azul muy claro
-_FILL_PRODUCTO = PatternFill("solid", fgColor="FFFF99")   # amarillo claro
-
-_FONT_CUADRO   = Font(name=_FONT_BASE, size=_SZ_HEADER, bold=True,  color="FFFFFF")
-_FONT_COLUMNAS = Font(name=_FONT_BASE, size=_SZ_HEADER, bold=True,  color="000000")
-_FONT_PRODUCTO = Font(name=_FONT_BASE, size=_SZ_BASE,   bold=True,  color="000000")
-_FONT_DATO     = Font(name=_FONT_BASE, size=_SZ_BASE,   bold=False, color="000000")
-
-_THIN        = Side(border_style="thin", color="BFBFBF")
-_BORDER_DATA = Border(bottom=_THIN)
+_FONT_BOLD   = Font(name=_FONT_NAME, size=_SZ, bold=True)
+_FONT_NORMAL = Font(name=_FONT_NAME, size=_SZ, bold=False)
 
 _ALIGN_LEFT   = Alignment(horizontal="left",   vertical="center", wrap_text=False)
-_ALIGN_RIGHT  = Alignment(horizontal="right",  vertical="center")
 _ALIGN_CENTER = Alignment(horizontal="center", vertical="center")
 
-_NUM_FMT   = "#,##0"
-_COL_WIDTHS = {1: 55, 2: 16, 3: 16, 4: 16, 5: 12}
-_N_COLS    = 5
+_NUM_FMT    = "#,##0"
+_COL_WIDTHS = {1: 38, 2: 12.86, 3: 13.43, 4: 11.86, 5: 9.71}
 
 
 def _texto(row: pd.Series) -> str:
@@ -59,19 +47,16 @@ class FilaStrategy(ABC):
 
 
 class CuadroStrategy(FilaStrategy):
-    """Título de cuadro: merge A:E, fondo azul corporativo, texto blanco negrita."""
+    """Título de cuadro: negrita sin relleno ni combinación de celdas."""
 
     def renderizar(self, ws: Worksheet, fila: int, row: pd.Series) -> None:
-        ws.merge_cells(start_row=fila, start_column=1, end_row=fila, end_column=_N_COLS)
-        celda = ws.cell(row=fila, column=1, value=_texto(row))
-        celda.font      = _FONT_CUADRO
-        celda.fill      = _FILL_CUADRO
+        celda           = ws.cell(row=fila, column=1, value=_texto(row))
+        celda.font      = _FONT_BOLD
         celda.alignment = _ALIGN_LEFT
-        ws.row_dimensions[fila].height = 16
 
 
 class ColumnasStrategy(FilaStrategy):
-    """Cabecera de columnas: negrita sobre fondo azul claro."""
+    """Cabecera de columnas: negrita, sin relleno."""
 
     _ENCABEZADOS = [
         "Productos y mercados",
@@ -84,30 +69,26 @@ class ColumnasStrategy(FilaStrategy):
     def renderizar(self, ws: Worksheet, fila: int, row: pd.Series) -> None:
         for col_idx, texto in enumerate(self._ENCABEZADOS, start=1):
             celda           = ws.cell(row=fila, column=col_idx, value=texto)
-            celda.font      = _FONT_COLUMNAS
-            celda.fill      = _FILL_COLUMNAS
+            celda.font      = _FONT_BOLD
             celda.alignment = _ALIGN_LEFT if col_idx == 1 else _ALIGN_CENTER
 
 
 class ProductoStrategy(FilaStrategy):
-    """Nombre del producto: negrita, fondo amarillo claro."""
+    """Nombre del producto: negrita sin relleno."""
 
     def renderizar(self, ws: Worksheet, fila: int, row: pd.Series) -> None:
         celda           = ws.cell(row=fila, column=1, value=_texto(row))
-        celda.font      = _FONT_PRODUCTO
-        celda.fill      = _FILL_PRODUCTO
+        celda.font      = _FONT_BOLD
         celda.alignment = _ALIGN_LEFT
-        ws.row_dimensions[fila].height = 14
 
 
 class DatoStrategy(FilaStrategy):
-    """Fila de precio por mercado: precios con formato de miles, alineados a la derecha."""
+    """Fila de precio por mercado: precios con formato de miles, centrados."""
 
     def renderizar(self, ws: Worksheet, fila: int, row: pd.Series) -> None:
         celda_text           = ws.cell(row=fila, column=1, value=_texto(row))
-        celda_text.font      = _FONT_DATO
+        celda_text.font      = _FONT_NORMAL
         celda_text.alignment = _ALIGN_LEFT
-        celda_text.border    = _BORDER_DATA
 
         for col_idx, valor in enumerate(
             [row["Precio mínimo"], row["Precio máximo"], row["Precio medio"]], start=2
@@ -119,18 +100,16 @@ class DatoStrategy(FilaStrategy):
                     celda.number_format = _NUM_FMT
                 except (TypeError, ValueError):
                     celda.value = valor
-            celda.font      = _FONT_DATO
-            celda.alignment = _ALIGN_RIGHT
-            celda.border    = _BORDER_DATA
+            celda.font      = _FONT_NORMAL
+            celda.alignment = _ALIGN_CENTER
 
-        tend            = row["Tendencia"]
-        celda_tend      = ws.cell(
+        tend       = row["Tendencia"]
+        celda_tend = ws.cell(
             row=fila, column=5,
             value=tend if pd.notna(tend) and str(tend) != "nan" else "",
         )
-        celda_tend.font      = _FONT_DATO
+        celda_tend.font      = _FONT_NORMAL
         celda_tend.alignment = _ALIGN_CENTER
-        celda_tend.border    = _BORDER_DATA
 
 
 class SeparadorStrategy(FilaStrategy):
@@ -181,11 +160,10 @@ def generar_excel(
 
     wb       = Workbook()
     ws       = wb.active
-    ws.title = "Boletín SIPSA"
+    ws.title = "Print 1 - Conjunto de datos"
 
     for col_idx, ancho in _COL_WIDTHS.items():
         ws.column_dimensions[get_column_letter(col_idx)].width = ancho
-    ws.freeze_panes = "A2"
 
     fila_excel = 1
     for _, row in boletin_filas.iterrows():
