@@ -1,0 +1,19 @@
+# Entorno virtual y bytecode
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+
+# Variables de entorno (secretos)
+.env
+
+# Datos runtime — se montan como volúmenes
+data/
+
+# Control de versiones y artefactos Windows
+.git/
+*.bat
+
+# Documentación (no necesaria en la imagen)
+*.md
