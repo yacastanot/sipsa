@@ -84,9 +84,11 @@ cuadros:
   2:
     titulo: "Cuadro 2. Mercados mayoristas. Precios de venta de frutas frescas"
     productos:
+      - 20121140  # Aguacate Choquette
       - 20121001  # Aguacate común
       - 20121002  # Aguacate Hass
       - 20121003  # Aguacate papelillo
+      - 20121141  # Arándano
       - 20121004  # Badea
       - 20121005  # Banano bocadillo
       - 20121006  # Banano criollo
@@ -418,6 +420,7 @@ cuadros:
       - 80121001  # Panela cuadrada blanca
       - 80121002  # Panela cuadrada morena
       - 80121005  # Panela en pastilla
+      - 80121006  # Panela pulverizada
       - 80121004  # Panela redonda blanca
       - 80121003  # Panela redonda morena
       - 80141020  # Papa frita
