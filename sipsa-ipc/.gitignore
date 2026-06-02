@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+dist/
+build/
+
+# Kedro
+logs/
+
+# Datos (no subir al repo — demasiado pesados o sensibles)
+data/01_raw/*.xlsx
+data/01_raw/*.xls
+data/02_intermediate/*.parquet
+data/03_primary/*.parquet
+data/08_reporting/*.xlsx
+
+# Mantener las carpetas vacías
+!data/**/.gitkeep
+
+# Configuración local (puede contener rutas del servidor DANE)
+conf/local/**
+!conf/local/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+*.swp

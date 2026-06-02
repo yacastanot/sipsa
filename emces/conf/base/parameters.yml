@@ -1,0 +1,84 @@
+# ─── Parámetros mensuales ─────────────────────────────────────────────────────
+# Actualizar cada mes antes de ejecutar: kedro run
+
+ano: "2026"       # Año a cuatro dígitos
+mes_numero: "01"  # Mes numérico con cero a la izquierda (ej. "01".."12")
+
+# ─── Archivos de entrada ──────────────────────────────────────────────────────
+# Patrón del archivo de fletes: Fletes{MesAbr}{anio2d}.xlsx (ej. FletesDic25.xlsx)
+archivo_fletes: "FletesEne26.xlsx"
+archivo_parametricas: "Parametricas_base_EMCES_diseños 4.xlsx"
+# La correlativa M49 está en la hoja Fletes_M49 del archivo de paramétricas
+
+# ─── Rutas ────────────────────────────────────────────────────────────────────
+ruta_entrada: "data/01_raw"
+ruta_salida:  "data/08_reporting"
+ruta_primary: "data/03_primary"   # directorio de bases RA procesadas
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# CANCILLERÍA — actualizar cada mes antes de ejecutar: kedro run --pipeline cancilleria
+# ══════════════════════════════════════════════════════════════════════════════
+cancilleria:
+  periodo: "2026"       # Año a cuatro dígitos
+  mes: "01"             # Mes numérico con cero a la izquierda (ej. "01".."12")
+  mes_nombre: "ENERO"   # Nombre del mes en mayúsculas (ej. ENERO, FEBRERO...)
+
+  # Archivo base mensual de Cancillería (copiar a data/01_raw/ antes de ejecutar)
+  # Patrón SAS original: Bases_&PERIODO.-&MESN..xlsx
+  archivo_base: "Bases_2026-ENERO.xlsx"
+
+  # Nombres de hojas Excel (modificar solo si cambian en la fuente)
+  hojas:
+    devengados: "Devengados_Neto"
+    gastos: "Gastos_Funcionamiento"
+    trm: "Cancilleria_TRM"
+    paises: "Cancilleria_P"
+    paises1: "T_P_PAIS-ACUERDOS"
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# PIPELINES PENDIENTES — activar al implementar (diagrama de flujo EMCES)
+# ══════════════════════════════════════════════════════════════════════════════
+
+# viajes:                         # pipeline viajes (diagrama: amber = pendiente)
+#   periodo: "2026"
+#   mes: "01"
+#   mes_nombre: "ENERO"
+#   archivo_base: "Viajes_2026-01.xlsx"
+
+# encuesta:                       # pipeline encuesta EMCES
+#   periodo: "2026"
+#   mes: "01"
+#   archivo_base: "Encuesta_EMCES_2026-01.xlsx"
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# UNIÓN RA — actualizar cada mes antes de: kedro run --pipeline union_ra
+# Migración de: UnirBase F2026_01C2026_01.sas
+# ══════════════════════════════════════════════════════════════════════════════
+union_ra:
+  # ── Sufijos del nombre de archivo (año/mes a 2 dígitos, como en el SAS) ───
+  anof: "26"   # año dos dígitos del último procesamiento de Fletes  (%LET ANOF)
+  mesf: "01"   # mes dos dígitos del último procesamiento de Fletes  (%LET MESF)
+  anoc: "26"   # año dos dígitos del último procesamiento de Cancil. (%LET ANOC)
+  mesc: "01"   # mes dos dígitos del último procesamiento de Cancil. (%LET MESC)
+  # Salida: {prefijo_salida}_F{anof}{mesf}C{anoc}{mesc}.xlsx
+  # Ejemplo: BaseEMCES-RA_2022-1_F2601C2601.xlsx
+
+  # ── Histórico de entrada ──────────────────────────────────────────────────
+  # Archivo base acumulada hasta el mes ANTERIOR (copiar a data/03_primary/)
+  # Patrón: {prefijo_salida}_F{ANOF_ant}{MESF_ant}C{ANOC_ant}{MESC_ant}.xlsx
+  archivo_historico: "BaseEMCES-RA_2022-1_F2512C2601.xlsx"
+  hoja_historico: "RA"
+
+  # ── Salida ────────────────────────────────────────────────────────────────
+  prefijo_salida: "BaseEMCES-RA_2022-1"   # parte fija del nombre de salida
+  hoja_salida: "RA"
+
+  # ── Fuentes activas (equivale a comentar/descomentar PROC IMPORT en SAS) ──
+  # fletes: siempre true en producción (el pipeline fletes debe haberse ejecutado)
+  # cancilleria: activar cuando el pipeline cancilleria esté disponible para el mes
+  fuentes_activas:
+    fletes: true
+    cancilleria: false  # ya incluida en F2512C2601 — activar solo cuando el historico NO tenga el mes

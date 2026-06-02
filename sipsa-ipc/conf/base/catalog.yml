@@ -1,0 +1,28 @@
+# =============================================================================
+# SIPSA IPC — Catálogo de datos Kedro
+# SAS equivalente: PROC IMPORT DATAFILE="&entrada./&archivo." DBMS=XLSX
+#                  OUT=IPC REPLACE; SHEET="BASE SIPSA_A"; GETNAMES=YES; RUN;
+# =============================================================================
+
+# ─── NOTA: La carga del Excel de entrada (base_sipsa_raw) se realiza
+# directamente en el nodo leer_base usando params:archivo_entrada.
+# Esto sigue el patrón del proyecto sipsa y evita limitaciones de OmegaConf
+# con interpolaciones mixtas (texto + ${params:...}) en catalog.yml.
+# ─── La ruta del archivo se configura en conf/base/parameters.yml ─────────────
+
+# ─── CAPA INTERMEDIATE: bronze (datos crudos validados) ───────────────────────
+# Snapshot inmutable del Excel después de pasar validación de columnas y schema.
+# Sirve como punto de partida para F2 (limpieza).
+base_sipsa_bronze:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/base_sipsa_bronze.parquet
+  save_args:
+    index: false
+
+# Capa limpia F2: variables de periodo, ciudad/central, DIVIPOLA limpio,
+# toneladas y codificacion de articulos IPC.
+base_sipsa_clean:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/base_sipsa_clean.parquet
+  save_args:
+    index: false

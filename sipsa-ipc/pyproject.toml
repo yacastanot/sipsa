@@ -1,0 +1,32 @@
+[tool.kedro]
+package_name = "sipsa_ipc"
+project_name = "sipsa-ipc"
+kedro_init_version = "0.19.15"
+source_dir = "src"
+
+[tool.pytest.ini_options]
+addopts = "--cov-report term-missing --cov src/sipsa_ipc -ra"
+testpaths = ["tests"]
+
+[project]
+name = "sipsa-ipc"
+version = "0.1.0"
+description = "Migración SIPSA IPC: procesamiento mensual de abastecimiento de alimentos IPC"
+requires-python = ">=3.9"
+dependencies = [
+    "kedro>=0.19.0,<1.0",
+    "pandas>=2.0",
+    "openpyxl>=3.1",
+    "kedro-datasets[pandas.ExcelDataset,pandas.ParquetDataset,pandas.CSVDataset]>=3.0,<8.0",
+    "pandera>=0.18",
+    "structlog>=23.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+]
+
+[tool.kedro_telemetry]
+project_id = "sipsa-ipc-local"

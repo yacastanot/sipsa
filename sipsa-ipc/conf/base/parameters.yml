@@ -1,0 +1,24 @@
+# =============================================================================
+# SIPSA IPC — Parámetros de ejecución mensual
+# Equivalente a los %LET de SAS en SIPSA_A_MODELO_IPC.sas
+# =============================================================================
+# INSTRUCCIONES: Actualizar las 5 variables al inicio de cada mes.
+
+# ─── PERÍODO ACTIVO ───────────────────────────────────────────────────────────
+# Equivale a: %let FMesact="Abril"; %let FMesant="Marzo";
+#             %let FAnoact=2025;    %let FAnoant=2024;
+mes_actual_nombre:    "Abril"   # Nombre español del mes actual (tal como aparece en Mes2 SAS)
+mes_anterior_nombre:  "Marzo"   # Nombre español del mes anterior
+anio_actual:          2025      # Año del período actual
+anio_anterior:        2024      # Año anterior (para comparativo anual)
+
+# ─── ARCHIVO DE ENTRADA ───────────────────────────────────────────────────────
+# Equivale a: %let archivo=Base_SIPSA_IPC_Abr2024;
+# Convención: Base_SIPSA_IPC_mmmAAAA  (ej: abr2025, may2025, jun2025)
+# Incluir ruta completa relativa al proyecto para que catalog.yml pueda interpolarlo
+# sin mezclar texto estático + interpolación (limitación OmegaConf).
+archivo_entrada: "data/01_raw/Base_SIPSA_IPC_abr2025.xlsx"
+
+# ─── RUTAS ────────────────────────────────────────────────────────────────────
+ruta_raw:       "data/01_raw"
+ruta_reporting: "data/08_reporting"

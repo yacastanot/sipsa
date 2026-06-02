@@ -1,0 +1,105 @@
+# Diccionario F2: variedades SIPSA -> 29 articulos IPC vigentes para salidas 2025.
+# Fuente operativa: hoja "Alimentos IPC Vs SIPSA_A" y TD_Total abril 2025.
+articulos_ipc:
+  codigos:
+    ARROZ: 1001
+    LIMÓN: 1002
+    CARNE DE RES SIN HUESO: 1003
+    CARNE DE CERDO SIN HUESO: 1004
+    POLLO DESPRESADO: 1005
+    BOCACHICO: 1006
+    HUEVOS: 1007
+    NARANJA: 1008
+    BANANO: 1009
+    TOMATE DE ÁRBOL: 1010
+    MORA: 1011
+    MANGO: 1012
+    MARACUYÁ: 1013
+    LULO: 1014
+    PAPAYA: 1015
+    AGUACATE: 1016
+    FRÍJOL SECO: 1017
+    PLÁTANO: 1018
+    PAPA: 1019
+    PAPA CRIOLLA: 1020
+    YUCA: 1021
+    TOMATE: 1022
+    CEBOLLA CABEZONA: 1023
+    CEBOLLA LARGA: 1024
+    ZANAHORIA: 1025
+    LECHUGA: 1026
+    ARVEJA: 1027
+    HABICHUELA: 1028
+    CILANTRO: 1029
+
+  variedades:
+    Aguacate Choquette: AGUACATE
+    Aguacate común: AGUACATE
+    Aguacate Hass: AGUACATE
+    Aguacate papelillo: AGUACATE
+    Aguacates otros: AGUACATE
+    Arroz: ARROZ
+    Arveja verde en vaina: ARVEJA
+    Banano criollo: BANANO
+    Banano Urabá: BANANO
+    Banano bocadillo: BANANO
+    Bocachico: BOCACHICO
+    Carne de cerdo: CARNE DE CERDO SIN HUESO
+    Carne de res: CARNE DE RES SIN HUESO
+    Cebolla cabezona blanca: CEBOLLA CABEZONA
+    Cebolla cabezona roja: CEBOLLA CABEZONA
+    Cebolla cabezona: CEBOLLA CABEZONA
+    Cebolla Cabezona: CEBOLLA CABEZONA
+    Cebolla junca: CEBOLLA LARGA
+    Cilantro: CILANTRO
+    Fríjol: FRÍJOL SECO
+    Habichuela: HABICHUELA
+    Huevo: HUEVOS
+    Huevos otros: HUEVOS
+    Lechuga Batavia: LECHUGA
+    Lechuga crespa: LECHUGA
+    Lechugas otras: LECHUGA
+    Limón Tahití: LIMÓN
+    Limón común: LIMÓN
+    Limón mandarino: LIMÓN
+    Lulo: LULO
+    Mango común: MANGO
+    Mango de azúcar: MANGO
+    Mango Tommy: MANGO
+    Mango Yulima: MANGO
+    Mangos otros: MANGO
+    Maracuyá: MARACUYÁ
+    Mora: MORA
+    Naranja Valencia: NARANJA
+    Naranja Valencia y/o Sweet: NARANJA
+    Naranja común: NARANJA
+    Naranjas otras: NARANJA
+    Tangelo: NARANJA
+    Papa Betina: PAPA
+    Papa capira: PAPA
+    Papa Morasurco: PAPA
+    Papa nevada: PAPA
+    Papa parda pastusa: PAPA
+    Papa R-12: PAPA
+    Papa rubí: PAPA
+    Papa sabanera: PAPA
+    Papa superior: PAPA
+    Papa suprema: PAPA
+    Papa única: PAPA
+    Papas negras otras: PAPA
+    Papa criolla: PAPA CRIOLLA
+    Papaya hawaiana: PAPAYA
+    Papaya Maradol: PAPAYA
+    Papaya Paulina: PAPAYA
+    Papayas otras: PAPAYA
+    Plátano guineo: PLÁTANO
+    Plátano hartón verde: PLÁTANO
+    Plátanos otros: PLÁTANO
+    Carne de pollo: POLLO DESPRESADO
+    Tomate chonto: TOMATE
+    Tomate larga vida: TOMATE
+    Tomate Riogrande: TOMATE
+    Tomates otros: TOMATE
+    Tomate de árbol: TOMATE DE ÁRBOL
+    Yuca: YUCA
+    Zanahoria: ZANAHORIA

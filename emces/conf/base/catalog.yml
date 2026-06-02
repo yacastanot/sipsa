@@ -1,0 +1,153 @@
+# ─── Lista de exclusión de códigos BAND ───────────────────────────────────────
+band_excluir:
+  type: yaml.YAMLDataset
+  filepath: conf/base/exclusions/band_excluir.yml
+
+# ─── DataFrames raw (en memoria, producidos por ingestion) ────────────────────
+raw_pais:
+  type: MemoryDataset
+
+raw_trm:
+  type: MemoryDataset
+
+raw_fletes:
+  type: MemoryDataset
+
+raw_m49:
+  type: MemoryDataset
+
+# ─── Intermediate: fletes filtrados y agregados por mes/pais/via ──────────────
+fletes_filtrados:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/fletes_filtrados.parquet
+  save_args:
+    index: false
+
+# ─── Intermediate: fletes enriquecidos con PAIS y TRM ────────────────────────
+fletes_enriquecidos:
+  type: MemoryDataset
+
+# ─── Primary: registro maestro listo para exportar ───────────────────────────
+fletes_maestro:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/fletes_maestro.parquet
+  save_args:
+    index: false
+
+# ─── Reporting: metadatos de la exportación ──────────────────────────────────
+reporte_metadata:
+  type: MemoryDataset
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# CANCILLERÍA
+# ══════════════════════════════════════════════════════════════════════════════
+
+# ─── Raw: lecturas directas desde Excel (en memoria) ─────────────────────────
+canc_raw_devengados:
+  type: MemoryDataset
+
+canc_raw_gastos:
+  type: MemoryDataset
+
+canc_raw_trm:
+  type: MemoryDataset
+
+canc_raw_paises:
+  type: MemoryDataset
+
+canc_raw_paises1:
+  type: MemoryDataset
+
+# ─── Intermediate: pasos de transformación ────────────────────────────────────
+canc_base1:
+  type: MemoryDataset
+
+canc_trm_largo:
+  type: MemoryDataset
+
+canc_base2:
+  type: MemoryDataset
+
+canc_base3:
+  type: MemoryDataset
+
+canc_base4:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/canc_base4.parquet
+  save_args:
+    index: false
+
+canc_base5:
+  type: MemoryDataset
+
+canc_base6:
+  type: MemoryDataset
+
+# ─── Primary: layout final listo para exportar ────────────────────────────────
+canc_maestro:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/canc_maestro.parquet
+  save_args:
+    index: false
+
+# ─── Reporting: metadata de exportación ──────────────────────────────────────
+canc_reporte_metadata:
+  type: MemoryDataset
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# BASE REGISTROS ADMINISTRATIVOS  (salida de consolidacion_ra)
+# Entrada del pipeline de consolidación con la Encuesta EMCES (futuro).
+# ══════════════════════════════════════════════════════════════════════════════
+
+# ─── Primary: RA unificada (Fletes + Cancillería + Viajes pendiente) ──────────
+base_ra:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/base_ra.parquet
+  save_args:
+    index: false
+
+# ─── Resumen estadístico de auditoría ─────────────────────────────────────────
+ra_resumen:
+  type: MemoryDataset
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# PLACEHOLDERS — pipelines futuros según diagrama de flujo EMCES
+# Activar cuando cada pipeline esté implementado.
+# ══════════════════════════════════════════════════════════════════════════════
+
+# encuesta_maestro:     # salida del pipeline encuesta
+#   type: pandas.ParquetDataset
+#   filepath: data/03_primary/encuesta_maestro.parquet
+
+# base_emces_final:     # salida de integracion (Encuesta + RA)
+#   type: pandas.ParquetDataset
+#   filepath: data/03_primary/base_emces_final.parquet
+
+# viajes_maestro:       # salida del pipeline viajes (pendiente — diagrama amber)
+#   type: pandas.ParquetDataset
+#   filepath: data/03_primary/viajes_maestro.parquet
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# UNIÓN RA — acumulación histórica mensual (UnirBase F2026_01C2026_01.sas)
+# ══════════════════════════════════════════════════════════════════════════════
+
+# ─── Histórico leído desde Excel (en memoria, producido en leer_base_historica) ─
+ra_historico:
+  type: MemoryDataset
+
+# ─── Primary: base RA acumulada (histórico + mes corriente) ──────────────────
+# Este Parquet es la fuente de verdad interna; el Excel se genera en el nodo.
+# Actualiza el histórico cada mes — NO sobreescribe la base anterior.
+base_ra_acumulada:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/base_ra_acumulada.parquet
+  save_args:
+    index: false
+
+# ─── Metadata de exportación ─────────────────────────────────────────────────
+union_ra_metadata:
+  type: MemoryDataset
