@@ -6,6 +6,7 @@ from sipsa_ipc.pipelines.cleaning.pipeline import create_pipeline as cleaning_pi
 from sipsa_ipc.pipelines.comparison.pipeline import create_pipeline as comparison_pipeline
 from sipsa_ipc.pipelines.formatting.pipeline import create_pipeline as formatting_pipeline
 from sipsa_ipc.pipelines.ingestion.pipeline import create_pipeline as ingestion_pipeline
+from sipsa_ipc.pipelines.reporting.pipeline import create_pipeline as reporting_pipeline
 from sipsa_ipc.pipelines.validation.pipeline import create_pipeline as validation_pipeline
 
 
@@ -14,17 +15,19 @@ def register_pipelines() -> dict[str, Pipeline]:
     cleaning = cleaning_pipeline()
     validation = validation_pipeline()
     aggregation = aggregation_pipeline()
-    comparison = comparison_pipeline()
     formatting = formatting_pipeline()
+    comparison = comparison_pipeline()
+    reporting = reporting_pipeline()
 
     return {
-        "__default__": ingestion + cleaning + validation + aggregation + formatting + comparison,
+        "__default__": ingestion + cleaning + validation + aggregation + formatting + comparison + reporting,
         "ingestion": ingestion,
         "cleaning": cleaning,
         "validation": validation,
         "aggregation": aggregation,
         "comparison": comparison,
         "formatting": formatting,
+        "reporting": reporting,
         "silver": ingestion + cleaning,
         "f1": ingestion,
         "f2": cleaning,
@@ -32,4 +35,5 @@ def register_pipelines() -> dict[str, Pipeline]:
         "f4": aggregation,
         "f5": comparison,
         "f6": formatting,
+        "f7": reporting,
     }

@@ -86,6 +86,27 @@ td_abast_otros:
   save_args:
     index: false
 
+# ─── CAPA F7: Generación de Reportes Excel ───────────────────────────────────
+# Metadatos de ejecución de cada exportación (filepath, filas, etc.)
+metadata_sipsa_ipc:
+  type: pandas.ParquetDataset
+  filepath: data/08_reporting/metadata_sipsa_ipc.parquet
+  save_args:
+    index: false
+
+metadata_alimentos_priorizados:
+  type: pandas.ParquetDataset
+  filepath: data/08_reporting/metadata_alimentos_priorizados.parquet
+  save_args:
+    index: false
+
+# Acumulado histórico mensual de TD_Total (Parquet particionado por mes/año).
+historico_td_total:
+  type: pandas.ParquetDataset
+  filepath: data/07_model_output/historico_td_total.parquet
+  save_args:
+    index: false
+
 # ─── CAPA F6: Formato, Normalización y Ordenamiento ──────────────────────────
 # PropCase departamentos/países + sort por RArtículo_IPC ASC / Participación DESC.
 # Equivalente SAS: data TD_Abast; propcase(...); proc sort by RArtículo_IPC descending Participación.
