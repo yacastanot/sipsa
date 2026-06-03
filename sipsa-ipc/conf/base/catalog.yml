@@ -26,3 +26,71 @@ base_sipsa_clean:
   filepath: data/03_primary/base_sipsa_clean.parquet
   save_args:
     index: false
+
+# ─── CAPA F3: Pipeline de Validación ─────────────────────────────────────────
+
+# IPC2 equivalente SAS: solo registros en canasta (RArtículo_IPC != null).
+# Entrada de todos los pipelines de agregación (F4).
+base_ipc_filtrada:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/base_ipc_filtrada.parquet
+  save_args:
+    index: false
+
+# Variedades SIPSA sin mapeo a artículo IPC (exportar para curación).
+# Equivalente SAS: proc freq sobre registros con RArticulo_IPC = .
+no_mapeados_ipc:
+  type: pandas.ExcelDataset
+  filepath: data/08_reporting/No_mapeados_IPC.xlsx
+  save_args:
+    index: false
+    sheet_name: "No_mapeados"
+
+# Cobertura: 29 artículos IPC con sus registros del mes actual.
+# Permite detectar artículos sin datos antes de producir tablas finales.
+cobertura_ipc:
+  type: pandas.ExcelDataset
+  filepath: data/08_reporting/COBERTURA.xlsx
+  save_args:
+    index: false
+    sheet_name: "Cobertura"
+
+# ─── CAPA F4: Pipeline de Agregación ─────────────────────────────────────────
+# Equivalente SAS: TD_Total, TD_Abast, TD_Destino, TD_Abast_Otros
+
+# SUM(Cant_Ton) por artículo en los 3 períodos (Mes actual/anterior/Año anterior).
+td_total:
+  type: pandas.ParquetDataset
+  filepath: data/04_feature/td_total.parquet
+  save_args:
+    index: false
+
+# SUM(Cant_Ton) por artículo + departamento de procedencia + Participación%.
+td_abast:
+  type: pandas.ParquetDataset
+  filepath: data/04_feature/td_abast.parquet
+  save_args:
+    index: false
+
+# SUM(Cant_Ton) por artículo + ciudad destino + Participación%.
+td_destino:
+  type: pandas.ParquetDataset
+  filepath: data/04_feature/td_destino.parquet
+  save_args:
+    index: false
+
+# SUM(Cant_Ton) importaciones (Depto=OTRO) por artículo + país + Participación%.
+td_abast_otros:
+  type: pandas.ParquetDataset
+  filepath: data/04_feature/td_abast_otros.parquet
+  save_args:
+    index: false
+
+# ─── CAPA F5: Análisis Comparativo Interperiódico ────────────────────────────
+# TD_Total enriquecido con VariacMensual% y VariacAnual% (formato colombiano).
+# Equivalente SAS: data TD_Total; VariacMensual=cat(VariacMensual1,"%"); tranwrd(...,'.',',')
+td_total_variaciones:
+  type: pandas.ParquetDataset
+  filepath: data/04_feature/td_total_variaciones.parquet
+  save_args:
+    index: false
