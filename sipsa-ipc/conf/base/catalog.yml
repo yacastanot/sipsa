@@ -86,6 +86,28 @@ td_abast_otros:
   save_args:
     index: false
 
+# ─── CAPA F6: Formato, Normalización y Ordenamiento ──────────────────────────
+# PropCase departamentos/países + sort por RArtículo_IPC ASC / Participación DESC.
+# Equivalente SAS: data TD_Abast; propcase(...); proc sort by RArtículo_IPC descending Participación.
+
+td_abast_fmt:
+  type: pandas.ParquetDataset
+  filepath: data/04_feature/td_abast_fmt.parquet
+  save_args:
+    index: false
+
+td_destino_fmt:
+  type: pandas.ParquetDataset
+  filepath: data/04_feature/td_destino_fmt.parquet
+  save_args:
+    index: false
+
+td_abast_otros_fmt:
+  type: pandas.ParquetDataset
+  filepath: data/04_feature/td_abast_otros_fmt.parquet
+  save_args:
+    index: false
+
 # ─── CAPA F5: Análisis Comparativo Interperiódico ────────────────────────────
 # TD_Total enriquecido con VariacMensual% y VariacAnual% (formato colombiano).
 # Equivalente SAS: data TD_Total; VariacMensual=cat(VariacMensual1,"%"); tranwrd(...,'.',',')
