@@ -82,8 +82,14 @@ def _formatear_variacion(valor: float) -> str:
         VariacMensual = cat(VariacMensual1, "%");
         VariacMensual = tranwrd(VariacMensual, '.', ',');
 
-    Usa hasta 12 dígitos significativos sin ceros finales (BEST12.),
-    coma como separador decimal y símbolo % al final.
+    SAS BEST12. usa 12 COLUMNAS totales (signo + parte entera + coma + decimales),
+    no 12 dígitos significativos. Para valores negativos el signo ocupa 1 columna,
+    reduciendo los dígitos disponibles. Los ceros finales se eliminan.
+
+    Ejemplos verificados vs SAS:
+        -3.15987491238 → "-3,159874912%"   (12 cols: - + 3 + , + 9 decimales)
+         7.96708264345 →  "7,9670826435%"  (12 cols:     7 + , + 10 decimales)
+       -13.3125069287  → "-13,31250693%"   (12 cols: - + 13 + , + 8 decimales)
 
     Args:
         valor: Variación porcentual como float. NaN retorna cadena vacía.
@@ -93,7 +99,27 @@ def _formatear_variacion(valor: float) -> str:
     """
     if valor is None or (isinstance(valor, float) and (math.isnan(valor) or math.isinf(valor))):
         return ""
-    # g format: hasta N dígitos significativos, sin ceros finales, sin notación científica
-    # 12 sig digits = equivalente a SAS BEST12.
-    texto = f"{valor:.12g}"
+    if valor == 0.0:
+        return "0%"
+
+    abs_val = abs(valor)
+    sign_chars = 1 if valor < 0 else 0
+
+    # Dígitos enteros: max 1 para valores < 1 (el "0" delante de la coma)
+    int_digits = max(1, math.floor(math.log10(abs_val)) + 1) if abs_val >= 1 else 1
+
+    # BEST12.: 12 chars = sign_chars + int_digits + 1(coma) + frac_chars
+    frac_chars = max(0, 12 - sign_chars - int_digits - 1)
+
+    if abs_val >= 1:
+        # sig_digits = integer digits + fractional digits
+        sig_digits = max(1, int_digits + frac_chars)
+    else:
+        # For values < 1, fractional chars include leading zeros (e.g. "0.057" → 1 leading zero).
+        # Those leading zeros consume fractional columns but are not significant digits,
+        # so subtract them from frac_chars to get the correct g-format precision.
+        leading_zeros = math.floor(-math.log10(abs_val))
+        sig_digits = max(1, frac_chars - leading_zeros)
+
+    texto = f"{valor:.{sig_digits}g}"
     return texto.replace(".", ",") + "%"
