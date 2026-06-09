@@ -20,12 +20,17 @@ dependencies = [
     "kedro-datasets[pandas.ExcelDataset,pandas.ParquetDataset,pandas.CSVDataset]>=3.0,<8.0",
     "pandera>=0.18",
     "structlog>=23.0",
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.30",
+    "slowapi>=0.1.9",
+    "python-dotenv>=1.0",
 ]
 
 [project.optional-dependencies]
 dev = [
     "pytest>=7.0",
     "pytest-cov>=4.0",
+    "httpx>=0.27",
 ]
 
 [tool.kedro_telemetry]
