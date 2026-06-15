@@ -27,3 +27,8 @@ conf/local/**
 .vscode/
 .idea/
 *.swp
+
+# Artefactos de pruebas y ejecución
+.coverage
+htmlcov/
+paso0*.txt
