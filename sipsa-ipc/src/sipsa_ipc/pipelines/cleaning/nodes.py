@@ -71,6 +71,7 @@ def limpiar_base(
     df = base_sipsa_bronze.copy()
 
     _estandarizar_texto(df)
+    _rellenar_otros(df)
     _normalizar_fechas(df)
     _limpiar_divipola(df)
     _crear_ciudad_y_central(df)
@@ -115,6 +116,19 @@ def _normalizar_fechas(df: pd.DataFrame) -> None:
         raise ValueError(
             f"FechaEncuesta contiene {n_fechas_invalidas} valores no convertibles."
         )
+
+
+def _rellenar_otros(df: pd.DataFrame) -> None:
+    """Reemplaza vacíos, N/A y CNA en Departamento/Municipio con 'OTRO'."""
+    valores_vacios = {"", "N/A", "NA", "CNA", "nan", "NAN"}
+    for columna in ("Departamento Proc.", "Municipio Proc."):
+        if columna not in df.columns:
+            continue
+        mask = df[columna].isna() | df[columna].astype(str).str.strip().isin(valores_vacios)
+        n = int(mask.sum())
+        if n:
+            df.loc[mask, columna] = "OTRO"
+            log.info("_rellenar_otros | %s: %d valores → 'OTRO'", columna, n)
 
 
 def _limpiar_divipola(df: pd.DataFrame) -> None:

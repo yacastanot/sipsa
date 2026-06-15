@@ -46,6 +46,16 @@ _DTYPE_EXCEL = {
     "Digitador":            str,
 }
 
+# Variantes de nombres de columna que llegan según la fuente del archivo.
+# El GIT de SIPSA usa distintos encabezados según el período; se normalizan
+# al estándar del pipeline antes de la validación de esquema.
+_VARIANTES_COLUMNAS = {
+    "Divipola Depto Proc.":                      "Cod. Depto Proc.",
+    "Departamento":                              "Departamento Proc.",
+    "Divipola Municipio / ISO 3166-1 País Proc.": "Cod. Municipio Proc.",
+    "Municipio de Colombia / País Proc.":        "Municipio Proc.",
+}
+
 
 def leer_base(archivo_entrada: str) -> pd.DataFrame:
     """Lee el Excel mensual de entrada, valida columnas y aplica schema pandera.
@@ -76,7 +86,10 @@ def leer_base(archivo_entrada: str) -> pd.DataFrame:
 
     log.info("Excel leído | filas=%d | columnas=%d", len(df_raw), len(df_raw.columns))
 
-    # 1. Verificación temprana de columnas — mensaje claro antes de pandera
+    # 1. Normalizar variantes de nombres de columna antes de validar
+    _normalizar_columnas(df_raw)
+
+    # 2. Verificación temprana de columnas — mensaje claro antes de pandera
     _verificar_columnas(df_raw)
 
     # 2. Schema pandera — lazy=True expone todas las violaciones de una vez
@@ -93,6 +106,14 @@ def leer_base(archivo_entrada: str) -> pd.DataFrame:
 
 
 # ─── helpers privados ────────────────────────────────────────────────────────
+
+def _normalizar_columnas(df: pd.DataFrame) -> None:
+    """Renombra in-place columnas que llegan con nombres variantes según la fuente."""
+    renombres = {k: v for k, v in _VARIANTES_COLUMNAS.items() if k in df.columns}
+    if renombres:
+        df.rename(columns=renombres, inplace=True)
+        log.info("Columnas renombradas: %s", renombres)
+
 
 def _verificar_columnas(df: pd.DataFrame) -> None:
     """Lanza ValueError si el Excel no tiene todas las columnas requeridas."""

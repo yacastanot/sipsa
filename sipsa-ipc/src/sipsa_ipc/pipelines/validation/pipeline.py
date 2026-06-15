@@ -29,7 +29,7 @@ def create_pipeline(**kwargs) -> Pipeline:
                 func=calcular_cobertura,
                 inputs=[
                     "base_ipc_filtrada",
-                    "params:articulos_ipc",
+                    "articulos_ipc_actualizado",
                     "params:mes_actual_nombre",
                     "params:anio_actual",
                 ],

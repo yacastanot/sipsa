@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SIPSA IPC — Pipeline Mensual</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #f0f4f8;
+      color: #1a202c;
+      min-height: 100vh;
+    }
+    header {
+      background: #2d3748;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    header .logo    { font-size: 1.25rem; font-weight: 700; letter-spacing: 0.05em; }
+    header .tagline { font-size: 0.8rem; color: #a0aec0; }
+    .container { max-width: 820px; margin: 2rem auto; padding: 0 1rem; }
+
+    /* Cards */
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+    .card-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #4a5568;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .step {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px; height: 22px;
+      background: #667eea;
+      color: white;
+      border-radius: 50%;
+      font-size: 0.7rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .step.done { background: #48bb78; }
+
+    /* Upload zone */
+    .upload-zone {
+      border: 2px dashed #cbd5e0;
+      border-radius: 8px;
+      padding: 1.75rem 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+    }
+    .upload-zone:hover, .upload-zone.dragover {
+      border-color: #667eea;
+      background: #f7f8ff;
+    }
+    .upload-zone input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer;
+    }
+    .upload-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+    .upload-zone p       { color: #718096; font-size: 0.85rem; }
+    .upload-zone .hint   { font-size: 0.75rem; color: #a0aec0; margin-top: 0.25rem; }
+    .upload-zone .uploaded-name {
+      margin-top: 0.5rem; font-size: 0.85rem;
+      font-weight: 500; color: #276749;
+    }
+
+    /* Form */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .form-grid .full { grid-column: 1 / -1; }
+    .form-group { display: flex; flex-direction: column; }
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #4a5568;
+      margin-bottom: 0.3rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    input[type="date"],
+    input[type="text"],
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid #cbd5e0;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      transition: border-color 0.2s;
+      background: white;
+      color: #2d3748;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102,126,234,0.15);
+    }
+    input[readonly] { background: #f7fafc; color: #718096; cursor: default; }
+    .form-hint { font-size: 0.72rem; color: #a0aec0; margin-top: 0.25rem; }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.4rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .btn:active { transform: scale(0.98); }
+    .btn-primary { background: #667eea; color: white; }
+    .btn-primary:hover:not(:disabled) { background: #5a6fd6; }
+    .btn-primary:disabled { background: #a0aec0; cursor: not-allowed; transform: none; }
+
+    /* Status badge */
+    .status-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.6rem 0.9rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      margin-bottom: 0.75rem;
+    }
+    .status-idle    { background: #edf2f7; color: #718096; }
+    .status-running { background: #ebf8ff; color: #2b6cb0; }
+    .status-success { background: #f0fff4; color: #276749; }
+    .status-error   { background: #fff5f5; color: #c53030; }
+    .spinner {
+      width: 14px; height: 14px;
+      border: 2px solid currentColor;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      flex-shrink: 0;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Log terminal */
+    .log-box {
+      background: #1a202c;
+      border-radius: 8px;
+      padding: 0.875rem 1rem;
+      height: 320px;
+      overflow-y: auto;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 0.78rem;
+      line-height: 1.5;
+      color: #e2e8f0;
+    }
+    .log-box .log-line            { white-space: pre-wrap; word-break: break-all; }
+    .log-box .log-line.success    { color: #68d391; font-weight: 600; }
+    .log-box .log-line.error      { color: #fc8181; font-weight: 600; }
+    .log-box .log-line.warning    { color: #f6ad55; }
+    .log-box .log-line.info       { color: #90cdf4; }
+    .log-placeholder { color: #4a5568; font-style: italic; }
+
+    /* Output files */
+    .output-list { display: flex; flex-direction: column; gap: 0.5rem; }
+    .output-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 0.9rem;
+      background: #f7fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+    }
+    .output-item .filename {
+      font-size: 0.82rem; font-weight: 500;
+      color: #2d3748; word-break: break-all;
+    }
+    .output-item .btn-dl {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem 0.75rem;
+      background: #667eea;
+      color: white;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .output-item .btn-dl:hover { background: #5a6fd6; }
+    .empty-msg { font-size: 0.82rem; color: #a0aec0; font-style: italic; }
+
+    @media (max-width: 560px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .form-grid .full { grid-column: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div>
+      <div class="logo">SIPSA IPC</div>
+      <div class="tagline">Pipeline mensual · Índice de Precios al Consumidor · DANE</div>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- PASO 1: Cargar archivo -->
+    <div class="card">
+      <div class="card-title">
+        <span class="step" id="step1Badge">1</span>
+        Cargar archivo de entrada
+      </div>
+      <div class="upload-zone" id="uploadZone">
+        <input type="file" id="fileInput" accept=".xlsx,.xls" />
+        <div class="upload-icon">📂</div>
+        <p>Arrastra el archivo aquí o haz clic para seleccionarlo</p>
+        <p class="hint">.xlsx — Base SIPSA_A con hojas Artículos_IPC y Alimentos IPC Vs SIPSA_A</p>
+        <p class="uploaded-name" id="uploadedName" style="display:none;"></p>
+      </div>
+      <div id="uploadProgress" style="margin-top:0.6rem; font-size:0.8rem; color:#718096; display:none;"></div>
+    </div>
+
+    <!-- PASO 2: Parámetros -->
+    <div class="card">
+      <div class="card-title">
+        <span class="step" id="step2Badge">2</span>
+        Parámetros del período
+      </div>
+
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label for="mesActual">Mes actual</label>
+          <select id="mesActual" onchange="autoFill()">
+            <option value="">Seleccione...</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="anioActual">Año actual</label>
+          <input type="number" id="anioActual" min="2020" max="2040" onchange="autoFill()" />
+        </div>
+
+        <div class="form-group">
+          <label for="mesAnterior">Mes anterior (t-1)</label>
+          <select id="mesAnterior">
+            <option value="">—</option>
+          </select>
+          <p class="form-hint">Auto-calculado; editable si es necesario</p>
+        </div>
+
+        <div class="form-group">
+          <label for="anioAnterior">Año para comparativo anual (t-12)</label>
+          <input type="number" id="anioAnterior" min="2019" max="2039" />
+          <p class="form-hint">Auto-calculado (año actual − 1)</p>
+        </div>
+
+        <div class="form-group">
+          <label for="datePicker">Fecha del proceso</label>
+          <input type="date" id="datePicker" onchange="syncFecha()" />
+          <p class="form-hint">Determina el nombre del archivo de salida (YYYYMMDD)</p>
+        </div>
+
+        <div class="form-group">
+          <label for="archivoInput">Archivo de entrada</label>
+          <input type="text" id="archivoInput"
+                 placeholder="Se completa al cargar el archivo" readonly />
+          <p class="form-hint">Auto-completado al cargar el archivo</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PASO 3: Ejecutar -->
+    <div class="card">
+      <div class="card-title">
+        <span class="step" id="step3Badge">3</span>
+        Ejecutar pipeline
+      </div>
+      <div class="status-bar status-idle" id="statusBar">
+        <span id="statusIcon">⏸</span>
+        <span id="statusText">Listo para ejecutar</span>
+      </div>
+      <button class="btn btn-primary" id="runBtn" onclick="runPipeline()">
+        ▶ Ejecutar Pipeline
+      </button>
+    </div>
+
+    <!-- Registro de ejecución -->
+    <div class="card">
+      <div class="card-title">📋 Registro de ejecución</div>
+      <div class="log-box" id="logBox">
+        <span class="log-placeholder">Los logs aparecerán aquí durante la ejecución…</span>
+      </div>
+    </div>
+
+    <!-- Archivos generados -->
+    <div class="card">
+      <div class="card-title">
+        <span class="step done">✓</span>
+        Archivos generados
+      </div>
+      <div class="output-list" id="outputList">
+        <span class="empty-msg">Aún no hay archivos generados.</span>
+      </div>
+      <button class="btn"
+              style="margin-top:0.75rem; background:#edf2f7; color:#4a5568; font-size:0.8rem;"
+              onclick="loadOutputs()">
+        ↻ Actualizar lista
+      </button>
+    </div>
+
+  </div><!-- .container -->
+
+  <script>
+    // ── Constantes ────────────────────────────────────────────────────────────
+    const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+                   'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+    // ── Referencias DOM ───────────────────────────────────────────────────────
+    const uploadZone   = document.getElementById('uploadZone');
+    const fileInput    = document.getElementById('fileInput');
+    const uploadedName = document.getElementById('uploadedName');
+    const uploadProg   = document.getElementById('uploadProgress');
+    const mesActual    = document.getElementById('mesActual');
+    const anioActual   = document.getElementById('anioActual');
+    const mesAnterior  = document.getElementById('mesAnterior');
+    const anioAnterior = document.getElementById('anioAnterior');
+    const datePicker   = document.getElementById('datePicker');
+    const archivoInput = document.getElementById('archivoInput');
+    const runBtn       = document.getElementById('runBtn');
+    const statusBar    = document.getElementById('statusBar');
+    const statusIcon   = document.getElementById('statusIcon');
+    const statusText   = document.getElementById('statusText');
+    const logBox       = document.getElementById('logBox');
+    const outputList   = document.getElementById('outputList');
+
+    // ── Poblar selects de meses ───────────────────────────────────────────────
+    MESES.forEach(m => {
+      [mesActual, mesAnterior].forEach(sel => {
+        const opt = document.createElement('option');
+        opt.value = opt.textContent = m;
+        sel.appendChild(opt);
+      });
+    });
+
+    // ── Drag and drop ─────────────────────────────────────────────────────────
+    uploadZone.addEventListener('dragover', e => {
+      e.preventDefault(); uploadZone.classList.add('dragover');
+    });
+    uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+    uploadZone.addEventListener('drop', e => {
+      e.preventDefault();
+      uploadZone.classList.remove('dragover');
+      const file = e.dataTransfer.files[0];
+      if (file) handleFile(file);
+    });
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files[0]) handleFile(fileInput.files[0]);
+    });
+
+    async function handleFile(file) {
+      if (!file.name.match(/\.(xlsx|xls)$/i)) {
+        alert('Solo se aceptan archivos Excel (.xlsx o .xls)');
+        return;
+      }
+      uploadProg.style.display = 'block';
+      uploadProg.textContent = '⏳ Subiendo…';
+
+      const fd = new FormData();
+      fd.append('file', file);
+      try {
+        const res = await fetch('/upload', { method: 'POST', body: fd });
+        if (!res.ok) throw new Error((await res.json()).detail || res.statusText);
+        const data = await res.json();
+        uploadedName.textContent = '✔ ' + data.filename;
+        uploadedName.style.display = 'block';
+        archivoInput.value = data.filename;
+        uploadProg.textContent = '';
+        document.getElementById('step1Badge').classList.add('done');
+        document.getElementById('step1Badge').textContent = '✓';
+      } catch(e) {
+        uploadProg.textContent = '❌ Error: ' + e.message;
+      }
+    }
+
+    // ── Auto-completar parámetros ─────────────────────────────────────────────
+    function autoFill() {
+      const mi   = MESES.indexOf(mesActual.value);
+      const anio = parseInt(anioActual.value) || new Date().getFullYear();
+      if (mi < 0) return;
+
+      // Mes anterior: enero → diciembre del año anterior
+      mesAnterior.value  = MESES[(mi + 11) % 12];
+
+      // Año t-12 = año actual − 1
+      anioAnterior.value = anio - 1;
+    }
+
+    function syncFecha() {
+      // Almacena en un campo oculto como YYYYMMDD (solo para referencia visual)
+    }
+
+    function getFechaProceso() {
+      if (!datePicker.value) return '';
+      const [y, m, d] = datePicker.value.split('-');
+      return `${y}${m}${d}`;
+    }
+
+    // ── Inicialización ────────────────────────────────────────────────────────
+    const hoy = new Date();
+    datePicker.value  = hoy.toISOString().slice(0, 10);
+    anioActual.value  = hoy.getFullYear();
+    anioAnterior.value = hoy.getFullYear() - 1;
+
+    // ── Ejecutar pipeline ─────────────────────────────────────────────────────
+    async function runPipeline() {
+      const archivo  = archivoInput.value.trim();
+      const mesAct   = mesActual.value;
+      const mesAnt   = mesAnterior.value;
+      const anioAct  = anioActual.value;
+      const anioAnt  = anioAnterior.value;
+      const fecha    = getFechaProceso();
+
+      if (!archivo)  { alert('Carga el archivo Excel o escribe el nombre en el campo de entrada'); return; }
+      if (!mesAct)   { alert('Selecciona el mes actual'); return; }
+      if (!mesAnt)   { alert('Selecciona el mes anterior'); return; }
+      if (!fecha)    { alert('Selecciona la fecha del proceso'); return; }
+
+      setStatus('running');
+      runBtn.disabled = true;
+      clearLog();
+      addLog(
+        `▶ Iniciando pipeline — ${mesAct} ${anioAct} | t-1: ${mesAnt} | t-12: ${mesAct} ${anioAnt} | fecha: ${fecha}`,
+        'info'
+      );
+
+      const fd = new FormData();
+      fd.append('archivo',             archivo);
+      fd.append('mes_actual_nombre',   mesAct);
+      fd.append('mes_anterior_nombre', mesAnt);
+      fd.append('anio_actual',         anioAct);
+      fd.append('anio_anterior',       anioAnt);
+      fd.append('fecha_proceso',       fecha);
+
+      try {
+        const res = await fetch('/run', { method: 'POST', body: fd });
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err.detail || res.statusText);
+        }
+
+        const reader  = res.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer    = '';
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+          const parts = buffer.split('\n\n');
+          buffer = parts.pop();
+          for (const part of parts) {
+            for (const line of part.split('\n')) {
+              if (!line.startsWith('data: ')) continue;
+              const msg = line.slice(6);
+              if (msg === '__SUCCESS__') {
+                addLog('✔ Pipeline completado exitosamente.', 'success');
+                setStatus('success');
+                document.getElementById('step3Badge').classList.add('done');
+                document.getElementById('step3Badge').textContent = '✓';
+                await loadOutputs();
+              } else if (msg.startsWith('__ERROR__')) {
+                addLog('✖ Error en el pipeline: ' + msg.slice(9), 'error');
+                setStatus('error');
+              } else if (msg.trim()) {
+                addLog(msg);
+              }
+            }
+          }
+        }
+      } catch(e) {
+        addLog('✖ ' + e.message, 'error');
+        setStatus('error');
+      } finally {
+        runBtn.disabled = false;
+      }
+    }
+
+    // ── Logs ──────────────────────────────────────────────────────────────────
+    function clearLog() { logBox.innerHTML = ''; }
+
+    function addLog(text, cls) {
+      const line = document.createElement('div');
+      line.className = 'log-line';
+      if (!cls) {
+        if (/\b(ERROR|CRITICAL|Traceback|Exception)\b/i.test(text)) cls = 'error';
+        else if (/\bWARN(ING)?\b/i.test(text))                      cls = 'warning';
+      }
+      if (cls) line.classList.add(cls);
+      line.textContent = text;
+      logBox.appendChild(line);
+      logBox.scrollTop = logBox.scrollHeight;
+    }
+
+    // ── Estado ────────────────────────────────────────────────────────────────
+    function setStatus(state) {
+      statusBar.className = 'status-bar status-' + state;
+      const map = {
+        idle:    ['⏸', 'Listo para ejecutar'],
+        running: ['', 'Ejecutando pipeline…'],
+        success: ['✔', 'Pipeline completado exitosamente'],
+        error:   ['✖', 'El pipeline terminó con errores'],
+      };
+      const [icon, text] = map[state] || map.idle;
+      statusIcon.innerHTML = state === 'running'
+        ? '<div class="spinner"></div>'
+        : icon;
+      statusText.textContent = text;
+    }
+
+    // ── Outputs ───────────────────────────────────────────────────────────────
+    async function loadOutputs() {
+      try {
+        const res  = await fetch('/outputs');
+        const data = await res.json();
+        if (!data.files.length) {
+          outputList.innerHTML = '<span class="empty-msg">Aún no hay archivos generados.</span>';
+          return;
+        }
+        outputList.innerHTML = '';
+        for (const f of data.files) {
+          const item = document.createElement('div');
+          item.className = 'output-item';
+          item.innerHTML = `
+            <span class="filename">📊 ${f}</span>
+            <a class="btn-dl" href="/download/${encodeURIComponent(f)}" download>
+              ⬇ Descargar
+            </a>`;
+          outputList.appendChild(item);
+        }
+      } catch(e) { /* silencioso */ }
+    }
+
+    // Cargar outputs al iniciar
+    loadOutputs();
+  </script>
+</body>
+</html>

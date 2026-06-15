@@ -1,3 +1,5 @@
+> **Este archivo se reemplazó por [01_arquitectura.md](01_arquitectura.md).**
+
 # Arquitectura Técnica — SIPSA IPC Python/Kedro
 
 **Proyecto:** Migración SIPSA_A_MODELO_IPC.sas → Python + Kedro + FastAPI  

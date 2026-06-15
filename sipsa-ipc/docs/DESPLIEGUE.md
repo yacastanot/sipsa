@@ -1,3 +1,5 @@
+> **Este archivo se reemplazó por [02_instalacion.md](02_instalacion.md).**
+
 # Guía de Despliegue — SIPSA IPC en Servidor DANE
 
 **Servidor destino:** `\\DIMPE-D-065\DIMPE\SIPSA\IPC\`  

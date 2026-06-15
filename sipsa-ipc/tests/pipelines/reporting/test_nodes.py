@@ -1,7 +1,6 @@
 """Tests unitarios y validación numérica — FASE 7: Generación de Reportes."""
 from __future__ import annotations
 
-import os
 from pathlib import Path
 
 import pandas as pd
@@ -85,6 +84,13 @@ def _td_otros() -> pd.DataFrame:
     return df
 
 
+def _articulos_ipc_fixture() -> dict:
+    return {
+        "codigos":    {"ARROZ": 1001, "PAPA": 1019},
+        "variedades": {"Arroz": "ARROZ", "Papa parda pastusa": "PAPA"},
+    }
+
+
 # ─── _fmt_pct ─────────────────────────────────────────────────────────────────
 
 class TestFmtPct:
@@ -107,30 +113,32 @@ class TestExportarSipsaIpc:
     def test_archivo_creado(self, tmp_path):
         meta = exportar_sipsa_ipc(
             _td_total_var(), _td_abast(), _td_destino(), _td_otros(),
-            "20250502", str(tmp_path)
+            _articulos_ipc_fixture(), "20250502", str(tmp_path),
         )
         assert Path(meta["archivo"].iloc[0]).exists()
 
     def test_nombre_correcto(self, tmp_path):
         meta = exportar_sipsa_ipc(
             _td_total_var(), _td_abast(), _td_destino(), _td_otros(),
-            "20250502", str(tmp_path)
+            _articulos_ipc_fixture(), "20250502", str(tmp_path),
         )
         assert "SIPSA_IPC_20250502.xlsx" in meta["archivo"].iloc[0]
 
-    def test_cuatro_hojas(self, tmp_path):
+    def test_cinco_hojas(self, tmp_path):
         exportar_sipsa_ipc(
             _td_total_var(), _td_abast(), _td_destino(), _td_otros(),
-            "20250502", str(tmp_path)
+            _articulos_ipc_fixture(), "20250502", str(tmp_path),
         )
         xl = pd.ExcelFile(tmp_path / "SIPSA_IPC_20250502.xlsx")
-        assert xl.sheet_names == ["TD_Total", "TD_Abast", "TD_Destino", "TD_Abast_Otros"]
+        assert xl.sheet_names == [
+            "TD_Total", "TD_Abast", "TD_Destino", "TD_Abast_Otros", "TREF_Productos"
+        ]
 
     def test_td_total_sin_columnas_num(self, tmp_path):
-        """VariacMensual_num y VariacAnual_num no deben aparecer en el Excel."""
+        """VariacMensual_num y VariacAnual_num no deben aparecer en TD_Total del T38."""
         exportar_sipsa_ipc(
             _td_total_var(), _td_abast(), _td_destino(), _td_otros(),
-            "20250502", str(tmp_path)
+            _articulos_ipc_fixture(), "20250502", str(tmp_path),
         )
         td = pd.read_excel(tmp_path / "SIPSA_IPC_20250502.xlsx", sheet_name="TD_Total")
         assert "VariacMensual_num" not in td.columns
@@ -139,7 +147,7 @@ class TestExportarSipsaIpc:
     def test_td_total_columnas_correctas(self, tmp_path):
         exportar_sipsa_ipc(
             _td_total_var(), _td_abast(), _td_destino(), _td_otros(),
-            "20250502", str(tmp_path)
+            _articulos_ipc_fixture(), "20250502", str(tmp_path),
         )
         td = pd.read_excel(tmp_path / "SIPSA_IPC_20250502.xlsx", sheet_name="TD_Total")
         assert list(td.columns) == [
@@ -149,10 +157,10 @@ class TestExportarSipsaIpc:
         ]
 
     def test_variacion_mensual_es_string_colombiano(self, tmp_path):
-        """VariacMensual debe ser cadena con coma y porcentaje (no número)."""
+        """VariacMensual en T38 TD_Total mantiene formato string (compatibilidad SAS)."""
         exportar_sipsa_ipc(
             _td_total_var(), _td_abast(), _td_destino(), _td_otros(),
-            "20250502", str(tmp_path)
+            _articulos_ipc_fixture(), "20250502", str(tmp_path),
         )
         td = pd.read_excel(tmp_path / "SIPSA_IPC_20250502.xlsx", sheet_name="TD_Total")
         vm = td["VariacMensual"].iloc[0]
@@ -160,10 +168,56 @@ class TestExportarSipsaIpc:
         assert "," in vm
         assert vm.endswith("%")
 
+    def test_td_abast_tiene_descr_pegar(self, tmp_path):
+        """TD_Abast debe incluir la columna Descr_pegar (col 9) para FORMATO_SIPSA_IPC.xlsm."""
+        exportar_sipsa_ipc(
+            _td_total_var(), _td_abast(), _td_destino(), _td_otros(),
+            _articulos_ipc_fixture(), "20250502", str(tmp_path),
+        )
+        ta = pd.read_excel(tmp_path / "SIPSA_IPC_20250502.xlsx", sheet_name="TD_Abast")
+        assert "Descr_pegar" in ta.columns
+        assert "Proc_Part" in ta.columns
+        # Descr_pegar es la col 9 (0-indexed 8) — la que usa el macro VBA
+        assert list(ta.columns).index("Descr_pegar") == 8
+
+    def test_td_abast_descr_pegar_multilinea(self, tmp_path):
+        """Descr_pegar agrupa todos los departamentos del artículo."""
+        exportar_sipsa_ipc(
+            _td_total_var(), _td_abast(), _td_destino(), _td_otros(),
+            _articulos_ipc_fixture(), "20250502", str(tmp_path),
+        )
+        ta = pd.read_excel(tmp_path / "SIPSA_IPC_20250502.xlsx", sheet_name="TD_Abast")
+        arroz = ta.loc[ta["RArtículo_IPC"] == 1001, "Descr_pegar"].iloc[0]
+        assert "Tolima" in arroz
+        assert "Meta" in arroz
+        assert "N.A." in arroz
+        assert "\n" in arroz
+
+    def test_td_destino_tiene_descr_pegar(self, tmp_path):
+        """TD_Destino debe incluir la columna Descr_pegar (col 8) para FORMATO_SIPSA_IPC.xlsm."""
+        exportar_sipsa_ipc(
+            _td_total_var(), _td_abast(), _td_destino(), _td_otros(),
+            _articulos_ipc_fixture(), "20250502", str(tmp_path),
+        )
+        td = pd.read_excel(tmp_path / "SIPSA_IPC_20250502.xlsx", sheet_name="TD_Destino")
+        assert "Descr_pegar" in td.columns
+        assert "Ciudad_Part" in td.columns
+        assert list(td.columns).index("Descr_pegar") == 7
+
+    def test_tref_productos_generado(self, tmp_path):
+        exportar_sipsa_ipc(
+            _td_total_var(), _td_abast(), _td_destino(), _td_otros(),
+            _articulos_ipc_fixture(), "20250502", str(tmp_path),
+        )
+        tref = pd.read_excel(tmp_path / "SIPSA_IPC_20250502.xlsx", sheet_name="TREF_Productos")
+        assert "Código SIPSA" in tref.columns
+        assert "Artículo IPC" in tref.columns
+        assert len(tref) == 2  # ARROZ y PAPA
+
     def test_filas_td_abast(self, tmp_path):
         exportar_sipsa_ipc(
             _td_total_var(), _td_abast(), _td_destino(), _td_otros(),
-            "20250502", str(tmp_path)
+            _articulos_ipc_fixture(), "20250502", str(tmp_path),
         )
         ta = pd.read_excel(tmp_path / "SIPSA_IPC_20250502.xlsx", sheet_name="TD_Abast")
         assert len(ta) == len(_td_abast())
@@ -171,9 +225,9 @@ class TestExportarSipsaIpc:
     def test_metadata_correcta(self, tmp_path):
         meta = exportar_sipsa_ipc(
             _td_total_var(), _td_abast(), _td_destino(), _td_otros(),
-            "20250502", str(tmp_path)
+            _articulos_ipc_fixture(), "20250502", str(tmp_path),
         )
-        assert meta["hojas"].iloc[0] == 4
+        assert meta["hojas"].iloc[0] == 5  # 4 TD + TREF_Productos
         assert meta["filas_td_total"].iloc[0] == 2
         assert meta["filas_td_abast"].iloc[0] == len(_td_abast())
 
@@ -181,60 +235,104 @@ class TestExportarSipsaIpc:
 # ─── exportar_alimentos_priorizados ───────────────────────────────────────────
 
 class TestExportarAlimentosPriorizados:
-    def test_archivo_creado(self, tmp_path):
+    """T39 — output idéntico al macro 'PEGAR DATOS' de FORMATO_SIPSA_IPC.xlsm."""
+
+    def _run(self, tmp_path):
+        """Helper: ejecuta el nodo y retorna (meta, df)."""
         meta = exportar_alimentos_priorizados(
             _td_total_var(), _td_abast(), _td_destino(), _td_otros(),
-            "Abril", 2025, "20250502", str(tmp_path)
+            "Abril", 2025, "20250502", str(tmp_path),
+            # sin archivo_entrada → usa plantilla vacía con headers por defecto
         )
+        archivos = list(tmp_path.glob("Alimentos_priorizados_*.xlsx"))
+        xl = pd.read_excel(archivos[0], sheet_name="Artículos_IPC", header=1)
+        return meta, xl
+
+    def test_archivo_creado(self, tmp_path):
+        meta, _ = self._run(tmp_path)
         assert Path(meta["archivo"].iloc[0]).exists()
 
     def test_nombre_contiene_mes(self, tmp_path):
-        meta = exportar_alimentos_priorizados(
-            _td_total_var(), _td_abast(), _td_destino(), _td_otros(),
-            "Abril", 2025, "20250502", str(tmp_path)
-        )
+        meta, _ = self._run(tmp_path)
         assert "abr25" in meta["archivo"].iloc[0]
 
-    def test_hoja_articulos_ipc(self, tmp_path):
-        exportar_alimentos_priorizados(
-            _td_total_var(), _td_abast(), _td_destino(), _td_otros(),
-            "Abril", 2025, "20250502", str(tmp_path)
-        )
-        archivos = list(tmp_path.glob("Alimentos_priorizados_*.xlsx"))
-        assert len(archivos) == 1
-        xl = pd.read_excel(archivos[0], sheet_name="Artículos_IPC")
-        assert "Zonas abastecedoras" in xl.columns
-        assert "Destino de los alimentos" in xl.columns
+    def test_18_columnas(self, tmp_path):
+        """La hoja Artículos_IPC debe tener exactamente 18 columnas."""
+        _, xl = self._run(tmp_path)
+        assert xl.shape[1] == 18
+
+    def test_fila_vacia_en_row1(self, tmp_path):
+        """Fila 1 del Excel debe estar vacía (estructura idéntica al XLSM)."""
+        meta, _ = self._run(tmp_path)
+        archivos = list(tmp_path.parent.glob("Alimentos_priorizados_*.xlsx"))
+        # Leer SIN header para ver row 0
+        xl_raw = pd.read_excel(archivos[0] if archivos else Path(meta["archivo"].iloc[0]),
+                               sheet_name="Artículos_IPC", header=None)
+        assert xl_raw.iloc[0].isna().all(), "Fila 1 debe estar completamente vacía"
+
+    def test_codigo_en_col_a(self, tmp_path):
+        """Código IPC debe estar en col A (posición 0), igual que el XLSM."""
+        _, xl = self._run(tmp_path)
+        # col A tiene header None; acceder por posición
+        col_a = xl.iloc[:, 0]
+        assert col_a.notna().all(), "Col A no debe tener nulos (debe tener código IPC)"
+        assert set(col_a.astype(int).tolist()).issubset({1001, 1019})
+
+    def test_zonas_abastecedoras_rellenas(self, tmp_path):
+        """Col I (posición 8) = Zonas abastecedoras, con texto multilinea."""
+        _, xl = self._run(tmp_path)
+        zonas = xl.iloc[:, 8]
+        assert zonas.notna().any()
+        # ARROZ tiene Tolima y Meta
+        arroz_zonas = xl.iloc[:, 8].iloc[0]  # primer artículo (código 1001)
+        assert "Tolima" in str(arroz_zonas)
+        assert "Meta" in str(arroz_zonas)
 
     def test_zonas_contiene_formato_na(self, tmp_path):
         """Las importaciones deben aparecer como 'N.A. (Ecuador, Canadá)  x,xx%'."""
-        exportar_alimentos_priorizados(
-            _td_total_var(), _td_abast(), _td_destino(), _td_otros(),
-            "Abril", 2025, "20250502", str(tmp_path)
-        )
-        archivos = list(tmp_path.glob("Alimentos_priorizados_*.xlsx"))
-        xl = pd.read_excel(archivos[0], sheet_name="Artículos_IPC")
-        arroz = xl.loc[xl["RArtículo_IPC"] == 1001, "Zonas abastecedoras"].iloc[0]
-        assert "N.A." in arroz
-        assert "Ecuador" in arroz
+        _, xl = self._run(tmp_path)
+        # Buscar artículo con código 1001 (ARROZ) — col A posición 0
+        mask = xl.iloc[:, 0].astype(int) == 1001
+        arroz_zonas = xl.loc[mask].iloc[:, 8].iloc[0]
+        assert "N.A." in str(arroz_zonas)
+        assert "Ecuador" in str(arroz_zonas)
+
+    def test_destino_relleno(self, tmp_path):
+        """Col K (posición 10) = Destino de los alimentos, con texto multilinea."""
+        _, xl = self._run(tmp_path)
+        destino = xl.iloc[:, 10]
+        assert destino.notna().any()
+        arroz_destino = xl.iloc[:, 10].iloc[0]
+        assert "Barranquilla" in str(arroz_destino)
+
+    def test_variacion_mensual_es_numerica(self, tmp_path):
+        """Col O (posición 14) = variación mensual como decimal numérico (no string)."""
+        _, xl = self._run(tmp_path)
+        vm = xl.iloc[:, 14].iloc[0]
+        assert isinstance(vm, float), f"Se esperaba float, se obtuvo {type(vm)}: {vm!r}"
+
+    def test_variacion_anual_es_numerica(self, tmp_path):
+        """Col P (posición 15) = variación anual como decimal numérico."""
+        _, xl = self._run(tmp_path)
+        va = xl.iloc[:, 15].iloc[0]
+        assert isinstance(va, float), f"Se esperaba float, se obtuvo {type(va)}: {va!r}"
+
+    def test_abastecimiento_act_numerico(self, tmp_path):
+        """Col L (posición 11) = abastecimiento mes actual como número."""
+        _, xl = self._run(tmp_path)
+        abast = xl.iloc[:, 11].iloc[0]
+        assert isinstance(abast, float)
+        assert abast > 0
 
     def test_n_articulos_correcto(self, tmp_path):
-        meta = exportar_alimentos_priorizados(
-            _td_total_var(), _td_abast(), _td_destino(), _td_otros(),
-            "Abril", 2025, "20250502", str(tmp_path)
-        )
-        assert meta["articulos"].iloc[0] == 2  # solo 2 artículos en fixture
+        meta, _ = self._run(tmp_path)
+        assert meta["articulos"].iloc[0] == 2
 
-    def test_variacion_es_numerica(self, tmp_path):
-        """En Alimentos priorizados la variación se guarda como decimal, no string."""
-        exportar_alimentos_priorizados(
-            _td_total_var(), _td_abast(), _td_destino(), _td_otros(),
-            "Abril", 2025, "20250502", str(tmp_path)
-        )
-        archivos = list(tmp_path.glob("Alimentos_priorizados_*.xlsx"))
-        xl = pd.read_excel(archivos[0], sheet_name="Artículos_IPC")
-        vm = xl["Variacion mensual"].iloc[0]
-        assert isinstance(vm, float)
+    def test_col_b_vacia(self, tmp_path):
+        """Col B (posición 1, 'Código SIPSA') debe estar vacía — igual que el XLSM."""
+        _, xl = self._run(tmp_path)
+        col_b = xl.iloc[:, 1]
+        assert col_b.isna().all(), "Col B 'Código SIPSA' debe estar vacía en el output"
 
 
 # ─── guardar_historico ────────────────────────────────────────────────────────
@@ -262,7 +360,7 @@ class TestGuardarHistorico:
         assert len(resultado) == len(fixture)
 
 
-# ─── Validación numérica vs SAS (Tarea 41) ────────────────────────────────────
+# ─── Validación numérica vs SAS ───────────────────────────────────────────────
 
 RUTA_REFERENCIA = (
     r"C:\Users\Jeferson\OneDrive - Cloud Integration Hub"
@@ -276,24 +374,15 @@ RUTA_REFERENCIA = (
     reason="Archivo de referencia SAS no disponible en esta máquina",
 )
 class TestValidacionNumerica:
-    """Tarea 41 — Validación numérica outputs Python vs SAS (tolerancia < 0.01%)."""
+    """Validación numérica outputs Python vs SAS (tolerancia < 0.01%)."""
 
     @pytest.fixture(scope="class")
     def datos_reales(self):
-        """Carga los Parquets producidos por el pipeline completo."""
         return {
-            "td_total": pd.read_parquet(
-                "data/04_feature/td_total_variaciones.parquet"
-            ),
-            "td_abast": pd.read_parquet(
-                "data/04_feature/td_abast_fmt.parquet"
-            ),
-            "td_destino": pd.read_parquet(
-                "data/04_feature/td_destino_fmt.parquet"
-            ),
-            "td_otros": pd.read_parquet(
-                "data/04_feature/td_abast_otros_fmt.parquet"
-            ),
+            "td_total":  pd.read_parquet("data/04_feature/td_total_variaciones.parquet"),
+            "td_abast":  pd.read_parquet("data/04_feature/td_abast_fmt.parquet"),
+            "td_destino":pd.read_parquet("data/04_feature/td_destino_fmt.parquet"),
+            "td_otros":  pd.read_parquet("data/04_feature/td_abast_otros_fmt.parquet"),
         }
 
     @pytest.fixture(scope="class")
@@ -316,27 +405,24 @@ class TestValidacionNumerica:
         assert len(datos_reales["td_otros"]) == len(datos_sas["TD_Abast_Otros"])
 
     def test_abast_total_mes_actual_tolerancia(self, datos_reales, datos_sas):
-        """AbastTotal_MesActual debe diferir < 0.01% del SAS."""
-        py = datos_reales["td_total"].set_index("RArtículo_IPC")["AbastTotal_MesActual"]
+        py  = datos_reales["td_total"].set_index("RArtículo_IPC")["AbastTotal_MesActual"]
         sas = datos_sas["TD_Total"].set_index("RArtículo_IPC")["AbastTotal_MesActual"]
         diff_pct = ((py - sas).abs() / sas * 100).max()
         assert diff_pct < 0.01, f"Diferencia máxima: {diff_pct:.6f}%"
 
     def test_sum_ton_td_abast_tolerancia(self, datos_reales, datos_sas):
-        """Sum_Ton en TD_Abast por artículo debe diferir < 0.01%."""
-        py_sum = datos_reales["td_abast"].groupby("RArtículo_IPC")["Sum_Ton"].sum()
+        py_sum  = datos_reales["td_abast"].groupby("RArtículo_IPC")["Sum_Ton"].sum()
         sas_sum = datos_sas["TD_Abast"].groupby("RArtículo_IPC")["Sum_Ton"].sum()
-        diff = (py_sum - sas_sum).abs().max()
+        diff    = (py_sum - sas_sum).abs().max()
         assert diff < 0.01, f"Diferencia máxima Sum_Ton: {diff:.6f}"
 
     def test_participacion_td_abast_tolerancia(self, datos_reales, datos_sas):
-        """Participación en TD_Abast debe ser idéntica al SAS (misma fórmula)."""
-        py = datos_reales["td_abast"].set_index(
+        py  = datos_reales["td_abast"].set_index(
             ["RArtículo_IPC", "Departamento Proc."]
         )["Participación"]
         sas = datos_sas["TD_Abast"].set_index(
             ["RArtículo_IPC", "Departamento Proc."]
         )["Participación"]
         merged = py.to_frame("py").join(sas.to_frame("sas"), how="inner")
-        diff = (merged["py"] - merged["sas"]).abs().max()
+        diff   = (merged["py"] - merged["sas"]).abs().max()
         assert diff < 0.01, f"Diferencia máxima Participación: {diff:.6f}"

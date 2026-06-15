@@ -1,25 +1,25 @@
-"""Pipeline de limpieza - FASE 2."""
+"""Pipeline de preparación mensual — FASE 0."""
 from kedro.pipeline import Pipeline, node, pipeline
 
-from sipsa_ipc.pipelines.cleaning.nodes import limpiar_base
+from sipsa_ipc.pipelines.preparation.nodes import preparar_articulos_ipc
 
 
 def create_pipeline(**kwargs) -> Pipeline:
     return pipeline(
         [
             node(
-                func=limpiar_base,
+                func=preparar_articulos_ipc,
                 inputs=[
-                    "base_sipsa_bronze",
-                    "articulos_ipc_actualizado",
+                    "params:archivo_entrada",
                     "params:mes_actual_nombre",
                     "params:mes_anterior_nombre",
                     "params:anio_actual",
                     "params:anio_anterior",
+                    "params:articulos_ipc",
                 ],
-                outputs="base_sipsa_clean",
-                name="limpiar_base",
-                tags=["cleaning", "f2"],
+                outputs="articulos_ipc_actualizado",
+                name="preparar_articulos_ipc",
+                tags=["preparation", "f0"],
             ),
         ]
     )
