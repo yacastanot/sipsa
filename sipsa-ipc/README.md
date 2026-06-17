@@ -18,7 +18,7 @@ Para iniciar la API REST:
 
 ```cmd
 scripts\iniciar_api.bat
-# Documentación interactiva: http://localhost:8000/docs
+# Interfaz web disponible en: http://localhost:8000
 ```
 
 ## Requisitos

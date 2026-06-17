@@ -16,7 +16,6 @@ echo   SIPSA IPC - API REST
 echo  ======================================
 echo.
 echo  URL:  http://localhost:8000
-echo  Docs: http://localhost:8000/docs
 echo.
 echo  Presionar Ctrl+C para detener la API
 echo  ======================================

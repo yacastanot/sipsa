@@ -93,7 +93,6 @@ async def root():
     return {
         "api": "SIPSA IPC",
         "version": "1.0.0",
-        "docs": "/docs",
         "estado": "activo",
     }
 
