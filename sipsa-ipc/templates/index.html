@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SIPSA IPC — Pipeline mensual</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #f0f4f8;
+      color: #1a202c;
+      min-height: 100vh;
+    }
+    header {
+      background: #1e3a5f;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+    header .logo { font-size: 1.25rem; font-weight: 700; letter-spacing: 0.05em; }
+    header .tagline { font-size: 0.8rem; color: #93c5fd; margin-top: 0.1rem; }
+    header .badge {
+      margin-left: auto;
+      font-size: 0.75rem;
+      background: rgba(255,255,255,0.12);
+      padding: 0.3rem 0.75rem;
+      border-radius: 20px;
+      color: #bfdbfe;
+      letter-spacing: 0.03em;
+    }
+
+    .container { max-width: 800px; margin: 2rem auto; padding: 0 1rem 3rem; }
+
+    /* Cards */
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    }
+    .card-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .step {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px; height: 22px;
+      background: #2563eb;
+      color: white;
+      border-radius: 50%;
+      font-size: 0.7rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .step.done { background: #1d4ed8; }
+
+    /* Upload zone */
+    .upload-zone {
+      border: 2px dashed #d1d5db;
+      border-radius: 8px;
+      padding: 1.75rem 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+    }
+    .upload-zone:hover, .upload-zone.dragover {
+      border-color: #2563eb;
+      background: #eff6ff;
+    }
+    .upload-zone input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer;
+    }
+    .upload-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+    .upload-zone p { color: #6b7280; font-size: 0.85rem; }
+    .upload-zone .upload-hint { font-size: 0.75rem; color: #9ca3af; margin-top: 0.25rem; }
+    .upload-zone .uploaded-name {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #1e40af;
+    }
+
+    /* Form fields */
+    .form-row { display: flex; gap: 1rem; }
+    .form-group { flex: 1; }
+    label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 0.3rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    select, input[type="number"], input[type="text"] {
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      background: white;
+      color: #1f2937;
+      transition: border-color 0.2s;
+    }
+    select:focus, input:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
+    }
+    .form-hint { font-size: 0.7rem; color: #9ca3af; margin-top: 0.25rem; }
+
+    /* Computed badges */
+    .computed-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.5rem;
+      margin: 1rem 0;
+    }
+    .computed-badge {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 6px;
+      padding: 0.45rem 0.75rem;
+      font-size: 0.78rem;
+      color: #1e40af;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .computed-badge span { color: #374151; font-size: 0.7rem; }
+    .computed-badge b { font-family: monospace; font-size: 0.82rem; }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.4rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .btn:active { transform: scale(0.98); }
+    .btn-primary { background: #2563eb; color: white; }
+    .btn-primary:hover:not(:disabled) { background: #1d4ed8; }
+    .btn-primary:disabled { background: #9ca3af; cursor: not-allowed; transform: none; }
+    .btn-secondary { background: #e5e7eb; color: #374151; }
+    .btn-secondary:hover { background: #d1d5db; }
+    .btn-danger { background: #fee2e2; color: #991b1b; }
+    .btn-danger:hover { background: #fecaca; }
+    .btn-danger:disabled { background: #f3f4f6; color: #9ca3af; cursor: not-allowed; transform: none; }
+    .btn-wide { width: 100%; justify-content: center; margin-top: 0.75rem; }
+
+    /* Status bar */
+    .status-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.6rem 0.9rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      margin-bottom: 0.75rem;
+    }
+    .status-idle    { background: #f3f4f6; color: #6b7280; }
+    .status-running { background: #eff6ff; color: #1d4ed8; }
+    .status-success { background: #f0fdf4; color: #166534; }
+    .status-error   { background: #fef2f2; color: #b91c1c; }
+    .spinner {
+      width: 14px; height: 14px;
+      border: 2px solid currentColor;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      flex-shrink: 0;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Alert message */
+    .alert {
+      padding: 0.6rem 0.9rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      margin-bottom: 0.75rem;
+      display: none;
+    }
+    .alert-success { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+    .alert-error   { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+
+    /* Log terminal */
+    .log-box {
+      background: #111827;
+      border-radius: 8px;
+      padding: 0.875rem 1rem;
+      height: 340px;
+      overflow-y: auto;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 0.775rem;
+      line-height: 1.55;
+      color: #e5e7eb;
+    }
+    .log-box .log-line { white-space: pre-wrap; word-break: break-all; }
+    .log-box .log-line.success { color: #6ee7b7; font-weight: 600; }
+    .log-box .log-line.error   { color: #fca5a5; font-weight: 600; }
+    .log-box .log-line.warning { color: #fcd34d; }
+    .log-box .log-line.info    { color: #93c5fd; }
+    .log-placeholder { color: #4b5563; font-style: italic; }
+
+    /* Pipeline dropdown */
+    .run-row {
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-end;
+    }
+    .run-row .form-group { flex: 1; }
+    .run-row .btn { flex-shrink: 0; padding-bottom: 0.55rem; padding-top: 0.55rem; }
+
+    /* Output files */
+    .output-list { display: flex; flex-direction: column; gap: 0.5rem; }
+    .output-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 0.9rem;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+    }
+    .output-item .filename { font-size: 0.82rem; font-weight: 500; color: #1f2937; word-break: break-all; }
+    .output-item .btn-dl {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem 0.75rem;
+      background: #2563eb;
+      color: white;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .output-item .btn-dl:hover { background: #1d4ed8; }
+    .empty-msg { font-size: 0.82rem; color: #9ca3af; font-style: italic; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="logo">SIPSA IPC</div>
+    <div class="tagline">Pipeline mensual — 29 artículos de la canasta IPC</div>
+  </div>
+  <div class="badge">Período: <b id="headerPeriodo">{{ config.mes_actual_nombre }} {{ config.anio_actual }}</b></div>
+</header>
+
+<div class="container">
+
+  <!-- ── PASO 1: Cargar archivo ──────────────────────────────────────────── -->
+  <div class="card">
+    <div class="card-title">
+      <span class="step" id="step1Badge">1</span>
+      Cargar archivo Excel de alimentos priorizados
+    </div>
+    <div class="upload-zone" id="uploadZone">
+      <input type="file" id="fileInput" accept=".xlsx,.xls" />
+      <div class="upload-icon">📂</div>
+      <p>Arrastra el archivo aquí o haz clic para seleccionarlo</p>
+      <p class="upload-hint">Archivo mensual SIPSA — Alimentos priorizados {mes}{anio}_SIPSA.xlsx</p>
+      <p class="uploaded-name" id="uploadedName" style="display:none;"></p>
+    </div>
+    <div id="uploadMsg" style="margin-top:0.6rem; font-size:0.8rem; color:#6b7280; display:none;"></div>
+  </div>
+
+  <!-- ── PASO 2: Configurar período ─────────────────────────────────────── -->
+  <div class="card">
+    <div class="card-title">
+      <span class="step" id="step2Badge">2</span>
+      Configurar período de procesamiento
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="mesSelect">Mes actual</label>
+        <select id="mesSelect" onchange="actualizarComputed()">
+          <option value="1"  {% if mes_num == 1  %}selected{% endif %}>01 — Enero</option>
+          <option value="2"  {% if mes_num == 2  %}selected{% endif %}>02 — Febrero</option>
+          <option value="3"  {% if mes_num == 3  %}selected{% endif %}>03 — Marzo</option>
+          <option value="4"  {% if mes_num == 4  %}selected{% endif %}>04 — Abril</option>
+          <option value="5"  {% if mes_num == 5  %}selected{% endif %}>05 — Mayo</option>
+          <option value="6"  {% if mes_num == 6  %}selected{% endif %}>06 — Junio</option>
+          <option value="7"  {% if mes_num == 7  %}selected{% endif %}>07 — Julio</option>
+          <option value="8"  {% if mes_num == 8  %}selected{% endif %}>08 — Agosto</option>
+          <option value="9"  {% if mes_num == 9  %}selected{% endif %}>09 — Septiembre</option>
+          <option value="10" {% if mes_num == 10 %}selected{% endif %}>10 — Octubre</option>
+          <option value="11" {% if mes_num == 11 %}selected{% endif %}>11 — Noviembre</option>
+          <option value="12" {% if mes_num == 12 %}selected{% endif %}>12 — Diciembre</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="anioInput">Año</label>
+        <input type="number" id="anioInput" min="2020" max="2040"
+               value="{{ anio }}" oninput="actualizarComputed()" />
+      </div>
+    </div>
+
+    <div class="computed-grid">
+      <div class="computed-badge"><span>Mes actual</span><b id="cMesActual">{{ config.mes_actual_nombre }}</b></div>
+      <div class="computed-badge"><span>Mes anterior</span><b id="cMesAnterior">{{ config.mes_anterior_nombre }}</b></div>
+      <div class="computed-badge"><span>Año actual</span><b id="cAnioActual">{{ config.anio_actual }}</b></div>
+      <div class="computed-badge"><span>Año anterior</span><b id="cAnioAnterior">{{ config.anio_anterior }}</b></div>
+    </div>
+
+    <div class="alert" id="configAlert"></div>
+    <button class="btn btn-primary btn-wide" onclick="configurar()">
+      ✔ Aplicar configuración
+    </button>
+  </div>
+
+  <!-- ── PASO 3: Ejecutar pipeline ──────────────────────────────────────── -->
+  <div class="card">
+    <div class="card-title">
+      <span class="step" id="step3Badge">3</span>
+      Ejecutar pipeline
+    </div>
+    <div class="status-bar status-idle" id="statusBar">
+      <span id="statusIcon">⏸</span>
+      <span id="statusText">Listo para ejecutar</span>
+    </div>
+    <div class="run-row">
+      <div class="form-group">
+        <label for="pipelineSelect">Pipeline</label>
+        <select id="pipelineSelect">
+          {% for name, label in pipelines %}
+          <option value="{{ name }}">{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <button class="btn btn-primary" id="runBtn" onclick="ejecutar()">
+        ▶ Ejecutar
+      </button>
+    </div>
+  </div>
+
+  <!-- ── Registro de ejecución ──────────────────────────────────────────── -->
+  <div class="card">
+    <div class="card-title">📋 Registro de ejecución</div>
+    <div class="log-box" id="logBox">
+      <span class="log-placeholder">Los logs aparecerán aquí durante la ejecución…</span>
+    </div>
+  </div>
+
+  <!-- ── Archivos generados ─────────────────────────────────────────────── -->
+  <div class="card">
+    <div class="card-title">
+      <span class="step done">✓</span>
+      Archivos generados
+    </div>
+    <div class="output-list" id="outputList">
+      <span class="empty-msg">Aún no hay archivos generados.</span>
+    </div>
+    <div style="display:flex; gap:0.5rem; margin-top:0.75rem;">
+      <button class="btn btn-secondary" style="font-size:0.8rem;" onclick="cargarOutputs()">
+        ↻ Actualizar lista
+      </button>
+      <button class="btn btn-danger" style="font-size:0.8rem;" id="btnLimpiar" onclick="limpiarOutputs()">
+        🗑 Limpiar archivos
+      </button>
+    </div>
+    <div id="limpiarMsg" style="display:none; margin-top:0.5rem; font-size:0.8rem; color:#6b7280;"></div>
+  </div>
+
+</div>
+
+<script>
+const MESES_NOMBRE = [
+  'Enero','Febrero','Marzo','Abril','Mayo','Junio',
+  'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'
+];
+
+const uploadZone   = document.getElementById('uploadZone');
+const fileInput    = document.getElementById('fileInput');
+const uploadedName = document.getElementById('uploadedName');
+const uploadMsg    = document.getElementById('uploadMsg');
+const mesSelect    = document.getElementById('mesSelect');
+const anioInput    = document.getElementById('anioInput');
+const configAlert  = document.getElementById('configAlert');
+const runBtn       = document.getElementById('runBtn');
+const pipelineSelect = document.getElementById('pipelineSelect');
+const statusBar    = document.getElementById('statusBar');
+const statusIcon   = document.getElementById('statusIcon');
+const statusText   = document.getElementById('statusText');
+const logBox       = document.getElementById('logBox');
+const outputList   = document.getElementById('outputList');
+
+// ── Drag & drop ───────────────────────────────────────────────────────────
+uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('dragover'); });
+uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+uploadZone.addEventListener('drop', e => {
+  e.preventDefault();
+  uploadZone.classList.remove('dragover');
+  const f = e.dataTransfer.files[0];
+  if (f) manejarArchivo(f);
+});
+fileInput.addEventListener('change', () => { if (fileInput.files[0]) manejarArchivo(fileInput.files[0]); });
+
+async function manejarArchivo(file) {
+  if (!file.name.match(/\.(xlsx|xls)$/i)) {
+    alert('Solo se aceptan archivos Excel (.xlsx o .xls)');
+    return;
+  }
+  uploadMsg.style.display = 'block';
+  uploadMsg.textContent = '⏳ Subiendo…';
+  const fd = new FormData();
+  fd.append('file', file);
+  try {
+    const res = await fetch('/upload', { method: 'POST', body: fd });
+    if (!res.ok) throw new Error((await res.json()).detail || res.statusText);
+    const data = await res.json();
+    uploadedName.textContent = `✔ ${data.filename}  (${data.size_kb} KB)`;
+    uploadedName.style.display = 'block';
+    uploadMsg.textContent = '';
+    document.getElementById('step1Badge').classList.add('done');
+    document.getElementById('step1Badge').textContent = '✓';
+  } catch(e) {
+    uploadMsg.textContent = '❌ Error: ' + e.message;
+  }
+}
+
+// ── Computed values ───────────────────────────────────────────────────────
+function actualizarComputed() {
+  const m    = parseInt(mesSelect.value);
+  const y    = parseInt(anioInput.value) || 2026;
+  const ant  = m === 1 ? 12 : m - 1;
+  const yAnt = m === 1 ? y - 1 : y;
+
+  document.getElementById('cMesActual').textContent   = MESES_NOMBRE[m - 1];
+  document.getElementById('cMesAnterior').textContent = MESES_NOMBRE[ant - 1];
+  document.getElementById('cAnioActual').textContent  = y;
+  document.getElementById('cAnioAnterior').textContent = yAnt;
+}
+actualizarComputed();
+
+// ── Configurar período ────────────────────────────────────────────────────
+async function configurar() {
+  const mes_num = parseInt(mesSelect.value);
+  const anio    = parseInt(anioInput.value);
+  if (!anio) { showAlert('config', 'error', 'Ingresa un año válido'); return; }
+
+  ocultarAlert('config');
+  try {
+    const res = await fetch('/configure', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mes_num, anio }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || res.statusText);
+
+    document.getElementById('headerPeriodo').textContent =
+      data.mes_actual_nombre + ' ' + data.anio_actual;
+
+    showAlert('config', 'success',
+      `✔ Período actualizado — ${data.mes_actual_nombre} ${data.anio_actual} (ant: ${data.mes_anterior_nombre} ${data.anio_anterior})`);
+    document.getElementById('step2Badge').classList.add('done');
+    document.getElementById('step2Badge').textContent = '✓';
+  } catch(e) {
+    showAlert('config', 'error', '❌ ' + e.message);
+  }
+}
+
+// ── Ejecutar pipeline ─────────────────────────────────────────────────────
+async function ejecutar() {
+  const pipeline = pipelineSelect.value;
+  setStatus('running');
+  runBtn.disabled = true;
+  limpiarLog();
+  addLog(`▶ Iniciando "${pipelineSelect.options[pipelineSelect.selectedIndex].text}"`, 'info');
+
+  const fd = new FormData();
+  fd.append('pipeline_name', pipeline);
+
+  try {
+    const res = await fetch('/run', { method: 'POST', body: fd });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.detail || res.statusText);
+    }
+
+    const reader  = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer    = '';
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      const parts = buffer.split('\n\n');
+      buffer = parts.pop();
+      for (const part of parts) {
+        for (const line of part.split('\n')) {
+          if (!line.startsWith('data: ')) continue;
+          const msg = line.slice(6);
+          if (msg === '__SUCCESS__') {
+            addLog('✔ Pipeline completado exitosamente.', 'success');
+            setStatus('success');
+            await cargarOutputs();
+          } else if (msg.startsWith('__ERROR__')) {
+            addLog('✖ Error: ' + msg.slice(9), 'error');
+            setStatus('error');
+          } else if (msg.trim()) {
+            addLog(msg);
+          }
+        }
+      }
+    }
+  } catch(e) {
+    addLog('✖ ' + e.message, 'error');
+    setStatus('error');
+  } finally {
+    runBtn.disabled = false;
+  }
+}
+
+// ── Helpers de log ────────────────────────────────────────────────────────
+function limpiarLog() { logBox.innerHTML = ''; }
+
+function addLog(text, cls) {
+  if (!cls) {
+    if (/\b(ERROR|CRITICAL|Traceback|Exception)\b/i.test(text)) cls = 'error';
+    else if (/\bWARN(ING)?\b/i.test(text)) cls = 'warning';
+    else if (/\b(INFO|kedro\.)\b/.test(text)) cls = 'info';
+  }
+  const div = document.createElement('div');
+  div.className = 'log-line' + (cls ? ' ' + cls : '');
+  div.textContent = text;
+  logBox.appendChild(div);
+  logBox.scrollTop = logBox.scrollHeight;
+}
+
+// ── Estado ────────────────────────────────────────────────────────────────
+function setStatus(state) {
+  statusBar.className = 'status-bar status-' + state;
+  const map = {
+    idle:    ['⏸', 'Listo para ejecutar'],
+    running: ['', 'Ejecutando…'],
+    success: ['✔', 'Pipeline completado exitosamente'],
+    error:   ['✖', 'El pipeline terminó con errores — revisa el log'],
+  };
+  const [icon, text] = map[state] || map.idle;
+  statusIcon.innerHTML = state === 'running' ? '<div class="spinner"></div>' : icon;
+  statusText.textContent = text;
+}
+
+// ── Alertas ───────────────────────────────────────────────────────────────
+function showAlert(id, type, msg) {
+  const el = document.getElementById(id + 'Alert');
+  el.className = 'alert alert-' + type;
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+function ocultarAlert(id) {
+  const el = document.getElementById(id + 'Alert');
+  el.style.display = 'none';
+}
+
+// ── Outputs ───────────────────────────────────────────────────────────────
+async function cargarOutputs() {
+  try {
+    const res  = await fetch('/outputs');
+    const data = await res.json();
+    if (!data.files.length) {
+      outputList.innerHTML = '<span class="empty-msg">Aún no hay archivos generados.</span>';
+      return;
+    }
+    outputList.innerHTML = '';
+    for (const f of data.files) {
+      const item = document.createElement('div');
+      item.className = 'output-item';
+      item.innerHTML = `
+        <span class="filename">📊 ${f}</span>
+        <a class="btn-dl" href="/download/${encodeURIComponent(f)}" download>⬇ Descargar</a>`;
+      outputList.appendChild(item);
+    }
+  } catch(e) { /* silencioso */ }
+}
+
+async function limpiarOutputs() {
+  const btn = document.getElementById('btnLimpiar');
+  const msg = document.getElementById('limpiarMsg');
+  if (!confirm('¿Eliminar todos los archivos Excel generados en data/08_reporting/?\nEsta acción no se puede deshacer.')) return;
+  btn.disabled = true;
+  btn.textContent = 'Eliminando…';
+  msg.style.display = 'none';
+  try {
+    const res  = await fetch('/outputs', { method: 'DELETE' });
+    const data = await res.json();
+    msg.textContent = data.deleted > 0
+      ? `✓ Se eliminaron ${data.deleted} archivo(s).`
+      : 'No había archivos para eliminar.';
+    msg.style.display = 'block';
+    cargarOutputs();
+  } catch(e) {
+    msg.textContent = 'Error al limpiar los archivos.';
+    msg.style.display = 'block';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '🗑 Limpiar archivos';
+  }
+}
+
+// Inicializar
+cargarOutputs();
+</script>
+</body>
+</html>
