@@ -1,7 +1,7 @@
-"""Pipeline de formato, normalización y ordenamiento — FASE 6."""
+﻿"""Pipeline de formato, normalización y ordenamiento — FASE 6."""
 from kedro.pipeline import Pipeline, node, pipeline
 
-from sipsa_ipc.pipelines.formatting.nodes import (
+from sipsa_abastecimiento.pipelines.formatting.nodes import (
     formatear_td_abast,
     formatear_td_abast_otros,
     formatear_td_destino,

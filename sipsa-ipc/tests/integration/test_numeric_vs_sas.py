@@ -1,4 +1,4 @@
-"""T51 — Comparación numérica completa Python vs SAS.
+﻿"""T51 — Comparación numérica completa Python vs SAS.
 
 Verifica que los archivos Excel generados por el pipeline Python son
 bit-a-bit equivalentes al output de referencia producido por el programa
@@ -31,8 +31,8 @@ _PROJECT_ROOT = Path(__file__).parents[2]
 _PY_DIR = _PROJECT_ROOT / "data" / "08_reporting"
 
 _FECHA = "20250502"
-_SAS_FILE = _SAS_DIR / f"SIPSA_IPC_{_FECHA}.xlsx"
-_PY_FILE = _PY_DIR / f"SIPSA_IPC_{_FECHA}.xlsx"
+_SAS_FILE = _SAS_DIR / f"sipsa_abastecimiento_{_FECHA}.xlsx"
+_PY_FILE = _PY_DIR / f"sipsa_abastecimiento_{_FECHA}.xlsx"
 
 # Tolerancia relativa máxima aceptable (0.01 %)
 _TOL_PCT = 0.01

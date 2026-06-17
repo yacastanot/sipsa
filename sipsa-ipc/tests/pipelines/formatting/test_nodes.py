@@ -1,10 +1,10 @@
-"""Tests unitarios — FASE 6: Formato, Normalización y Ordenamiento."""
+﻿"""Tests unitarios — FASE 6: Formato, Normalización y Ordenamiento."""
 from __future__ import annotations
 
 import pandas as pd
 import pytest
 
-from sipsa_ipc.pipelines.formatting.nodes import (
+from sipsa_abastecimiento.pipelines.formatting.nodes import (
     _CORRECCIONES_DEPTOS,
     _CORRECCIONES_PAISES,
     _propcase_es,

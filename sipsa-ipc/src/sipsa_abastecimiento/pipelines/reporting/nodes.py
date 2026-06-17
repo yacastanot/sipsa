@@ -1,8 +1,8 @@
-"""Nodos del pipeline de generación de reportes — FASE 7.
+﻿"""Nodos del pipeline de generación de reportes — FASE 7.
 
 Produce tres salidas:
 
-  T38  SIPSA_IPC_YYYYMMDD.xlsx       — 5 hojas: TD_Total, TD_Abast, TD_Destino,
+  T38  sipsa_abastecimiento_YYYYMMDD.xlsx       — 5 hojas: TD_Total, TD_Abast, TD_Destino,
                                          TD_Abast_Otros, TREF_Productos.
                                          TD_Abast incluye Proc_Part y Descr_pegar (col 9).
                                          TD_Destino incluye Ciudad_Part y Descr_pegar (col 8).
@@ -172,9 +172,9 @@ def _aplicar_formato_articulos_ipc(ws, n_filas: int) -> None:
                 cell.font = Font(name="Calibri", size=11)
 
 
-# ─── T38: SIPSA_IPC_YYYYMMDD.xlsx ─────────────────────────────────────────────
+# ─── T38: sipsa_abastecimiento_YYYYMMDD.xlsx ─────────────────────────────────────────────
 
-def exportar_sipsa_ipc(
+def exportar_sipsa_abastecimiento(
     td_total_variaciones: pd.DataFrame,
     td_abast_fmt: pd.DataFrame,
     td_destino_fmt: pd.DataFrame,
@@ -183,7 +183,7 @@ def exportar_sipsa_ipc(
     fecha_proceso: str,
     ruta_reporting: str,
 ) -> pd.DataFrame:
-    """Genera SIPSA_IPC_YYYYMMDD.xlsx con 5 hojas, compatible con FORMATO_SIPSA_IPC.xlsm.
+    """Genera sipsa_abastecimiento_YYYYMMDD.xlsx con 5 hojas, compatible con FORMATO_SIPSA_IPC.xlsm.
 
     TD_Abast incluye las columnas ``Proc_Part`` (texto por fila) y ``Descr_pegar``
     (texto completo del artículo en col 9), que el macro VBA "PEGAR DATOS" lee para
@@ -205,7 +205,7 @@ def exportar_sipsa_ipc(
         DataFrame de una fila con metadatos del archivo exportado.
     """
     Path(ruta_reporting).mkdir(parents=True, exist_ok=True)
-    filepath = Path(ruta_reporting) / f"SIPSA_IPC_{fecha_proceso}.xlsx"
+    filepath = Path(ruta_reporting) / f"SIPSA_ABASTECIMIENTO_{fecha_proceso}.xlsx"
 
     td_abast_xlsm   = _agregar_cols_abast(td_abast_fmt, td_abast_otros_fmt)
     td_destino_xlsm = _agregar_cols_destino(td_destino_fmt)
@@ -225,7 +225,7 @@ def exportar_sipsa_ipc(
 
     filas_total = sum(len(df) for df in hojas.values())
     log.info(
-        "exportar_sipsa_ipc OK | archivo=%s | hojas=%d | filas_totales=%d | tref_articulos=%d",
+        "exportar_sipsa_abastecimiento OK | archivo=%s | hojas=%d | filas_totales=%d | tref_articulos=%d",
         filepath.name, len(hojas) + 1, filas_total, len(tref),
     )
     return pd.DataFrame([{

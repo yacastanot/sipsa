@@ -1,9 +1,9 @@
-"""Pipeline de generación de reportes — FASE 7."""
+﻿"""Pipeline de generación de reportes — FASE 7."""
 from kedro.pipeline import Pipeline, node, pipeline
 
-from sipsa_ipc.pipelines.reporting.nodes import (
+from sipsa_abastecimiento.pipelines.reporting.nodes import (
     exportar_alimentos_priorizados,
-    exportar_sipsa_ipc,
+    exportar_sipsa_abastecimiento,
     guardar_historico,
 )
 
@@ -12,7 +12,7 @@ def create_pipeline(**kwargs) -> Pipeline:
     return pipeline(
         [
             node(
-                func=exportar_sipsa_ipc,
+                func=exportar_sipsa_abastecimiento,
                 inputs=[
                     "td_total_variaciones",
                     "td_abast_fmt",
@@ -22,8 +22,8 @@ def create_pipeline(**kwargs) -> Pipeline:
                     "params:fecha_proceso",
                     "params:ruta_reporting",
                 ],
-                outputs="metadata_sipsa_ipc",
-                name="exportar_sipsa_ipc",
+                outputs="metadata_sipsa_abastecimiento",
+                name="exportar_sipsa_abastecimiento",
                 tags=["reporting", "f7"],
             ),
             node(

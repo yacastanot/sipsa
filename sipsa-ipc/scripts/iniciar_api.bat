@@ -1,7 +1,7 @@
-@echo off
+﻿@echo off
 :: ============================================================
-:: SIPSA IPC - Iniciar API REST
-:: Ejecutar desde la raiz del proyecto sipsa-ipc
+:: SIPSA-Abastecimiento - Iniciar API REST
+:: Ejecutar desde la raiz del proyecto SIPSA-Abastecimiento
 :: La API queda disponible en http://localhost:8000
 :: ============================================================
 setlocal enabledelayedexpansion
@@ -12,7 +12,7 @@ set "PYTHON=%PROJ%\.venv\Scripts\python.exe"
 
 echo.
 echo  ======================================
-echo   SIPSA IPC - API REST
+echo   SIPSA-Abastecimiento - API REST
 echo  ======================================
 echo.
 echo  URL:  http://localhost:8000
@@ -37,4 +37,4 @@ if exist "%PROJ%\.env" (
 )
 
 cd /d "%PROJ%"
-start "SIPSA IPC API" "%UVICORN%" app:app --host 0.0.0.0 --port 8000 --reload
+start "SIPSA-Abastecimiento API" "%UVICORN%" app:app --host 0.0.0.0 --port 8000 --reload

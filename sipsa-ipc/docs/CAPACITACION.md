@@ -1,4 +1,4 @@
-# Material de Capacitación — SIPSA IPC Python/Kedro
+﻿# Material de Capacitación — SIPSA-Abastecimiento Python/Kedro
 
 **Dirigido a:** Equipo técnico SIPSA — DANE  
 **Duración estimada:** 2 horas  

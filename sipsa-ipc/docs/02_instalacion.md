@@ -1,4 +1,4 @@
-# Instalación — SIPSA IPC
+﻿# Instalación — SIPSA-Abastecimiento
 
 **S.O.:** Windows 10/11
 
@@ -30,7 +30,7 @@ Ejecutar en **CMD como Administrador** en el servidor.
 
 ```cmd
 git clone https://github.com/yacastanot/sipsa.git
-cd sipsa\sipsa-ipc
+cd sipsa\SIPSA-Abastecimiento
 ```
 
 ### 2. Crear el entorno virtual
@@ -137,7 +137,7 @@ scripts\iniciar_api.bat
 
 1. Abrir **Programador de tareas** (`taskschd.msc`)
 2. Crear tarea básica:
-   - Nombre: `SIPSA IPC API`
+   - Nombre: `SIPSA-Abastecimiento API`
    - Desencadenador: Al iniciar el equipo
    - Programa: `<ruta_proyecto>\scripts\iniciar_api.bat`
    - Inicio en: `<ruta_proyecto>`
@@ -157,7 +157,7 @@ curl http://localhost:8000/health
 
 ```cmd
 git pull origin main
-cd sipsa-ipc
+cd SIPSA-Abastecimiento
 .venv\Scripts\pip.exe install -e ".[dev]" --quiet
 ```
 
@@ -171,7 +171,7 @@ Para acceso desde otros equipos de la red DANE:
 
 ```cmd
 netsh advfirewall firewall add rule ^
-  name="SIPSA IPC API" ^
+  name="SIPSA-Abastecimiento API" ^
   dir=in action=allow protocol=TCP localport=8000
 ```
 

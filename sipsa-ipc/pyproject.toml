@@ -1,17 +1,17 @@
 [tool.kedro]
-package_name = "sipsa_ipc"
-project_name = "sipsa-ipc"
+package_name = "sipsa_abastecimiento"
+project_name = "sipsa-abastecimiento"
 kedro_init_version = "0.19.15"
 source_dir = "src"
 
 [tool.pytest.ini_options]
-addopts = "--cov-report term-missing --cov src/sipsa_ipc -ra"
+addopts = "--cov-report term-missing --cov src/sipsa_abastecimiento -ra"
 testpaths = ["tests"]
 
 [project]
-name = "sipsa-ipc"
+name = "sipsa-abastecimiento"
 version = "0.1.0"
-description = "Migración SIPSA IPC: procesamiento mensual de abastecimiento de alimentos IPC"
+description = "Migración SIPSA Abastecimiento: procesamiento mensual de abastecimiento de alimentos"
 requires-python = ">=3.9"
 dependencies = [
     "kedro>=0.19.0,<1.0",
@@ -33,4 +33,4 @@ dev = [
 ]
 
 [tool.kedro_telemetry]
-project_id = "sipsa-ipc-local"
+project_id = "sipsa-abastecimiento-local"

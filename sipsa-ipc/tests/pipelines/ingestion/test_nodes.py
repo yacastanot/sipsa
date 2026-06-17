@@ -1,4 +1,4 @@
-"""Tests unitarios — pipeline de ingesta SIPSA IPC (F1).
+﻿"""Tests unitarios — pipeline de ingesta SIPSA IPC (F1).
 
 Cubre las tareas del cronograma:
   T6  — Nodo leer_base: importa DataFrame desde Excel/fixture y retorna bronze
@@ -18,8 +18,8 @@ from __future__ import annotations
 import pandas as pd
 import pytest
 
-from sipsa_ipc.pipelines.ingestion.nodes import _verificar_columnas, leer_base
-from sipsa_ipc.validations.schemas import COLUMNAS_REQUERIDAS, SCHEMA_RAW
+from sipsa_abastecimiento.pipelines.ingestion.nodes import _verificar_columnas, leer_base
+from sipsa_abastecimiento.validations.schemas import COLUMNAS_REQUERIDAS, SCHEMA_RAW
 
 
 # ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -59,7 +59,7 @@ def _base_real(n: int = 30) -> pd.DataFrame:
 def excel_valido(tmp_path):
     """Escribe un Excel temporal con la estructura real BASE SIPSA_A."""
     df = _base_real(30)
-    ruta = str(tmp_path / "Base_SIPSA_IPC_test.xlsx")
+    ruta = str(tmp_path / "Base_sipsa_abastecimiento_test.xlsx")
     df.to_excel(ruta, sheet_name="BASE SIPSA_A", index=False)
     return ruta
 

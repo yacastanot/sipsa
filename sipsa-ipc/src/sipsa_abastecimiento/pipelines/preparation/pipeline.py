@@ -1,7 +1,7 @@
-"""Pipeline de preparación mensual — FASE 0."""
+﻿"""Pipeline de preparación mensual — FASE 0."""
 from kedro.pipeline import Pipeline, node, pipeline
 
-from sipsa_ipc.pipelines.preparation.nodes import preparar_articulos_ipc
+from sipsa_abastecimiento.pipelines.preparation.nodes import preparar_articulos_ipc
 
 
 def create_pipeline(**kwargs) -> Pipeline:

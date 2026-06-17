@@ -1,10 +1,10 @@
-"""Tests unitarios — FASE 4: Pipeline de Agregación."""
+﻿"""Tests unitarios — FASE 4: Pipeline de Agregación."""
 from __future__ import annotations
 
 import pandas as pd
 import pytest
 
-from sipsa_ipc.pipelines.aggregation.nodes import (
+from sipsa_abastecimiento.pipelines.aggregation.nodes import (
     calcular_td_abast,
     calcular_td_abast_otros,
     calcular_td_destino,

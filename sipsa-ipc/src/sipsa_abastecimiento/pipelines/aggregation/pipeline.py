@@ -1,7 +1,7 @@
-"""Pipeline de agregación — FASE 4."""
+﻿"""Pipeline de agregación — FASE 4."""
 from kedro.pipeline import Pipeline, node, pipeline
 
-from sipsa_ipc.pipelines.aggregation.nodes import (
+from sipsa_abastecimiento.pipelines.aggregation.nodes import (
     calcular_td_abast,
     calcular_td_abast_otros,
     calcular_td_destino,

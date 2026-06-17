@@ -1,6 +1,6 @@
-# Módulos — SIPSA IPC
+﻿# Módulos — SIPSA-Abastecimiento
 
-Un bloque por archivo de `src/sipsa_ipc/`. Para cada módulo: propósito,
+Un bloque por archivo de `src/sipsa_abastecimiento/`. Para cada módulo: propósito,
 función principal, entradas/salidas y ejemplo de llamada entre módulos.
 
 ---
@@ -205,4 +205,4 @@ GET  /download/{file}   → descarga archivo de reporting
 DELETE /outputs         → limpia archivos generados
 ```
 
-Credenciales configuradas en `.env` con `SIPSA_IPC_USER` / `SIPSA_IPC_PASS`.
+Credenciales configuradas en `.env` con `SIPSA_ABAST_USER` / `SIPSA_ABAST_PASS`.

@@ -1,4 +1,4 @@
-"""T52 — Tests de integración: verificación del pipeline completo.
+﻿"""T52 — Tests de integración: verificación del pipeline completo.
 
 Dos niveles de prueba:
   1. Artefactos (rápido): verifica que los parquets y Excel de salida existen,
@@ -240,10 +240,10 @@ def test_variaciones_formato_colombiano():
 def test_kedro_run_completo():
     """Ejecuta `kedro run` completo y verifica que termina sin errores.
 
-    Requiere data/01_raw/Base_SIPSA_IPC_abr2025.xlsx en disco.
+    Requiere data/01_raw/Base_sipsa_abastecimiento_abr2025.xlsx en disco.
     Omitir con: pytest -m 'not slow'
     """
-    raw_input = _PROJECT_ROOT / "data/01_raw/Base_SIPSA_IPC_abr2025.xlsx"
+    raw_input = _PROJECT_ROOT / "data/01_raw/Base_sipsa_abastecimiento_abr2025.xlsx"
     if not raw_input.exists():
         pytest.skip(f"Archivo de entrada no disponible: {raw_input}")
 
@@ -270,7 +270,7 @@ def test_kedro_run_completo():
 @pytest.mark.slow
 def test_kedro_run_solo_cleaning():
     """Ejecuta únicamente el pipeline de limpieza y verifica la salida."""
-    raw_input = _PROJECT_ROOT / "data/01_raw/Base_SIPSA_IPC_abr2025.xlsx"
+    raw_input = _PROJECT_ROOT / "data/01_raw/Base_sipsa_abastecimiento_abr2025.xlsx"
     if not raw_input.exists():
         pytest.skip("Archivo de entrada no disponible")
 

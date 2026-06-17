@@ -17,12 +17,12 @@ handlers:
     class: logging.FileHandler
     level: DEBUG
     formatter: simple
-    filename: logs/sipsa_ipc.log
+    filename: logs/sipsa_abastecimiento.log
 
 loggers:
   kedro:
     level: INFO
-  sipsa_ipc:
+  sipsa_abastecimiento:
     level: DEBUG
 
 root:

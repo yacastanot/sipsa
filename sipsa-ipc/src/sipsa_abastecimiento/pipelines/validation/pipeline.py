@@ -1,7 +1,7 @@
-"""Pipeline de validación — FASE 3."""
+﻿"""Pipeline de validación — FASE 3."""
 from kedro.pipeline import Pipeline, node, pipeline
 
-from sipsa_ipc.pipelines.validation.nodes import (
+from sipsa_abastecimiento.pipelines.validation.nodes import (
     calcular_cobertura,
     filtrar_articulos_canasta,
     generar_no_mapeados,

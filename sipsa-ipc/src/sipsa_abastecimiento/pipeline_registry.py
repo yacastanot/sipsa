@@ -1,14 +1,14 @@
-"""Registro de pipelines del proyecto SIPSA IPC."""
+﻿"""Registro de pipelines del proyecto SIPSA-Abastecimiento."""
 from kedro.pipeline import Pipeline
 
-from sipsa_ipc.pipelines.aggregation.pipeline import create_pipeline as aggregation_pipeline
-from sipsa_ipc.pipelines.cleaning.pipeline import create_pipeline as cleaning_pipeline
-from sipsa_ipc.pipelines.comparison.pipeline import create_pipeline as comparison_pipeline
-from sipsa_ipc.pipelines.formatting.pipeline import create_pipeline as formatting_pipeline
-from sipsa_ipc.pipelines.ingestion.pipeline import create_pipeline as ingestion_pipeline
-from sipsa_ipc.pipelines.preparation.pipeline import create_pipeline as preparation_pipeline
-from sipsa_ipc.pipelines.reporting.pipeline import create_pipeline as reporting_pipeline
-from sipsa_ipc.pipelines.validation.pipeline import create_pipeline as validation_pipeline
+from sipsa_abastecimiento.pipelines.aggregation.pipeline import create_pipeline as aggregation_pipeline
+from sipsa_abastecimiento.pipelines.cleaning.pipeline import create_pipeline as cleaning_pipeline
+from sipsa_abastecimiento.pipelines.comparison.pipeline import create_pipeline as comparison_pipeline
+from sipsa_abastecimiento.pipelines.formatting.pipeline import create_pipeline as formatting_pipeline
+from sipsa_abastecimiento.pipelines.ingestion.pipeline import create_pipeline as ingestion_pipeline
+from sipsa_abastecimiento.pipelines.preparation.pipeline import create_pipeline as preparation_pipeline
+from sipsa_abastecimiento.pipelines.reporting.pipeline import create_pipeline as reporting_pipeline
+from sipsa_abastecimiento.pipelines.validation.pipeline import create_pipeline as validation_pipeline
 
 
 def register_pipelines() -> dict[str, Pipeline]:

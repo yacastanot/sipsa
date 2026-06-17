@@ -1,4 +1,4 @@
-"""Tests unitarios — FASE 5: Análisis Comparativo Interperiódico."""
+﻿"""Tests unitarios — FASE 5: Análisis Comparativo Interperiódico."""
 from __future__ import annotations
 
 import math
@@ -6,7 +6,7 @@ import math
 import pandas as pd
 import pytest
 
-from sipsa_ipc.pipelines.comparison.nodes import (
+from sipsa_abastecimiento.pipelines.comparison.nodes import (
     _formatear_variacion,
     _variacion_pct,
     calcular_variaciones,
@@ -14,7 +14,7 @@ from sipsa_ipc.pipelines.comparison.nodes import (
 
 # ─── fixture ──────────────────────────────────────────────────────────────────
 
-# Valores reales del Excel de referencia SAS — abril 2025 (SIPSA_IPC_20250502.xlsx)
+# Valores reales del Excel de referencia SAS — abril 2025 (sipsa_abastecimiento_20250502.xlsx)
 # para los primeros 3 artículos. Permite validación numérica exacta.
 REFERENCIA_SAS = [
     {

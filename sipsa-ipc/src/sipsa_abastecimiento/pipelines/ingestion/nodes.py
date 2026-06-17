@@ -1,4 +1,4 @@
-"""Nodos del pipeline de ingesta — FASE 1: Capa de Ingesta de Datos.
+﻿"""Nodos del pipeline de ingesta — FASE 1: Capa de Ingesta de Datos.
 
 SAS equivalente:
   proc import datafile="&entrada./&archivo." dbms=xlsx out=IPC replace;
@@ -21,7 +21,7 @@ import logging
 
 import pandas as pd
 
-from sipsa_ipc.validations.schemas import COLUMNAS_REQUERIDAS, SCHEMA_RAW
+from sipsa_abastecimiento.validations.schemas import COLUMNAS_REQUERIDAS, SCHEMA_RAW
 
 log = logging.getLogger(__name__)
 
@@ -65,7 +65,7 @@ def leer_base(archivo_entrada: str) -> pd.DataFrame:
 
     Args:
         archivo_entrada: Ruta relativa al proyecto del archivo Excel.
-                         Ej: "data/01_raw/Base_SIPSA_IPC_abr2025.xlsx"
+                         Ej: "data/01_raw/Base_sipsa_abastecimiento_abr2025.xlsx"
 
     Returns:
         DataFrame con las 18 columnas de BASE SIPSA_A, listo para F2.

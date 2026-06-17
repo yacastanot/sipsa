@@ -1,4 +1,4 @@
-"""FastAPI web app para ejecutar el pipeline SIPSA IPC.
+﻿"""FastAPI web app para ejecutar el pipeline SIPSA-Abastecimiento.
 
 Flujo mensual:
   - Carga del archivo Excel de alimentos priorizados
@@ -7,7 +7,7 @@ Flujo mensual:
   - Streaming de logs vía Server-Sent Events
   - Descarga de los XLSX de salida
 
-Credenciales: variables de entorno SIPSA_IPC_USER / SIPSA_IPC_PASS
+Credenciales: variables de entorno SIPSA_ABAST_USER / SIPSA_ABAST_PASS
   (por defecto: sipsa / cambiar_esta_clave)
 """
 from __future__ import annotations
@@ -58,7 +58,7 @@ PIPELINES: list[tuple[str, str]] = [
 
 # ── App ───────────────────────────────────────────────────────────────────────
 
-app = FastAPI(title="SIPSA IPC Pipeline", docs_url=None, redoc_url=None)
+app = FastAPI(title="SIPSA-Abastecimiento Pipeline", docs_url=None, redoc_url=None)
 templates = Jinja2Templates(directory=str(PROJECT_ROOT / "templates"))
 security = HTTPBasic()
 
@@ -68,8 +68,8 @@ _pipeline_running = False
 # ── Autenticación ─────────────────────────────────────────────────────────────
 
 def _check_auth(credentials: HTTPBasicCredentials = Depends(security)) -> str:
-    expected_user = os.environ.get("SIPSA_IPC_USER", "sipsa")
-    expected_pass = os.environ.get("SIPSA_IPC_PASS", "cambiar_esta_clave")
+    expected_user = os.environ.get("SIPSA_ABAST_USER", "sipsa")
+    expected_pass = os.environ.get("SIPSA_ABAST_PASS", "cambiar_esta_clave")
     user_ok = secrets.compare_digest(credentials.username.encode(), expected_user.encode())
     pass_ok = secrets.compare_digest(credentials.password.encode(), expected_pass.encode())
     if not (user_ok and pass_ok):

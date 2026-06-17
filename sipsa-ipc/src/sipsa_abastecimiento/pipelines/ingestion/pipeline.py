@@ -1,4 +1,4 @@
-"""Pipeline de ingesta — FASE 1: Capa de Ingesta de Datos.
+﻿"""Pipeline de ingesta — FASE 1: Capa de Ingesta de Datos.
 
 Grafo:
   params:archivo_entrada ──► [leer_base] ──► base_sipsa_bronze
@@ -8,7 +8,7 @@ La salida (bronze) se persiste en Parquet para F2 en adelante.
 """
 from kedro.pipeline import Pipeline, node, pipeline
 
-from sipsa_ipc.pipelines.ingestion.nodes import leer_base
+from sipsa_abastecimiento.pipelines.ingestion.nodes import leer_base
 
 
 def create_pipeline(**kwargs) -> Pipeline:

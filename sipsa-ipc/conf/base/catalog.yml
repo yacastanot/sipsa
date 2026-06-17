@@ -1,5 +1,5 @@
-# =============================================================================
-# SIPSA IPC — Catálogo de datos Kedro
+﻿# =============================================================================
+# SIPSA-Abastecimiento — Catálogo de datos Kedro
 # SAS equivalente: PROC IMPORT DATAFILE="&entrada./&archivo." DBMS=XLSX
 #                  OUT=IPC REPLACE; SHEET="BASE SIPSA_A"; GETNAMES=YES; RUN;
 # =============================================================================
@@ -88,9 +88,9 @@ td_abast_otros:
 
 # ─── CAPA F7: Generación de Reportes Excel ───────────────────────────────────
 # Metadatos de ejecución de cada exportación (filepath, filas, etc.)
-metadata_sipsa_ipc:
+metadata_sipsa_abastecimiento:
   type: pandas.ParquetDataset
-  filepath: data/08_reporting/metadata_sipsa_ipc.parquet
+  filepath: data/08_reporting/metadata_sipsa_abastecimiento.parquet
   save_args:
     index: false
 

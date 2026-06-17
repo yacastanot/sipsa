@@ -1,10 +1,10 @@
-"""Tests unitarios — FASE 3: Pipeline de Validación."""
+﻿"""Tests unitarios — FASE 3: Pipeline de Validación."""
 from __future__ import annotations
 
 import pandas as pd
 import pytest
 
-from sipsa_ipc.pipelines.validation.nodes import (
+from sipsa_abastecimiento.pipelines.validation.nodes import (
     calcular_cobertura,
     filtrar_articulos_canasta,
     generar_no_mapeados,

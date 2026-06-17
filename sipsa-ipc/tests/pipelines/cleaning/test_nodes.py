@@ -1,4 +1,4 @@
-"""Tests unitarios — pipeline de limpieza SIPSA IPC (F2).
+﻿"""Tests unitarios — pipeline de limpieza SIPSA IPC (F2).
 
 Cubre las tareas del cronograma:
   T11 — Estandarización texto (strip/compactar espacios)
@@ -15,7 +15,7 @@ from __future__ import annotations
 import pandas as pd
 import pytest
 
-from sipsa_ipc.pipelines.cleaning.nodes import (
+from sipsa_abastecimiento.pipelines.cleaning.nodes import (
     _crear_ciudad_y_central,
     _crear_cantidad_toneladas,
     _limpiar_divipola,

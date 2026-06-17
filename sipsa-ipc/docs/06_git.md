@@ -1,4 +1,4 @@
-# Git — Convenciones del equipo SIPSA IPC
+﻿# Git — Convenciones del equipo SIPSA-Abastecimiento
 
 ---
 

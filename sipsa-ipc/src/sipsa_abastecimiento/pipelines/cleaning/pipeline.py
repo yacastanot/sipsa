@@ -1,7 +1,7 @@
-"""Pipeline de limpieza - FASE 2."""
+﻿"""Pipeline de limpieza - FASE 2."""
 from kedro.pipeline import Pipeline, node, pipeline
 
-from sipsa_ipc.pipelines.cleaning.nodes import limpiar_base
+from sipsa_abastecimiento.pipelines.cleaning.nodes import limpiar_base
 
 
 def create_pipeline(**kwargs) -> Pipeline:

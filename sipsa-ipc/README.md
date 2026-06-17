@@ -1,4 +1,4 @@
-# sipsa-ipc
+﻿# SIPSA-Abastecimiento
 
 Pipeline mensual que transforma el snapshot SIPSA de precios y cantidades en las tablas
 de abastecimiento que alimentan el cálculo del IPC del DANE.

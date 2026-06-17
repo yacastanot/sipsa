@@ -1,4 +1,4 @@
-# Configuración — SIPSA IPC
+﻿# Configuración — SIPSA-Abastecimiento
 
 Todas las variables de configuración del proyecto. Hay dos fuentes:
 
@@ -19,16 +19,16 @@ notepad .env
 
 | Variable | Tipo | Valor por defecto | Descripción |
 |----------|------|------------------|-------------|
-| `SIPSA_IPC_USER` | string | `sipsa` | Usuario para acceder a la interfaz web. |
-| `SIPSA_IPC_PASS` | string | `cambiar_esta_clave` | Contraseña para acceder a la interfaz web. Cambiar antes de usar en producción. |
+| `SIPSA_ABAST_USER` | string | `sipsa` | Usuario para acceder a la interfaz web. |
+| `SIPSA_ABAST_PASS` | string | `cambiar_esta_clave` | Contraseña para acceder a la interfaz web. Cambiar antes de usar en producción. |
 
 El archivo `.env` está en `.gitignore` — nunca subir al repositorio.
 
 ### `.env.example` (plantilla sin valores reales)
 
 ```env
-SIPSA_IPC_USER=sipsa
-SIPSA_IPC_PASS=cambiar_esta_clave
+SIPSA_ABAST_USER=sipsa
+SIPSA_ABAST_PASS=cambiar_esta_clave
 ```
 
 ---

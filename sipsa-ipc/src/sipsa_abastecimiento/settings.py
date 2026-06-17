@@ -1,4 +1,4 @@
-"""Configuración del proyecto Kedro — SIPSA IPC."""
+﻿"""Configuración del proyecto Kedro — SIPSA-Abastecimiento."""
 from kedro.config import OmegaConfigLoader
 
 CONFIG_LOADER_CLASS = OmegaConfigLoader

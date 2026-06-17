@@ -1,7 +1,7 @@
-@echo off
+﻿@echo off
 :: ============================================================
-:: SIPSA IPC - Procesar mes actual
-:: Ejecutar desde la raiz del proyecto sipsa-ipc
+:: SIPSA-Abastecimiento - Procesar mes actual
+:: Ejecutar desde la raiz del proyecto SIPSA-Abastecimiento
 :: ============================================================
 setlocal
 
@@ -10,7 +10,7 @@ set "KEDRO=%PROJ%\.venv\Scripts\kedro.exe"
 
 echo.
 echo  ======================================
-echo   SIPSA IPC - Pipeline mensual
+echo   SIPSA-Abastecimiento - Pipeline mensual
 echo  ======================================
 echo.
 

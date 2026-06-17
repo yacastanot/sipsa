@@ -1,4 +1,4 @@
-# Flujo de datos — SIPSA IPC
+﻿# Flujo de datos — SIPSA-Abastecimiento
 
 De dónde vienen los datos, qué transformaciones sufren y dónde se almacenan.
 

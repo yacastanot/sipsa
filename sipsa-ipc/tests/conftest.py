@@ -1,4 +1,4 @@
-"""Configuración global de pytest para el proyecto SIPSA IPC.
+﻿"""Configuración global de pytest para el proyecto SIPSA-Abastecimiento.
 
 Marcadores disponibles:
   - slow        : pruebas que ejecutan el pipeline completo (~30s)

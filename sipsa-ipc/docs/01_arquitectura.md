@@ -1,4 +1,4 @@
-# Arquitectura — SIPSA IPC
+﻿# Arquitectura — SIPSA-Abastecimiento
 
 **Stack:** Python 3.13 · Kedro 0.19.15 · pandas 2.3 · FastAPI 0.115 · openpyxl 3.1  
 **Origen:** Migración de `SIPSA_A_MODELO_IPC.sas` (≈600 líneas SAS) + macros VBA
@@ -21,7 +21,7 @@ El pipeline es reproducible (mismos datos → mismo resultado), versionable en G
 ## Estructura del proyecto
 
 ```
-sipsa-ipc/
+SIPSA-Abastecimiento/
 ├── conf/base/
 │   ├── catalog.yml                  # Datasets Kedro (rutas de entrada/salida)
 │   ├── parameters.yml               # Parámetros mensuales (mes, año, archivo)
@@ -33,7 +33,7 @@ sipsa-ipc/
 │   ├── 03_primary/      # base_sipsa_clean.parquet, base_ipc_filtrada.parquet
 │   ├── 04_feature/      # td_total*.parquet, td_abast*.parquet, historico_td_total.parquet
 │   └── 08_reporting/    # T38, T39, COBERTURA.xlsx, No_mapeados_IPC.xlsx
-├── src/sipsa_ipc/
+├── src/sipsa_abastecimiento/
 │   ├── pipelines/       # F0–F7 (ver sección siguiente)
 │   ├── validations/     # Esquemas pandera
 │   └── pipeline_registry.py
