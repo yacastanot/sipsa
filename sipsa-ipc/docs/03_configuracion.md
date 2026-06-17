@@ -2,7 +2,7 @@
 
 Todas las variables de configuración del proyecto. Hay dos fuentes:
 
-1. **`.env`** — credenciales de la API (no va a Git).
+1. **`.env`** — credenciales de la interfaz web (no va a Git).
 2. **`conf/base/parameters.yml`** — parámetros del mes en curso.
 3. **`conf/base/parameters_articulos_ipc.yml`** — tabla maestra correlativa IPC ↔ SIPSA.
 
@@ -19,16 +19,16 @@ notepad .env
 
 | Variable | Tipo | Valor por defecto | Descripción |
 |----------|------|------------------|-------------|
-| `SIPSA_API_KEY` | string | `dev-key-sipsa` | Clave de autenticación del API REST. Cambiar en producción. |
-| `SIPSA_RATE_LIMIT` | string | `60/minute` | Límite de requests por minuto para endpoints de datos. |
+| `SIPSA_IPC_USER` | string | `sipsa` | Usuario para acceder a la interfaz web. |
+| `SIPSA_IPC_PASS` | string | `cambiar_esta_clave` | Contraseña para acceder a la interfaz web. Cambiar antes de usar en producción. |
 
 El archivo `.env` está en `.gitignore` — nunca subir al repositorio.
 
 ### `.env.example` (plantilla sin valores reales)
 
 ```env
-SIPSA_API_KEY=cambiar_esta_clave
-SIPSA_RATE_LIMIT=60/minute
+SIPSA_IPC_USER=sipsa
+SIPSA_IPC_PASS=cambiar_esta_clave
 ```
 
 ---

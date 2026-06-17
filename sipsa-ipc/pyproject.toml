@@ -22,7 +22,6 @@ dependencies = [
     "structlog>=23.0",
     "fastapi>=0.115",
     "uvicorn[standard]>=0.30",
-    "slowapi>=0.1.9",
     "python-dotenv>=1.0",
 ]
 

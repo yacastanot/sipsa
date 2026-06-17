@@ -42,7 +42,6 @@ scripts\iniciar_api.bat
 | [docs/04_modulos.md](docs/04_modulos.md) | Qué hace cada archivo en `src/` |
 | [docs/05_flujo_datos.md](docs/05_flujo_datos.md) | Flujo de datos de extremo a extremo |
 | [docs/06_git.md](docs/06_git.md) | Convenciones de ramas, commits y PRs |
-| [docs/MANUAL_API.md](docs/MANUAL_API.md) | Endpoints REST con ejemplos |
 
 ## Estado del proyecto
 

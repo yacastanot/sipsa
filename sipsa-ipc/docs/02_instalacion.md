@@ -46,7 +46,7 @@ python -m venv .venv
 pip install -e ".[dev]"
 ```
 
-Instala: `kedro`, `pandas`, `openpyxl`, `fastapi`, `uvicorn`, `slowapi`,
+Instala: `kedro`, `pandas`, `openpyxl`, `fastapi`, `uvicorn`,
 `python-dotenv`, `pandera`, `structlog`, `pytest` y todas sus dependencias.
 
 ### 4. Configurar credenciales

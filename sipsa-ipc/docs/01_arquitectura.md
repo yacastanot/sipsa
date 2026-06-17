@@ -35,10 +35,11 @@ sipsa-ipc/
 │   └── 08_reporting/    # T38, T39, COBERTURA.xlsx, No_mapeados_IPC.xlsx
 ├── src/sipsa_ipc/
 │   ├── pipelines/       # F0–F7 (ver sección siguiente)
-│   ├── api/             # FastAPI: main.py, runner.py, routers/
 │   ├── validations/     # Esquemas pandera
 │   └── pipeline_registry.py
-├── tests/               # unit · integration · api · performance
+├── app.py               # Interfaz web FastAPI (UI + ejecución de pipelines)
+├── templates/           # HTML de la interfaz web
+├── tests/               # unit · integration
 ├── docs/
 └── scripts/             # .bat para Windows
 ```
@@ -118,29 +119,6 @@ Los Excel de salida se escriben directamente con `openpyxl` desde los nodos (no 
 
 ---
 
-## API REST
-
-Expone los datos procesados del mes activo en memoria (Singleton `DataStore`).
-
-```
-src/sipsa_ipc/api/
-├── main.py        # App FastAPI, CORS, rate limiting
-├── auth.py        # Validación X-API-Key
-├── data_store.py  # Singleton: carga Parquets en RAM al inicio
-├── models.py      # Schemas Pydantic de respuesta
-├── runner.py      # Interfaz web (upload → run → download)
-└── routers/
-    ├── abastecimiento.py  # GET /abastecimiento/{mes}/{articulo}
-    ├── comparacion.py     # GET /comparacion/{periodo_a}/{periodo_b}
-    ├── estadisticas.py    # GET /estadisticas/{articulo}/{mes}
-    ├── meses.py           # GET /meses
-    └── pipeline.py        # POST /procesar/{mes}
-```
-
-Ver [MANUAL_API.md](MANUAL_API.md) para ejemplos completos de cada endpoint.
-
----
-
 ## Decisiones de diseño
 
 | Decisión | Alternativa descartada | Razón |
@@ -149,7 +127,6 @@ Ver [MANUAL_API.md](MANUAL_API.md) para ejemplos completos de cada endpoint.
 | Parquet Snappy para intermedios | CSV | Tipado estricto, 5× más rápido de leer, 80% menos espacio |
 | Códigos IPC calculados fresh cada mes | Hardcodeados en YAML | Los artículos de la canasta cambian mensualmente; recalcular evita deuda de mantenimiento |
 | BEST12. con anchura de columna | `:.12g` (12 dígitos significativos) | SAS BEST12. cuenta columnas de ancho, no dígitos significativos; los ceros fractales consumen ancho sin ser dígitos |
-| Singleton `DataStore` en la API | Re-leer Parquets en cada request | Latencia p99 < 10 ms en memoria vs > 500 ms leyendo disco |
 | pandera `lazy=True` | `lazy=False` (fallo en primer error) | Expone todas las violaciones del Excel de una sola vez, facilitando la corrección del origen |
 
 ---
@@ -164,7 +141,5 @@ Ver [MANUAL_API.md](MANUAL_API.md) para ejemplos completos de cada endpoint.
 | Suite | Ruta | Qué verifica |
 |-------|------|-------------|
 | Unitarias pipeline | `tests/pipelines/*/test_nodes.py` | Cada nodo individualmente con datos sintéticos |
-| API | `tests/api/test_endpoints.py` | 20 pruebas con mocks del DataStore |
 | Integración numérica | `tests/integration/test_numeric_vs_sas.py` | Diferencia = 0.0 vs SAS para los 29 artículos |
 | Integración artefactos | `tests/integration/test_pipeline_e2e.py` | Shape y esquema de los Parquets de salida |
-| Rendimiento | `tests/performance/test_api_performance.py` | p99 < 500 ms, 29 artículos concurrentes |

@@ -191,61 +191,18 @@ columnas dinámicas I, K, L–P y aplica formato visual idéntico al archivo de 
 
 ---
 
-## `api/main.py`
+## `app.py` (raíz del proyecto)
 
-App FastAPI principal. Monta todos los routers y configura CORS + rate limiting.
-
-```
-GET  /           → info del API
-GET  /health     → {"status": "ok"}
-GET  /docs       → Swagger UI interactivo
-```
-
-Ver [MANUAL_API.md](MANUAL_API.md) para todos los endpoints.
-
----
-
-## `api/runner.py`
-
-Interfaz web HTML para ejecutar el pipeline desde el navegador.
+Interfaz web FastAPI. Sirve la UI y orquesta la ejecución del pipeline.
 
 ```
-GET  /           → página HTML con 4 pasos (Upload → Params → Run → Download)
-POST /upload     → sube archivo Excel a data/01_raw/
-POST /run        → actualiza parameters.yml y lanza kedro run en background
-GET  /status/{job_id} → estado, log y archivos de salida (JSON)
-GET  /download/{filename} → descarga Excel de data/08_reporting/
+GET  /                  → interfaz web (auth HTTP Basic requerida)
+POST /upload            → sube Excel a data/01_raw/ y actualiza parameters.yml
+POST /configure         → actualiza mes/año en parameters.yml
+POST /run               → lanza kedro run con streaming de logs (SSE)
+GET  /outputs           → lista archivos .xlsx en data/08_reporting/
+GET  /download/{file}   → descarga archivo de reporting
+DELETE /outputs         → limpia archivos generados
 ```
 
----
-
-## `api/data_store.py`
-
-Singleton que carga los Parquets en RAM al inicio de la API. Todas las queries
-leen desde memoria — latencia p99 < 10 ms.
-
----
-
-## `api/auth.py`
-
-Valida el header `X-API-Key` contra `SIPSA_API_KEY` del entorno.
-Lanza `HTTP 401` si la clave no coincide.
-
----
-
-## `api/models.py`
-
-Schemas Pydantic de las respuestas de la API.
-Documentados automáticamente en `/docs` (Swagger UI).
-
----
-
-## `api/routers/`
-
-| Archivo | Endpoints |
-|---------|-----------|
-| `abastecimiento.py` | `GET /abastecimiento/{mes}/{articulo}` · `GET /abastecimiento/destinos/{mes}/{articulo}` |
-| `estadisticas.py` | `GET /estadisticas/{articulo}/{mes}` |
-| `comparacion.py` | `GET /comparacion/{periodo_a}/{periodo_b}` |
-| `meses.py` | `GET /meses` |
-| `pipeline.py` | `POST /procesar/{mes}` |
+Credenciales configuradas en `.env` con `SIPSA_IPC_USER` / `SIPSA_IPC_PASS`.

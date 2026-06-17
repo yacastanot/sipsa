@@ -157,9 +157,7 @@ Ver campo `variacion_pct` por artículo.
 
 1. En Excel: `Datos → Obtener datos → De otras fuentes → De la Web`
 2. Ingresar URL: `http://localhost:8000/estadisticas/1001/Abril2025`
-3. En "Encabezados HTTP opcionales":
-   - Nombre: `X-API-Key`
-   - Valor: `clave-secreta-dane-2026`
+3. En "Encabezados HTTP opcionales": no se requieren para esta consulta
 4. Hacer clic en "Aceptar"
 5. Excel muestra los datos en formato tabla
 
