@@ -122,14 +122,14 @@ class TestExportarSipsaIpc:
             _td_total_var(), _td_abast(), _td_destino(), _td_otros(),
             _articulos_ipc_fixture(), "20250502", str(tmp_path),
         )
-        assert "SIPSA_ABASTECIMIENTO_20250502.xlsx" in meta["archivo"].iloc[0]
+        assert "SIPSA_IPC_20250502.xlsx" in meta["archivo"].iloc[0]
 
     def test_cinco_hojas(self, tmp_path):
         exportar_sipsa_abastecimiento(
             _td_total_var(), _td_abast(), _td_destino(), _td_otros(),
             _articulos_ipc_fixture(), "20250502", str(tmp_path),
         )
-        xl = pd.ExcelFile(tmp_path / "SIPSA_ABASTECIMIENTO_20250502.xlsx")
+        xl = pd.ExcelFile(tmp_path / "SIPSA_IPC_20250502.xlsx")
         assert xl.sheet_names == [
             "TD_Total", "TD_Abast", "TD_Destino", "TD_Abast_Otros", "TREF_Productos"
         ]
@@ -140,7 +140,7 @@ class TestExportarSipsaIpc:
             _td_total_var(), _td_abast(), _td_destino(), _td_otros(),
             _articulos_ipc_fixture(), "20250502", str(tmp_path),
         )
-        td = pd.read_excel(tmp_path / "SIPSA_ABASTECIMIENTO_20250502.xlsx", sheet_name="TD_Total")
+        td = pd.read_excel(tmp_path / "SIPSA_IPC_20250502.xlsx", sheet_name="TD_Total")
         assert "VariacMensual_num" not in td.columns
         assert "VariacAnual_num" not in td.columns
 
@@ -149,7 +149,7 @@ class TestExportarSipsaIpc:
             _td_total_var(), _td_abast(), _td_destino(), _td_otros(),
             _articulos_ipc_fixture(), "20250502", str(tmp_path),
         )
-        td = pd.read_excel(tmp_path / "SIPSA_ABASTECIMIENTO_20250502.xlsx", sheet_name="TD_Total")
+        td = pd.read_excel(tmp_path / "SIPSA_IPC_20250502.xlsx", sheet_name="TD_Total")
         assert list(td.columns) == [
             "RArtículo_IPC", "Artículo_IPC",
             "AbastTotal_MesActual", "AbastTotal_MesAnterior", "AbastTotal_AnoAnterior",
@@ -162,7 +162,7 @@ class TestExportarSipsaIpc:
             _td_total_var(), _td_abast(), _td_destino(), _td_otros(),
             _articulos_ipc_fixture(), "20250502", str(tmp_path),
         )
-        td = pd.read_excel(tmp_path / "SIPSA_ABASTECIMIENTO_20250502.xlsx", sheet_name="TD_Total")
+        td = pd.read_excel(tmp_path / "SIPSA_IPC_20250502.xlsx", sheet_name="TD_Total")
         vm = td["VariacMensual"].iloc[0]
         assert isinstance(vm, str)
         assert "," in vm
@@ -174,7 +174,7 @@ class TestExportarSipsaIpc:
             _td_total_var(), _td_abast(), _td_destino(), _td_otros(),
             _articulos_ipc_fixture(), "20250502", str(tmp_path),
         )
-        ta = pd.read_excel(tmp_path / "SIPSA_ABASTECIMIENTO_20250502.xlsx", sheet_name="TD_Abast")
+        ta = pd.read_excel(tmp_path / "SIPSA_IPC_20250502.xlsx", sheet_name="TD_Abast")
         assert "Descr_pegar" in ta.columns
         assert "Proc_Part" in ta.columns
         # Descr_pegar es la col 9 (0-indexed 8) — la que usa el macro VBA
@@ -186,7 +186,7 @@ class TestExportarSipsaIpc:
             _td_total_var(), _td_abast(), _td_destino(), _td_otros(),
             _articulos_ipc_fixture(), "20250502", str(tmp_path),
         )
-        ta = pd.read_excel(tmp_path / "SIPSA_ABASTECIMIENTO_20250502.xlsx", sheet_name="TD_Abast")
+        ta = pd.read_excel(tmp_path / "SIPSA_IPC_20250502.xlsx", sheet_name="TD_Abast")
         arroz = ta.loc[ta["RArtículo_IPC"] == 1001, "Descr_pegar"].iloc[0]
         assert "Tolima" in arroz
         assert "Meta" in arroz
@@ -199,7 +199,7 @@ class TestExportarSipsaIpc:
             _td_total_var(), _td_abast(), _td_destino(), _td_otros(),
             _articulos_ipc_fixture(), "20250502", str(tmp_path),
         )
-        td = pd.read_excel(tmp_path / "SIPSA_ABASTECIMIENTO_20250502.xlsx", sheet_name="TD_Destino")
+        td = pd.read_excel(tmp_path / "SIPSA_IPC_20250502.xlsx", sheet_name="TD_Destino")
         assert "Descr_pegar" in td.columns
         assert "Ciudad_Part" in td.columns
         assert list(td.columns).index("Descr_pegar") == 7
@@ -209,7 +209,7 @@ class TestExportarSipsaIpc:
             _td_total_var(), _td_abast(), _td_destino(), _td_otros(),
             _articulos_ipc_fixture(), "20250502", str(tmp_path),
         )
-        tref = pd.read_excel(tmp_path / "SIPSA_ABASTECIMIENTO_20250502.xlsx", sheet_name="TREF_Productos")
+        tref = pd.read_excel(tmp_path / "SIPSA_IPC_20250502.xlsx", sheet_name="TREF_Productos")
         assert "Código SIPSA" in tref.columns
         assert "Artículo IPC" in tref.columns
         assert len(tref) == 2  # ARROZ y PAPA
@@ -219,7 +219,7 @@ class TestExportarSipsaIpc:
             _td_total_var(), _td_abast(), _td_destino(), _td_otros(),
             _articulos_ipc_fixture(), "20250502", str(tmp_path),
         )
-        ta = pd.read_excel(tmp_path / "SIPSA_ABASTECIMIENTO_20250502.xlsx", sheet_name="TD_Abast")
+        ta = pd.read_excel(tmp_path / "SIPSA_IPC_20250502.xlsx", sheet_name="TD_Abast")
         assert len(ta) == len(_td_abast())
 
     def test_metadata_correcta(self, tmp_path):
@@ -365,7 +365,7 @@ class TestGuardarHistorico:
 RUTA_REFERENCIA = (
     r"C:\Users\Jeferson\OneDrive - Cloud Integration Hub"
     r"\Documentos\DANE Automatización\SIPSA IPC"
-    r"\2025\2025\02Salida\SIPSA_ABASTECIMIENTO_20250502.xlsx"
+    r"\2025\2025\02Salida\SIPSA_IPC_20250502.xlsx"
 )
 
 

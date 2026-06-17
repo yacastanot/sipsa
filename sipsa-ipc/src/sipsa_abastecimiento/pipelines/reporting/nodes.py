@@ -205,7 +205,7 @@ def exportar_sipsa_abastecimiento(
         DataFrame de una fila con metadatos del archivo exportado.
     """
     Path(ruta_reporting).mkdir(parents=True, exist_ok=True)
-    filepath = Path(ruta_reporting) / f"SIPSA_ABASTECIMIENTO_{fecha_proceso}.xlsx"
+    filepath = Path(ruta_reporting) / f"SIPSA_IPC_{fecha_proceso}.xlsx"
 
     td_abast_xlsm   = _agregar_cols_abast(td_abast_fmt, td_abast_otros_fmt)
     td_destino_xlsm = _agregar_cols_destino(td_destino_fmt)
