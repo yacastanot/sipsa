@@ -1,8 +1,6 @@
 # Instalación — SIPSA IPC
 
-**Servidor destino:** `\\DIMPE-D-065\DIMPE\SIPSA\IPC\`  
-**S.O.:** Windows 10/11 (DANE)  
-**Ruta local:** `C:\DIMPE\SIPSA\IPC\sipsa-ipc\`
+**S.O.:** Windows 10/11
 
 ---
 
@@ -31,7 +29,6 @@ Ejecutar en **CMD como Administrador** en el servidor.
 ### 1. Clonar el repositorio
 
 ```cmd
-cd C:\DIMPE\SIPSA\IPC
 git clone https://github.com/yacastanot/sipsa.git
 cd sipsa\sipsa-ipc
 ```
@@ -122,7 +119,7 @@ Archivos generados en `data\08_reporting\`:
 ### Paso 5 — Copiar a la ruta de red
 
 ```cmd
-copy data\08_reporting\SIPSA_IPC_*.xlsx \\DIMPE-D-065\DIMPE\SIPSA\IPC\Salida\
+copy data\08_reporting\SIPSA_IPC_*.xlsx <ruta_compartida>\Salida\
 ```
 
 ---
@@ -133,8 +130,7 @@ copy data\08_reporting\SIPSA_IPC_*.xlsx \\DIMPE-D-065\DIMPE\SIPSA\IPC\Salida\
 
 ```cmd
 scripts\iniciar_api.bat
-# API disponible en http://DIMPE-D-065:8000
-# Swagger UI:        http://DIMPE-D-065:8000/docs
+# API disponible en http://localhost:8000
 ```
 
 ### Inicio automático con Windows Task Scheduler
@@ -143,8 +139,8 @@ scripts\iniciar_api.bat
 2. Crear tarea básica:
    - Nombre: `SIPSA IPC API`
    - Desencadenador: Al iniciar el equipo
-   - Programa: `C:\DIMPE\SIPSA\IPC\sipsa-ipc\scripts\iniciar_api.bat`
-   - Inicio en: `C:\DIMPE\SIPSA\IPC\sipsa-ipc`
+   - Programa: `<ruta_proyecto>\scripts\iniciar_api.bat`
+   - Inicio en: `<ruta_proyecto>`
 3. Marcar "Ejecutar tanto si el usuario inició sesión como si no"
 4. Marcar "Ejecutar con los privilegios más altos"
 
@@ -160,7 +156,6 @@ curl http://localhost:8000/health
 ## Actualizaciones de código
 
 ```cmd
-cd C:\DIMPE\SIPSA\IPC\sipsa
 git pull origin main
 cd sipsa-ipc
 .venv\Scripts\pip.exe install -e ".[dev]" --quiet
@@ -198,7 +193,7 @@ Verificar con el área de seguridad informática antes de abrir el puerto.
 
 ## Respaldo de datos
 
-Respaldar mensualmente en `\\DIMPE-D-065\DIMPE\SIPSA\IPC\Salida\YYYYMM\`:
+Respaldar mensualmente en `<ruta_compartida>\Salida\YYYYMM\`:
 
 - `data\08_reporting\SIPSA_IPC_*.xlsx`
 - `data\08_reporting\Alimentos_priorizados_*.xlsx`

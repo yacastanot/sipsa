@@ -1,6 +1,6 @@
 # Material de Capacitación — SIPSA IPC Python/Kedro
 
-**Dirigido a:** Equipo técnico SIPSA, área DIMPE — DANE  
+**Dirigido a:** Equipo técnico SIPSA — DANE  
 **Duración estimada:** 2 horas  
 **Prerequisitos:** Conocimiento básico de Excel; no se requiere experiencia en Python
 
@@ -52,7 +52,7 @@ Todo lo demás (código, mappings, estructura) permanece igual.
 Copiar el archivo Excel del mes al servidor:
 ```
 Origen:  \\SIPSA\Datos\Base_SIPSA_IPC_may2025.xlsx
-Destino: C:\DIMPE\SIPSA\IPC\sipsa\sipsa-ipc\data\01_raw\Base_SIPSA_IPC_may2025.xlsx
+Destino: <ruta_proyecto>\data\01_raw\Base_SIPSA_IPC_may2025.xlsx
 ```
 
 **Paso 2 — Actualizar parameters.yml**
@@ -97,7 +97,7 @@ Abrir la carpeta `data\08_reporting\`. Deben aparecer los archivos del mes:
 
 Copiar `SIPSA_IPC_*.xlsx` a la carpeta compartida del equipo:
 ```
-\\DIMPE-D-065\DIMPE\SIPSA\IPC\Salida\202505\
+<ruta_compartida>\Salida\202505\
 ```
 
 ### 2.3 Ejercicio práctico
@@ -110,13 +110,13 @@ Copiar `SIPSA_IPC_*.xlsx` a la carpeta compartida del equipo:
 ## Módulo 3 — Consultar datos con la API (30 min)
 
 La API permite consultar los datos procesados sin abrir archivos Excel.
-Está disponible en el servidor en `http://DIMPE-D-065:8000`.
+Está disponible en el servidor en `http://localhost:8000`.
 
 ### 3.1 Exploración con el navegador
 
 Abrir en Chrome o Edge:
 ```
-http://DIMPE-D-065:8000/docs
+http://localhost:8000/docs
 ```
 
 Aparece la documentación interactiva (Swagger UI). Se puede probar cualquier endpoint
@@ -156,7 +156,7 @@ Ver campo `variacion_pct` por artículo.
 ### 3.3 Consultar desde Excel con Power Query
 
 1. En Excel: `Datos → Obtener datos → De otras fuentes → De la Web`
-2. Ingresar URL: `http://DIMPE-D-065:8000/estadisticas/1001/Abril2025`
+2. Ingresar URL: `http://localhost:8000/estadisticas/1001/Abril2025`
 3. En "Encabezados HTTP opcionales":
    - Nombre: `X-API-Key`
    - Valor: `clave-secreta-dane-2026`
@@ -202,7 +202,7 @@ Después de cada ejecución, abrir `data\08_reporting\COBERTURA.xlsx`.
 
 Si hay un problema, abrir el log detallado:
 ```cmd
-cd C:\DIMPE\SIPSA\IPC\sipsa\sipsa-ipc
+cd <ruta_proyecto>
 .venv\Scripts\kedro.exe run 2>&1 | more
 ```
 
@@ -210,7 +210,7 @@ cd C:\DIMPE\SIPSA\IPC\sipsa\sipsa-ipc
 
 Para verificar que el código está funcionando correctamente:
 ```cmd
-cd C:\DIMPE\SIPSA\IPC\sipsa\sipsa-ipc
+cd <ruta_proyecto>
 .venv\Scripts\pytest.exe tests\ -m "not slow" -q
 # Debe mostrar: 277 passed
 ```
@@ -231,18 +231,16 @@ técnico para actualizar el código.
 
 **¿Cómo actualizo el código cuando hay una corrección?**  
 ```cmd
-cd C:\DIMPE\SIPSA\IPC\sipsa
 git pull origin main
 ```
 Luego reiniciar la API si está activa.
 
 **¿Puedo acceder a la API desde mi computador personal?**  
-Solo desde la red interna DANE. La URL es `http://DIMPE-D-065:8000`.
+Solo desde el equipo donde está instalado el proyecto. La URL es `http://localhost:8000`.
 
-**¿El proceso funciona si el servidor DIMPE-D-065 se apaga?**  
-El pipeline (kedro run) se puede ejecutar desde cualquier equipo con Python instalado
-y el código clonado. La API solo está disponible cuando el servidor está encendido
-y la API está iniciada.
+**¿El proceso funciona si el equipo está apagado?**  
+El pipeline (`kedro run`) se puede ejecutar desde cualquier equipo con Python instalado
+y el código clonado. La API solo está disponible cuando está iniciada en ese equipo.
 
 **¿Dónde quedan los datos históricos?**  
 En `data/04_feature/historico_td_total.parquet`. Este archivo se acumula mes a mes
@@ -260,7 +258,7 @@ y es la fuente del endpoint `GET /comparacion/...`.
 .venv\Scripts\kedro.exe run
 
 # Iniciar API
-.venv\Scripts\uvicorn.exe sipsa_ipc.api.main:app --host 0.0.0.0 --port 8000
+.venv\Scripts\uvicorn.exe app:app --host 0.0.0.0 --port 8000
 
 # Ejecutar pruebas
 .venv\Scripts\pytest.exe tests\ -m "not slow" -q

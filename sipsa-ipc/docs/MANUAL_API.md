@@ -1,15 +1,13 @@
 # Manual de Usuario — API REST SIPSA IPC
 
 **Versión:** 1.0.0  
-**Base URL (producción):** `http://DIMPE-D-065:8000`  
-**Base URL (desarrollo):** `http://localhost:8000`  
-**Documentación interactiva:** `{base_url}/docs`
+**Base URL:** `http://localhost:8000`
 
 ---
 
 ## 1. Autenticación
 
-Todos los endpoints (excepto `/docs` y `/openapi.json`) requieren el header:
+Todos los endpoints requieren el header:
 
 ```
 X-API-Key: <clave>
@@ -311,7 +309,7 @@ curl -X POST \
 ```python
 import requests
 
-BASE = "http://DIMPE-D-065:8000"
+BASE = "http://localhost:8000"
 HEADERS = {"X-API-Key": "clave-secreta-dane-2026"}
 
 # Períodos disponibles
@@ -340,7 +338,7 @@ for art in resp.json()["articulos"]:
 En Excel, usar `Datos → Obtener datos → De la Web`:
 
 ```
-URL: http://DIMPE-D-065:8000/estadisticas/1001/Abril2025
+URL: http://localhost:8000/estadisticas/1001/Abril2025
 Header: X-API-Key = clave-secreta-dane-2026
 ```
 
@@ -348,7 +346,7 @@ O desde Power Query (M):
 
 ```powerquery
 let
-    url = "http://DIMPE-D-065:8000/estadisticas/1001/Abril2025",
+    url = "http://localhost:8000/estadisticas/1001/Abril2025",
     headers = [#"X-API-Key" = "clave-secreta-dane-2026"],
     resp = Json.Document(Web.Contents(url, [Headers=headers])),
     topDeptos = Table.FromList(resp[top_departamentos],

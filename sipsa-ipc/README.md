@@ -30,7 +30,7 @@ scripts\iniciar_api.bat
 | pandas | 2.0 | |
 | openpyxl | 3.1 | Escritura de Excel formateado |
 | FastAPI | 0.115 | API REST (opcional) |
-| S.O. | Windows 10/11 | Producción en DIMPE-D-065 |
+| S.O. | Windows 10/11 | |
 
 ## Documentación
 

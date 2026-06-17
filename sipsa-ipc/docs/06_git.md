@@ -109,5 +109,4 @@ __pycache__/
 .coverage
 ```
 
-Los archivos de `data/` se transfieren por red (`\\DIMPE-D-065\...`) o se regeneran
-ejecutando el pipeline con el Excel de entrada del mes.
+Los archivos de `data/` se regeneran ejecutando el pipeline con el Excel de entrada del mes.
